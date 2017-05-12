@@ -1,0 +1,18 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+#parameters:
+#    parameter_name: value
+
+#services:
+#    service_name:
+#        class: ShopBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+services:
+    app.admin_listener:
+        class: AdminBundle\EventListener\AdminListener
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_listener, event: easy_admin.post_persist, method: onPostPersist }
+            - { name: kernel.event_listener, event: easy_admin.post_update, method: onPostEdit }

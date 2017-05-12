@@ -1,0 +1,52 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+        <!-- Page Title -->
+        <div class="page-title-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeIn">
+                        <i class="fa fa-user"></i>
+                        <h1>Matériaux /</h1>
+                        <p>Des fers à cheveux aux matériaux de qualité et technologies innovantes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include("@Shop/Default/text.html.twig") }}
+
+        <!-- Presentation -->
+        <div class="presentation-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeInLeftBig">
+                        <p>
+                            Suivez nous sur le <a href="http://translate.google.com/translate?js=n&sl=auto&tl=fr&u=https://shopname.com/blogs/hair-blog">Blog officiel de ShopName</a> et aussi sur  <a href="https://www.facebook.com/shopname/"><img src="{{ asset('images/facebook.png') }}"></a> <a href="https://twitter.com/shopname"><img src="{{ asset('images/twitter.png') }}"></a> <a href="https://www.instagram.com/shopname/"><img src="{{ asset('images/instagram.png') }}"></a> <a href="https://fr.pinterest.com/shopname/"><img src="{{ asset('images/pinterest.png') }}"></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include("@Shop/Default/slider.html.twig") }}
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

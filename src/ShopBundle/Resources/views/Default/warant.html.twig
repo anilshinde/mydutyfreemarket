@@ -1,0 +1,36 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+        <!-- Page Title -->
+        <div class="page-title-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeIn">
+                        <h1>Garantie /</h1>
+                        <p>sur les produits ShopName</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include("@Shop/Default/text.html.twig") }}
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

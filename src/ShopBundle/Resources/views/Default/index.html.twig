@@ -1,0 +1,33 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block head %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+
+    {{ parent() }}
+
+    {{ include("@Shop/Default/slider.html.twig") }}
+    {{ include("@Shop/Default/text.html.twig") }}
+    {{ include("@Shop/Default/best_services.html.twig") }}
+    {{ include("@Shop/Default/best_sales.html.twig") }}
+    {{ include("@Shop/Default/commentaries.html.twig") }}
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

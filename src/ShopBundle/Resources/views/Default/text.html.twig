@@ -1,0 +1,15 @@
+
+        <!-- Text -->
+
+        <div class="{% if texte.format == 'flash' %} presentation-container {% else %} about-us-container {% endif %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow {% if texte.format == 'standard' %} about-us-text fadeInLeft {% else %} fadeInLeftBig {% endif %}">
+                        {{ texte.content|raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End text -->
+

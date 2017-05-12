@@ -1,0 +1,32 @@
+<!doctype html>
+<html amp lang="fr">
+
+<head>
+
+{% block head %}
+
+    <link rel="canonical" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {{ include("@Shop/Default/meta_tags.html.twig") }}
+{% endblock %}
+
+</head>
+
+<body>
+
+{% block header %}
+    {{ include("@Shop/Default/nav_bar.html.twig") }}
+{% endblock %}
+
+{% block body %} {% endblock %}
+
+<footer>
+    {% block footer %}
+        {{ include("@Shop/Default/footer.html.twig") }}
+    {% endblock %}
+</footer>
+
+</body>
+
+</html>

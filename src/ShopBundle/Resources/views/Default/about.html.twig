@@ -1,0 +1,73 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+        <!-- Page Title -->
+        <div class="page-title-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeIn">
+                        <h1>À propos /</h1>
+                        <p>ShopName, visagiste professionnel et architecte des coiffures</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Us Text -->
+        <div class="about-us-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 about-us-text wow fadeInLeft">
+                        <p>
+                            <strong>ShopName est le visagiste le plus connu aux Etats-Unis</strong>, basé à Beverly Hills, il a coiffé toutes les stars d'Hollywood depuis 30 ans. Quelque chose qu'aucun autre styliste n'a jamais accompli. 
+                        </p>
+                        <p>
+                            Cheveux ondulés ou frisés, l'architecte et professionnel des coiffures les plus acclamées au monde, des milliers de femmes à travers le monde ont été transformées par son toucher artistique et sa vision inspirée.
+                        </p>
+                        <p>
+                            ShopName lance une <strong>gamme de produits de coiffure professionnels (fers à lisser, fers à boucler, sèches-cheveux)</strong>, les plus performants sur le marché actuel.
+                        </p>
+                        <p>
+                            ShopName continue d'innover en introduisant sur le marché la collection la plus révolutionnaire des outils de coiffure de qualité professionnelle : lisseurs à cheveux, boucleurs à cheveux, sèches cheveux, ...
+                        </p>
+                        <p>
+                            A la pointe de <strong>l'innovation</strong> et de la <strong>technologie</strong>, les outils de cheveux ShopName ont un design innovant et des fonctionnalités avancées qui donnent des résultats de <strong>qualité professionnelle</strong> inégalés.
+                        </p>
+                    </div>
+                    <div class="col-sm-6 team-title wow fadeIn">
+                        <h2>ShopName</h2>
+                        <div class="team-box wow fadeInUp">
+                            <img src="{{ asset('images/shopname.jpg') }}" alt="" data-at2x="images/shopname.jpg">
+                            <h3>Suivez notre équipe</h3>
+                            <p>aussi sur Facebook, Twitter, Instagram, Pinterest, ...</p>
+                            <div class="team-social">                                
+                                <a href="https://www.facebook.com/shopname/"><img src="{{ asset('images/facebook.png') }}"></a>
+                                <a href="https://twitter.com/shopname"><img src="{{ asset('images/twitter.png') }}"></a>
+                                <a href="https://www.instagram.com/shopname/"><img src="{{ asset('images/instagram.png') }}"></a>
+                                <a href="https://fr.pinterest.com/shopname/"><img src="{{ asset('images/pinterest.png') }}"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+        <!-- Page Title -->
+        <div class="page-title-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeIn">
+                        <h1>Revendeurs agrées /</h1>
+                        <p>des produits ShopName</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include("@Shop/Default/text.html.twig") }}
+
+        <!-- Meet Our Team -->
+        <div class="team-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 team-title wow fadeIn">
+                        <h2>Meet Our Team</h2>
+                    </div>
+                </div>
+                <div class="row">                    
+                    <div class="col-sm-3">
+                        <div class="team-box wow fadeInUp">
+                            <img src="assets/img/team/1.jpg" alt="" data-at2x="assets/img/team/1.jpg">
+                            <h3>John Doe</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</p>
+                            <div class="team-social">                                
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="team-box wow fadeInDown">
+                            <img src="assets/img/team/2.jpg" alt="" data-at2x="assets/img/team/2.jpg">
+                            <h3>Jane Doe</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</p>
+                            <div class="team-social">                                
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="team-box wow fadeInUp">
+                            <img src="assets/img/team/3.jpg" alt="" data-at2x="assets/img/team/3.jpg">
+                            <h3>Tim Brown</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</p>
+                            <div class="team-social">                                
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="team-box wow fadeInDown">
+                            <img src="assets/img/team/4.jpg" alt="" data-at2x="assets/img/team/4.jpg">
+                            <h3>Sarah Red</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor...</p>
+                            <div class="team-social">                                
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

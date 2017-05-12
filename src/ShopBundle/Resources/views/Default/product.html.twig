@@ -1,0 +1,194 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+        <!-- Page Title -->
+        <div class="page-title-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeIn">
+                        <i class="fa fa-user"></i>
+                        <h1>{% if product.category == 1 %} Fer à lisser {% elseif product.category == 2 %} Fer à boucler {% elseif product.category == 3 %} Sèche-cheveux {% elseif product.category == 4 %} Pack coiffure {% endif %} /</h1>
+                        <p><strong>{{ product.name }}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Us Text -->
+        <div class="about-us-container">
+            <div class="container" itemscope itemtype="http://schema.org/Product">
+                <div class="row">
+                    <div class="col-sm-12 about-us-text wow fadeInLeft">
+                        <div class="col-sm-6 image">
+                            <div itemscope itemtype="http://schema.org/Brand">
+                                <meta itemprop="name" content="Shopname">
+                                <meta itemprop="url" content="https://www.shopname.fr">
+                            </div>
+                            <meta itemprop="rating" content="4.9657" />
+                            <meta itemprop="count" content="379" />
+                            <div class="wow fadeInLeftBig">
+                                <h1><span itemprop="name">{{ product.name }}</span></h1>
+                                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                    <h4>
+                                        <meta itemprop="priceCurrency" content="EUR"/>
+                                        <meta itemprop="price" content="{{ product.discountedPrice }}"/>
+                                        <meta itemprop="availability" content="http://schema.org/InStock"/>
+                                        <meta itemprop="itemCondition" content="http://schema.org/NewCondition"/>
+                                        <meta itemprop="description" content="{{ product.name }} {{ product.promo}}"/>
+                                        <a href="#"><strong><u>Acheter maintenant</u></strong></a> à <strong>{{ product.discountedPrice }} €</strong> ({{ product.promo }}) au lieu de <strike>{{ product.price }} €</strike>
+                                    </h4>
+                                </div>
+                            </div>
+                            <meta itemprop="category" content="{% if product.category == 1 %} Fer à lisser {% elseif product.category == 2 %} Fer à boucler {% elseif product.category == 3 %} Sèche-cheveux {% elseif product.category == 4 %} Packs coiffure {% endif %}">
+                            <meta itemprop="model" content="{{ product.name }}">
+                            <div class="product wow fadeInUp">
+                                <div class="work">
+                            {% set display = 1 %}
+                            {% if product.images is not empty %}
+                                {% for image in product.images %}
+                                <a class="view-work" href="{{ asset('images/fers-a-cheveux/' ~ image.imageMedium) }}" {% if display == 0 %} style="display: none;" {% else %} {% set display = 0 %} {% endif %}>
+                                    <img itemprop="image" src="{{ asset('images/fers-a-cheveux/' ~ image.imageMedium) }}" alt="{{ image.legend }}">
+                                </a>
+                                {% endfor %}
+                            {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 details">
+                            <div class="entry" itemprop="description">
+                                {{ product.description|raw }}
+                            </div>
+                            <div class="actions">
+                                <p>
+                                    <h4><span class="violet">{{ product.discountedPrice }} €</span> ({{ product.promo }}) au lieu de <strike>{{ product.price }} €</strike><a href="#" class="btn-grey"><strong>Acheter maintenant</strong></a></h4>
+                                </p>
+                            </div>
+                            <div class="details">
+                                <div class="entry">
+                                    <div class="tabs">
+                                        <div class="nav">
+                                            <ul>
+                                                <li class="active"><a href="#desc">Spécifications</a></li>
+                                                <li><a href="#spec">Conseils d'utilisation</a></li>
+                                                <li>&nbsp;</li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-content active" id="desc" itemprop="description">
+                                            {{ product.details|raw }}
+                                        </div>
+                                        <div class="tab-content" id="spec">
+                                            {{ product.documentation|raw }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="testimonials-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 testimonials-title wow fadeIn">
+                        <h2>Testimonials</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1 testimonial-list">
+                        <div role="tabpanel">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="tab1">
+                                    <div class="testimonial-image">
+                                        <img src="assets/img/testimonials/1.jpg" alt="" data-at2x="assets/img/testimonials/1.jpg">
+                                    </div>
+                                    <div class="testimonial-text">
+                                        <p>
+                                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. 
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. 
+                                            Lorem ipsum dolor sit amet, consectetur..."<br>
+                                            <a href="#">Lorem Ipsum, dolor.co.uk</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab2">
+                                    <div class="testimonial-image">
+                                        <img src="assets/img/testimonials/2.jpg" alt="" data-at2x="assets/img/testimonials/2.jpg">
+                                    </div>
+                                    <div class="testimonial-text">
+                                        <p>
+                                            "Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
+                                            ex ea commodo consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit 
+                                            lobortis nisl ut aliquip ex ea commodo consequat..."<br>
+                                            <a href="#">Minim Veniam, nostrud.com</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab3">
+                                    <div class="testimonial-image">
+                                        <img src="assets/img/testimonials/3.jpg" alt="" data-at2x="assets/img/testimonials/3.jpg">
+                                    </div>
+                                    <div class="testimonial-text">
+                                        <p>
+                                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. 
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. 
+                                            Lorem ipsum dolor sit amet, consectetur..."<br>
+                                            <a href="#">Lorem Ipsum, dolor.co.uk</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab4">
+                                    <div class="testimonial-image">
+                                        <img src="assets/img/testimonials/1.jpg" alt="" data-at2x="assets/img/testimonials/1.jpg">
+                                    </div>
+                                    <div class="testimonial-text">
+                                        <p>
+                                            "Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
+                                            ex ea commodo consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit 
+                                            lobortis nisl ut aliquip ex ea commodo consequat..."<br>
+                                            <a href="#">Minim Veniam, nostrud.com</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab"></a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab"></a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab"></a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#tab4" aria-controls="tab4" role="tab" data-toggle="tab"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

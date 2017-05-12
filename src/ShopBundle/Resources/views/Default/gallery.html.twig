@@ -1,0 +1,73 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+        <!-- Page Title -->
+        <div class="page-title-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeIn">
+                        <i class="fa fa-user"></i>
+                        <h1>{% if product.category == 1 %} Fers à lisser {% elseif product.category == 2 %} Fers à boucler {% elseif product.category == 3 %} Sèches-cheveux {% elseif product.category == 4 %} Packs coiffure {% elseif category == 5 %} Accessoires de coiffure {% else %} Outils de coiffure {% endif %} /</h1>
+                        <p>Tous nos produits de coiffure</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include("@Shop/Default/slider.html.twig") }}
+
+        <!-- Best sales -->
+        <div class="work-container">
+            <div class="container"> 
+                {% for i in 0..seriesProducts %}
+                <div class="row">
+                    {% for j in 1..productsBySerie %}
+                        {% set product = attribute(products, i * productsBySerie + j) %}
+                    <div class="col-sm-3">
+                        {% if product is not empty %}
+                        <div class="wow fadeInUp">
+                            <div class="work-style">
+                            <div class="work">
+                            {% set display = 1 %}
+                            {% if product.images is not empty %}
+                                {% for image in product.images %}
+                                <a class="view-work" href="{{ asset('images/fers-a-cheveux/' ~ image.imageMedium) }}" {% if display == 0 %} style="display: none;" {% else %} {% set display = 0 %} {% endif %}>
+                                    <img src="{{ asset('images/fers-a-cheveux/' ~ image.imageSmall) }}" alt="{{ image.legend }}">
+                                </a>
+                                {% endfor %}
+                            {% endif %}
+                                <h3>{{ product.name }} {{ product.promo }}</h3>
+                                <p>{{ product.discountedPrice }} € (EUR) <strike>{{ product.price }}</strike></p>
+                            </div>
+                            <div>
+                                <a class="big-link-1" href="{{ path('shop_site_product', {'product_qname': product.qName}) }}">Acheter</a>
+                            </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

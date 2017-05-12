@@ -1,0 +1,121 @@
+
+        <!-- Devices -->
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+        <!-- Language -->
+        <meta charset="utf-8"/>
+        <meta name="language" content="fr-FR" />
+        <meta http-equiv="content-language" content="fr-fr"/>
+
+        <!-- Microdata property -->
+        <meta name="author" content="ShopName"/>
+        <meta name="copyright" content="ShopName"/>
+        <meta name="image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('images/logo.png') }}"/>
+
+        <!-- Microdata presentation -->
+        <meta itemprop="name" content="ShopName"/>
+        <meta itemprop="description" {% if app.request.attributes.get('_route') == 'shop_site_product' %} content="{{ product.description|raw|striptags }}" {% else %} content="Les fers à lisser et fers à boucler en céramique ShopName sont d'une qualité professionnel inégalée. Fer à lisser, fer à boucler, sèche-cheveux." {% endif %}/>
+
+        <meta itemprop="image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('images/logo.png') }}"/>
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="Fer &agrave; lisser et boucler cheveux, design, professionnel - Jos&eacute; Eber"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:url" content="https://www.shopname.fr/"/>
+        <meta property="og:site_name" content="Fer &agrave; lisser et boucler cheveux, design, professionnel - Jos&eacute; Eber"/>
+        <meta property="og:description" {% if app.request.attributes.get('_route') == 'shop_site_product' %} content="{{ product.description|raw|striptags }}" {% else %} content="Les fers à lisser et fers à boucler en céramique ShopName sont d'une qualité professionnel inégalée. Fer à lisser, fer à boucler, sèche-cheveux." {% endif %}/>
+        <meta property="og:locale" content="fr_FR" />
+        <meta name="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('images/logo.png') }}"/>
+        <meta name="og:image:width" content="197"/>
+        <meta name="og:image:height" content="52"/>
+
+        <!-- Facebook -->
+        <meta property="fb:app_id" content="181723262026573" />
+        <meta property="fb:admins" content="shopname"/>
+        <meta name="fb_admins_meta_tag" content="shopname"/>
+        <meta property="fb:page_id" content="181723262026573" />
+        <meta property="fb:pages" content="181723262026573" />
+
+        <!-- Twitter -->
+        <meta property="twitter:account_id" content="426896401" />
+        <meta name="twitter:card" content="{{ app.request.getSchemeAndHttpHost() ~ asset('images/logo.png') }}" />
+        <meta name="twitter:title" content="ShopName"/>
+        <meta name="twitter:description" {% if app.request.attributes.get('_route') == 'shop_site_product' %} content="{{ product.description|raw|striptags }}" {% else %} content="Les fers à lisser et fers à boucler en céramique ShopName sont d'une qualité professionnel inégalée. Fer à lisser, fer à boucler, sèche-cheveux." {% endif %}/>
+        <meta name="twitter:url" content="{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"/>
+        <meta name="twitter:site" content="@shopname"/>
+        <meta name="twitter:creator" content="@shopname"/>
+        <meta name="twitter:image:src" content="{{ app.request.getSchemeAndHttpHost() ~ asset('images/logo.png') }}"/>
+
+        <meta name="keywords" content="fer en céramique, fer à boucler, fer à lisser, coiffeur professionnel, fer à cheveux professionnel, promotion fers à cheveux, fer à lisser rose, solde fer à lisser, cône à boucler, lisseur de cheveux, fer en céramique, appareil de coiffure, conseils professionnel, plaques à cheveux, sèche-cheveux"/>
+        <meta name="description" {% if app.request.attributes.get('_route') == 'shop_site_product' %} content="{{ product.description|raw|striptags }}" {% else %} content="Les fers à lisser et fers à boucler en céramique ShopName sont d'une qualité professionnel inégalée. Fer à lisser, fer à boucler, sèche-cheveux." {% endif %}/>
+
+        <!-- Search Analyzer Identity -->
+        <meta name="msvalidate.01" content="11DD40A31E57D7971165B2A9E2B96D43" />
+        <meta name="google-site-verification" content="hEIAN3fTu3UbflfJZCLXgEHryScKJkCyXzbfaYD7ApI" />
+
+        <script type="application/ld+json">
+        [
+            {
+                "@context":"http://schema.org",
+                "@type":"BreadcrumbList",
+                "itemListElement":[{
+                    "@type":"ListItem",
+                    "position":1,"name":"ShopName",
+                    "item":{"@id":"https://www.shopname.fr"}
+                },
+                {
+                    "@type":"ListItem",
+                    "position":2,"name":"{{ tab1 }}",
+                    "item":{"@id":"{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"}
+                }]
+            },
+            {
+                "name":"ShopName",
+                "url":"https://www.shopname.fr",
+                "logo":"{{ app.request.getSchemeAndHttpHost() ~ asset('images/logo.png') }}",
+                "sameAs":["https://www.facebook.com/ShopName/","https://twitter.com/ShopName"],
+                "@type":"Organization",
+                "@context":"http://schema.org"
+            }
+            ,{
+                "@context":"http://schema.org",
+                "@type":"WebPage",
+                "image":{
+                    "@type":"ImageObject",
+                    "url":"{{ app.request.getSchemeAndHttpHost() ~ asset('images/logo.png') }}",
+                    "width":"197","height":"52"
+                },
+                "mainEntityOfPage":{
+                    "@type":"WebPage",
+                    "@id":"{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"
+                },
+                "keywords":"{{ tab1 }}, fer en céramique, fer à boucler, fer à lisser, coiffeur professionnel, fer à cheveux professionnel, promotion fers à cheveux, fer à lisser rose, solde fer à lisser, cône à boucler, lisseur de cheveux, fer en céramique, appareil de coiffure, conseils professionnel, plaques à cheveux, sèche-cheveux"
+            }
+            {% if app.request.attributes.get('_route') == 'shop_site_product' %}
+            ,{
+                "@context":"http://schema.org",
+                "@type":"Product",
+                "url": "{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}",
+                "name": "{{ product.name }}",
+                "image": "{{ product.images[0].imageBig }}",
+                "description": "{{ product.description|raw|striptags }}",
+                "brand": "ShopName",
+                "category": "{% if product.category == 1 %} Fer à lisser {% elseif product.category == 2 %} Fer à boucler {% elseif product.category == 3 %} Sèche-cheveux {% elseif product.category == 4 %} Pack coiffure {% endif %}",
+                "offers": {
+                    "@type": "AggregateOffer",
+                    "priceCurrency": "EUR",
+                    "lowPrice": "{{ product.discountedPrice }}",
+                    "highPrice": "{{ product.price }}"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.9657",
+                    "ratingCount": 379,
+                    "reviewCount": 379
+                }
+            }
+            {% endif %}
+
+        ]
+        </script>

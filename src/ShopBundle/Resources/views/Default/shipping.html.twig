@@ -1,0 +1,54 @@
+{% extends "@Shop/Default/standard.html.twig" %}
+
+{% block startdoc %}
+    {{ parent() }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+        <!-- Page Title -->
+        <div class="page-title-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeIn">
+                        <i class="fa fa-user"></i>
+                        <h1>Livraison gratuite /</h1>
+                        <p>partout en France</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include("@Shop/Default/text.html.twig") }}
+
+        <div class="contact-us-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 contact-address wow fadeInUp">
+                        <h3>Nous livrons partout en France gratuitement</h3>
+                        <iframe
+                           width="100%"
+                           height="350"
+                           frameborder="0" style="border:0"
+                           src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDhjuuKGtHJvmOzQafIOaDXioHSDvZ3KAc
+                              &q=France" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block enddoc %}
+    {{ parent() }}
+{% endblock %}

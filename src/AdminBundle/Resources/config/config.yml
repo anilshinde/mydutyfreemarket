@@ -1,0 +1,293 @@
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: ShopBundle\Entity\User
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        product_images:
+            uri_prefix:         %app.path.product_images%
+            upload_destination: %kernel.root_dir%/../web/images/fers-a-cheveux
+
+easy_admin:
+    site_name: '<img src="/images/logo.png">'
+    design:
+        brand_color: 'black'
+        color_scheme: 'light'
+        menu:
+            - label: 'Ma navigation'
+              children:
+                - { entity: 'Page', label: 'Les pages' }
+            - label: 'Mes contenus'
+              children:
+                - { entity: 'Text', label: 'Mes textes' }
+                - { entity: 'Image', label: 'Mes visuels' }
+                - { entity: 'Slider', label: 'Mes caroussels' }
+                - { entity: 'PageElements', label: 'Organisation des contenus' }
+            - label: 'Ma boutique'
+              children:
+                - { entity: 'Product', label: 'Les produits' }
+            - { entity: 'Transaction', label: 'Mes transactions' }
+            - { entity: 'Transaction', label: 'Mes clients' }
+            - { entity: 'User', label: 'Les administrateurs' }
+
+    entities:
+        User:
+            class: ShopBundle\Entity\User
+            label: 'Utilisateurs'
+            list:
+                title: 'Utilisateurs'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+        Page:
+            class: ShopBundle\Entity\Page
+            label: 'Pages'
+            form:
+                title: 'Page'
+                fields:
+                    - { property: 'qName', label: 'Référence', type: 'text' }
+                    - { property: 'name', label: 'Libellé', type: 'text' }
+                    - { property: 'url', label: 'URL', type: 'text' }
+                    - { property: 'content', label: 'Contenu', type: 'ckeditor' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+            list:
+                title: 'Pages'
+                sort: 'name'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'linked', label: '', icon: 'cubes' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'qName', label: 'Référence', type: 'text' }
+                    - { property: 'name', label: 'Libellé', type: 'text' }
+                    - { property: 'url', label: 'URL', type: 'text' }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
+        PageElements:
+            class: ShopBundle\Entity\PageElements
+            label: 'Elements'
+            sort: 'page'
+            list:
+                title: 'Elements'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'element', label: 'Composant', type: 'integer' }
+                    - { property: 'format', label: 'Format', type: 'text' }
+                    - { property: 'position', label: 'Position', type: 'integer' }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
+            form:
+                title: 'Element'
+                fields:
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'element', label: 'Composant', type: 'integer' }
+                    - property: 'format' 
+                      label: 'Format'
+                      type: 'choice'
+                      type_options: 
+                        expanded: true
+                        choices:
+                          'Texte': 'text'
+                          'Slider': 'slider'
+                          'Galleries de produits': 'products'
+                          'Formulaire (livraison, contact, ...)': 'form'
+                          'Image': 'image'
+                          'Messages en colonnes': 'columns'
+                          'Carte GoogleMaps': 'map'
+                          'Galleries de vidéos': 'video'
+                    - { property: 'position', label: 'Position', type: 'integer' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+
+        Product:
+            class: ShopBundle\Entity\Product
+            label: 'Produits'
+            form:
+                title: 'Produit'
+                fields:
+                    - { property: 'qName', label: 'Code produit', type: 'text' }
+                    - { property: 'name', label: 'Libellé du produit', type: 'text' }
+                    - { property: 'promo', label: 'Libellé promotionnel', type: 'text'}
+                    - { property: 'price', label: 'Montant TTC', type: 'integer' }
+                    - { property: 'promo_rate', label: 'Taux de remise', type: 'integer' }
+                    - { property: 'discounted_price', label: 'Montant TTC après remise', type: 'integer' }
+                    - { property: 'description', label: 'Descriptif du produit', type: 'ckeditor' }
+                    - { property: 'details', label: 'Détail du produit', type: 'ckeditor' }
+                    - { property: 'documentation', label: 'Conseils d utilisation', type: 'ckeditor' }
+                    - { property: 'formats', label: 'Déclinaisons du produit', type: 'text' }
+                    - { property: 'current_stock', label: 'Stock en cours', type: 'integer' }
+                    - { property: 'current_sales', label: 'Nobmre de ventes', type: 'integer' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+            list:
+                title: 'Produits'
+                sort: 'name'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'linked', label: '', icon: 'image' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'name', label: 'Libellé du produit', type: 'text' }
+                    - { property: 'promo', label: 'Libellé promotionnel', type: 'text' }
+                    - { property: 'price', label: 'Montant TTC', type: 'integer' }
+                    - { property: 'discounted_price', label: 'Montant TTC après remise', type: 'integer' }
+                    - { property: 'current_stock', label: 'Stock en cours', type: 'integer' }
+                    - { property: 'current_sales', label: 'Nombre de ventes', type: 'integer' }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
+        Text:
+            class: ShopBundle\Entity\Text
+            label: 'Text'
+            sort: 'name'
+            list:
+                title: 'Text'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - { property: 'id', label: 'Id', type: 'integer' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'format', label: 'Format', type: 'text' }
+            form:
+                title: 'Text'
+                fields:
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'content', label: 'Contenu', type: 'ckeditor' }
+                    - { property: 'page', label: 'Page' }
+                    - property: 'format' 
+                      label: 'Format'
+                      type: 'choice'
+                      type_options:
+                        expanded: true
+                        choices: { 'Classique': 'standard', 'Message Flash': 'flash' }
+        Items:
+            class: ShopBundle\Entity\Items
+            label: 'Gallerie'
+            sort: 'name'
+            list:
+                title: 'Gallerie'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - { property: 'id', label: 'Id', type: 'integer' }
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'category', label: 'Category' }
+                    - { property: 'sort', label: 'Trié par ordre', type: 'text' }
+                    - { property: 'limit', label: 'Limite', type: 'integer' }
+            form:
+                title: 'Gallerie'
+                fields:
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'category', label: 'Category' }
+                    - { property: 'teasing', label: 'Accroche', type: 'ckeditor' }
+                    - property: 'sort'
+                      label: 'Trié par ordre'
+                      type: 'choice'
+                      type_options:
+                        expanded: true
+                        choices: { 'Aucun': 'standard', 'Meilleures ventes': 'best', 'Aléatoire': 'random' }
+        Slider:
+            class: ShopBundle\Entity\Slider
+            label: 'Caroussel'
+            sort: 'name'
+            list:
+                title: 'Caroussel'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'linked', label: '', icon: 'image' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - { property: 'id', label: 'Id', type: 'integer' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
+                    - { property: 'size', label: 'Taille', type: 'text' }
+            show:
+                fields:
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
+                    - { property: 'color', label: 'Couleur', type: 'text' }
+                    - { property: 'size', label: 'Taille', type: 'text' }
+            search:
+                fields:
+                    - { property: 'page' }
+            form:
+                title: 'Caroussel'
+                fields:
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
+                    - property: 'size'
+                      label: 'Taille'
+                      type: 'choice'
+                      type_options:
+                        expanded: true
+                        choices: { 'Normale': 'medium', 'Grande': 'big' }
+        Image:
+            class: ShopBundle\Entity\Image
+            label: 'Images'
+            sort: 'slider'
+            list:
+                title: 'Images'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - { property: 'slider', label: 'Caroussel' }
+                    - { property: 'product', label: 'Produit' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
+                    - { property: 'imageSmall', label: 'Petite Image', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageMedium', label: 'Moyenne Image', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageBig', label: 'Grande Image', type: 'image', base_path: %app.path.product_images% }
+            show:
+                fields:
+                    - { property: 'slider', label: 'Caroussel' }
+                    - { property: 'product', label: 'Produit' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'teasing', label: 'Accroche', type: 'text' }
+                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
+                    - { property: 'imageSource', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageSmall', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageMedium', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageBig', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'legend', label: 'Légende', type: 'text' }
+            form:
+                title: 'Image'
+                fields:
+                    - { property: 'slider', label: 'Caroussel', type: 'easyadmin_autocomplete' }
+                    - { property: 'product', label: 'Produit', type: 'easyadmin_autocomplete' }
+                    - { property: 'page', label: 'Page', type: 'easyadmin_autocomplete' }
+                    - { property: 'teasing', label: 'Accroche', type: 'ckeditor' }
+                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
+                    - { property: 'imageSourceFile', type: 'vich_image' }
+                    - { property: 'legend', label: 'Légende', type: 'text' }
+        Transaction:
+            sort: 'dateOpened'
+            class: ShopBundle\Entity\Transaction
+            label: 'Transactions'
+            list:
+                title: 'Transactions'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+

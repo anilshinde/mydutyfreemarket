@@ -1,0 +1,4 @@
+services:
+#    shopname.example:
+#        class: ShopBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

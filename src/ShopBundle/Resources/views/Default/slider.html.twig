@@ -1,0 +1,20 @@
+
+        <!-- Slider -->
+
+        <div id="slider">
+            <ul>
+                {% set delay = slider.delay * 1000 %}
+                <meta name="slider_delay" content="{{ delay }}">
+                {% if slider.images is not empty %}
+                    {% for image in slider.images %}
+                <li class="{% if slider.format == 'yellow' %} yellow {% else %} blue {% endif %}" style="background-image: url({{ app.request.getSchemeAndHttpHost() ~ '/images/fers-a-cheveux/' ~ image.imageBig }})">
+                    {{ image.teasing|raw }}
+                    <a href="{{ image.redirectUrl }}" class="btn-more">Voir plus</a>
+                </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- End Slider -->
+
