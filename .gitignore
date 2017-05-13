@@ -15,4 +15,5 @@
 /vendor/
 /web/bundles/
 /web/images/*
+!/var/js
 /web/js/*
