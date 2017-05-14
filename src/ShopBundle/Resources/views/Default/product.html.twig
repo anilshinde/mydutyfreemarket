@@ -55,8 +55,8 @@
                             {% set display = 1 %}
                             {% if product.images is not empty %}
                                 {% for image in product.images %}
-                                <a class="view-work" href="{{ asset('images/fers-a-cheveux/' ~ image.imageMedium) }}" {% if display == 0 %} style="display: none;" {% else %} {% set display = 0 %} {% endif %}>
-                                    <img itemprop="image" src="{{ asset('images/fers-a-cheveux/' ~ image.imageMedium) }}" alt="{{ image.legend }}">
+                                <a class="view-work" href="{{ asset('images/local/' ~ image.imageMedium) }}" {% if display == 0 %} style="display: none;" {% else %} {% set display = 0 %} {% endif %}>
+                                    <img itemprop="image" src="{{ asset('images/local/' ~ image.imageMedium) }}" alt="{{ image.legend }}">
                                 </a>
                                 {% endfor %}
                             {% endif %}

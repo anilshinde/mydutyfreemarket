@@ -11,7 +11,7 @@ vich_uploader:
     mappings:
         product_images:
             uri_prefix:         %app.path.product_images%
-            upload_destination: %kernel.root_dir%/../web/images/fers-a-cheveux
+            upload_destination: %kernel.root_dir%/../web/images/local
 
 easy_admin:
     site_name: '<img src="/images/logo.png">'

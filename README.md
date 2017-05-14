@@ -92,3 +92,13 @@ EC2/Autoscaling/Cloudfront/VPC
 
 Architecture bill
 
+
+COMMANDS
+========
+
+php bin/console cache:clear --env=prod
+php bin/console assetic:dump --env=prod --no-debug
+
+npm install uglify-js --prefix app/Resources
+npm install uglifycss --prefix app/Resources
+

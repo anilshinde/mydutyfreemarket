@@ -9,7 +9,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    app.path.product_images: /images/fers-a-cheveux/
+    app.path.product_images: /images/local/
 
 
 framework:
@@ -78,12 +78,39 @@ swiftmailer:
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
-    use_controller: false
-    bundles:        [ 'XmonColorPickerTypeBundle' ]
     filters:
         cssrewrite: ~
-#        uglifyjs2:
-#            bin: "%kernel.root_dir%/../node_modules/uglify-js/bin/uglifyjs"
-#        uglifycss:
-#            bin: "%kernel.root_dir%/../node_modules/uglifycss/uglifycss"
-
+        uglifyjs2:
+            bin: "%kernel.root_dir%/Resources/node_modules/.bin/uglifyjs"
+        uglifycss:
+            bin: "%kernel.root_dir%/Resources/node_modules/.bin/uglifycss"
+    assets:
+        head:
+            inputs:
+                - 'vendor/bootstrap/dist/css/bootstrap.min.css'
+                - 'vendor/animate.css/animate.min.css'
+                - 'vendor/magnific-popup/dist/magnific-popup.css'
+                - 'vendor/flexslider/flexslider.css'
+                - 'vendor/bxSlider/dist/jquery.bxslider.min.css'
+                - 'css/style_main.css'
+                - 'css/style.css'
+                - 'css/form-elements.css'
+                - 'css/media-queries.css'
+        bottom:
+            inputs:
+                - 'vendor/jquery/dist/jquery.min.js'
+                - 'vendor/bootstrap/dist/js/bootstrap.min.js'
+                - 'vendor/jquery-ui/jquery-ui.min.js'
+                - 'vendor/jquery-ui-map/ui/min/jquery.ui.map.min.js'
+                - 'vendor/jquery-backstretch/jquery.backstretch.min.js'
+                - 'vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js'
+                - 'vendor/magnific-popup/dist/jquery.magnific-popup.min.js'
+                - 'vendor/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'
+                - 'vendor/flexslider/jquery.flexslider-min.js'
+                - 'vendor/bxSlider/dist/jquery.bxslider.min.js'
+                - 'vendor/masonry/dist/masonry.pkgd.min.js'
+                - 'vendor/wowjs/dist/wow.min.js'
+                - 'vendor/selectivizr/selectivizr.js'
+                - 'js/retina.min.js'
+                - 'js/scripts.js'
+                - 'js/main.js'

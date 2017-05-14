@@ -1,0 +1,15 @@
+{
+  "name": "My Dutyfree Market",
+  "version": "0.0.1",
+  "description": "Asset dependencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "joachim.ifergan@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "uglify-js": "~3.0.4",
+    "uglifycss": "~0.0.27"
+  }
+}

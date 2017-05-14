@@ -51,43 +51,46 @@ class AdminListener implements EventSubscriberInterface
 
         $page = $entity->getPage();
 
-        if(empty($page)) {
+        if(empty($page) and (($entity instanceof Slider) or ($entity instanceof Text))) {
             return;
         }
 
-        $query = $this->em->createQuery(
-                'SELECT pe '.
-                'FROM ShopBundle:PageElements pe '.
-                'WHERE pe.id = :id '.
-                'ORDER BY pe.position'
-            )
-            ->setParameter('id', $page->getId());
+        if(!empty($page)) {
+            $query = $this->em->createQuery(
+                    'SELECT pe '.
+                    'FROM ShopBundle:PageElements pe '.
+                    'WHERE pe.id = :id '.
+                    'ORDER BY pe.position'
+                )
+                ->setParameter('id', $page->getId());
 
-        $pageElements = $query->getResult();
+            $pageElements = $query->getResult();
 
-        $newPosition = 1;
-        foreach($pageElements as $pageElement) {
-            $newPosition++;
+            $newPosition = 1;
+            foreach($pageElements as $pageElement) {
+                $newPosition++;
+            }
+
+            $pageElement = new PageElements();
+            $pageElement->setPage($entity->getPage());
+            $pageElement->setElement($entity->getId());
+
+            if($entity instanceof Slider) {
+                $pageElement->setFormat(PageElements::FORMAT_SLIDER);
+            } else if($entity instanceof Text) {
+                $pageElement->setFormat(PageElements::FORMAT_TEXT);
+            } else if($entity instanceof Image) {
+                $pageElement->setFormat(PageElements::IMAGE);
+            }
+
+            $pageElement->setPosition($newPosition);
+            $pageElement->setStatus(true);
+
+            $this->em->persist($pageElement);
+
+            $this->em->flush();
         }
 
-        $pageElement = new PageElements();
-        $pageElement->setPage($entity->getPage());
-        $pageElement->setElement($entity->getId());
-
-        if($entity instanceof Slider) {
-            $pageElement->setFormat(PageElements::FORMAT_SLIDER);
-        } else if($entity instanceof Text) {
-            $pageElement->setFormat(PageElements::FORMAT_TEXT);
-        } else if($entity instanceof Image) {
-            $pageElement->setFormat(PageElements::IMAGE);
-        }
-
-        $pageElement->setPosition($newPosition);
-        $pageElement->setStatus(true);
-
-        $this->em->persist($pageElement);
-
-        $this->em->flush();
 
         if($entity instanceof Image) {
 
@@ -106,7 +109,7 @@ class AdminListener implements EventSubscriberInterface
             foreach($sizes as $size) {
 
                 list($width, $height) = $size;
-                $imageSource = new \Imagick('/var/www/shopname/web/images/fers-a-cheveux/'.$entity->getImageSourceFile()->getClientOriginalName());
+                $imageSource = new \Imagick('/var/www/mydutyfreemarket/web/images/local/'.$pathinfo['basename']);
                 $isImageResized = FALSE;
 
                 try {
@@ -117,7 +120,7 @@ class AdminListener implements EventSubscriberInterface
 
                     $newImageFile = substr($entity->getImageSource(), 0 , strrpos($entity->getImageSource(), '.', -1)).'-'.($width).'x'.($height).'.'.$pathinfo['extension'];
                     $allNewImageFiles[] = $newImageFile;
-                    $imageSource->writeImage('/var/www/shopname/web/images/fers-a-cheveux/'.$newImageFile);
+                    $imageSource->writeImage('/var/www/mydutyfreemarket/web/images/local/'.$newImageFile);
                     $imageSource->destroy();
                     $isImageResized = TRUE;
                 } catch(Exception $e) {
@@ -138,58 +141,58 @@ class AdminListener implements EventSubscriberInterface
     public function onPostEdit(GenericEvent $event)
     {
 
-
         $entity = $event['entity'];
 
         if ($entity instanceof Slider or $entity instanceof Text or $entity instanceof Image)
         {
             $page = $entity->getPage();
 
-            if(empty($page)) {
+            if(empty($page) and ($entity instanceof Slider or $entity instanceOf Text)) {
                 return;
             }
 
-            $query = $this->em->createQuery(
-                    'SELECT pe '.
-                    'FROM ShopBundle:PageElements pe '.
-                    'WHERE pe.page = :id '.
-                    'AND pe.element = :element '.
-                    'AND pe.format = :format'
-                )
-                ->setParameter('id', $page->getId())
-                ->setParameter('element', $entity->getId())
-                ->setParameter('format', PageElements::FORMAT_SLIDER);
-
-            $pageElements = $query->getResult();
-
-            if(empty($pageElements)) {
+            if(!empty($page)) {
                 $query = $this->em->createQuery(
-                        'SELECT pe '.
+                    'SELECT pe '.
                         'FROM ShopBundle:PageElements pe '.
                         'WHERE pe.page = :id '.
-                        'ORDER BY pe.position'
+                        'AND pe.element = :element '.
+                        'AND pe.format = :format'
                     )
-                    ->setParameter('id', $page->getId());
+                    ->setParameter('id', $page->getId())
+                    ->setParameter('element', $entity->getId())
+                    ->setParameter('format', PageElements::FORMAT_SLIDER);
 
                 $pageElements = $query->getResult();
 
-                $newPosition = 1;
-                foreach($pageElements as $pageElement) {
-                    $newPosition++;
+                if(empty($pageElements)) {
+                    $query = $this->em->createQuery(
+                            'SELECT pe '.
+                            'FROM ShopBundle:PageElements pe '.
+                            'WHERE pe.page = :id '.
+                            'ORDER BY pe.position'
+                        )
+                        ->setParameter('id', $page->getId());
+
+                    $pageElements = $query->getResult();
+
+                    $newPosition = 1;
+                    foreach($pageElements as $pageElement) {
+                        $newPosition++;
+                    }
+
+                    $pageElement = new PageElements();
+                    $pageElement->setPage($entity->getPage());
+                    $pageElement->setElement($entity->getId());
+                    $pageElement->setFormat(PageElements::FORMAT_SLIDER);
+                    $pageElement->setPosition($newPosition);
+                    $pageElement->setStatus(true);
+
+                    $this->em->persist($pageElement);
+
+                    $this->em->flush();
                 }
-
-                $pageElement = new PageElements();
-                $pageElement->setPage($entity->getPage());
-                $pageElement->setElement($entity->getId());
-                $pageElement->setFormat(PageElements::FORMAT_SLIDER);
-                $pageElement->setPosition($newPosition);
-                $pageElement->setStatus(true);
-
-                $this->em->persist($pageElement);
-
-                $this->em->flush();
             }
-
         }
 
         if($entity instanceof Image) {
@@ -209,7 +212,7 @@ class AdminListener implements EventSubscriberInterface
             foreach($sizes as $size) {
 
                 list($width, $height) = $size;
-                $imageSource = new \Imagick('/var/www/shopname/web/images/fers-a-cheveux/'.$entity->getImageSourceFile()->getClientOriginalName());
+                $imageSource = new \Imagick('/var/www/mydutyfreemarket/web/images/local/'.$pathinfo['basename']);
                 $isImageResized = FALSE;
 
                 try {
@@ -220,7 +223,7 @@ class AdminListener implements EventSubscriberInterface
 
                     $newImageFile = substr($entity->getImageSource(), 0 , strrpos($entity->getImageSource(), '.', -1)).'-'.($width).'x'.($height).'.'.$pathinfo['extension'];
                     $allNewImageFiles[] = $newImageFile;
-                    $imageSource->writeImage('/var/www/shopname/web/images/fers-a-cheveux/'.$newImageFile);
+                    $imageSource->writeImage('/var/www/mydutyfreemarket/web/images/local/'.$newImageFile);
                     $imageSource->destroy();
                     $isImageResized = TRUE;
                 } catch(Exception $e) {

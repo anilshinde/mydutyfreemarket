@@ -9,20 +9,21 @@
                 {% for i in 0..(seriesProducts - 1) %}
                 <div class="row">
                     {% for j in 0..(productsBySerie - 1) %}
-                        {% set product = attribute(products, i * productsBySerie + j) %}
-                        {% if product is not empty %}
+                        {% if (i * productsBySerie + j) < countProducts %}
+                            {% set product = attribute(products, i * productsBySerie + j) %}
+                            {% if product is not empty %}
                     <div class="col-sm-3">
                         <div class="wow fadeInUp">
                             <div class="work-style">
                             <div class="work">
-                            {% set display = 1 %}
-                            {% if product.images is not empty %}
-                                {% for image in product.images %}
-                                <a class="view-work" href="{{ asset('images/fers-a-cheveux/' ~ image.imageMedium) }}" data-at2x="{{ asset('images/fers-a-cheveux/' ~ image.imageBig) }}" {% if display == 0 %} style="display: none;" {% else %} {% set display = 0 %} {% endif %}>
-                                    <img src="{{ asset('images/fers-a-cheveux/' ~ image.imageSmall) }}" alt="{{ image.legend }}">
+                                {% set display = 1 %}
+                                {% if product.images is not empty %}
+                                    {% for image in product.images %}
+                                <a class="view-work" href="{{ asset('images/local/' ~ image.imageMedium) }}" data-at2x="{{ asset('images/local/' ~ image.imageBig) }}" {% if display == 0 %} style="display: none;" {% else %} {% set display = 0 %} {% endif %}>
+                                    <img src="{{ asset('images/local/' ~ image.imageSmall) }}" alt="{{ image.legend }}">
                                 </a>
-                                {% endfor %}
-                            {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                                 <h3>{{ product.name }} {{ product.promo }}</h3>
                                 <p>{{ product.discountedPrice }} € (EUR) <strike>{{ product.price }}</strike></p>
                             </div>
@@ -32,6 +33,7 @@
                             </div>
                         </div>
                     </div>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 </div>

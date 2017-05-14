@@ -1,17 +1,10 @@
 
         <!-- Javascript -->
-        <script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap-hover-dropdown.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.backstretch.min.js') }}"></script>
-        <script src="{{ asset('js/wow.min.js') }}"></script>
-        <script src="{{ asset('js/retina-1.1.0.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.flexslider-min.js') }}"></script> 
         <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-        <script src="{{ asset('js/jquery.ui.map.min.js') }}"></script>
 
-        <script src="{{ asset('js/scripts.js') }}"></script>
-        <script src="{{ asset('js/plugins.js') }}"></script>
-        <script src="{{ asset('js/main.js') }}"></script>
+        {% javascripts 
+            '@bottom'
+        filter='?uglifyjs2' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
         <!-- End Javascript -->

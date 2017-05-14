@@ -22,15 +22,8 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     {
 
 
-        if($category !== null)
-        {
-            $queryCategory = 'AND p.category = :category ';
-        }
-
-        if($productQName !== null)
-        {
-            $queryQName = 'AND p.qName = :qName ';
-        }
+        $queryCategory = ($category !== null ? 'AND p.category = :category ' : '');
+        $queryQName = ($productQName !== null ? 'AND p.qName = :qName ' : '');
 
         $query = $this->getEntityManager()
             ->createQuery(
