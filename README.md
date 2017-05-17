@@ -1,12 +1,18 @@
 
 A WIP personal Symfony project created on March 27, 2017, 10:18 pm for my personal projects.
+
 Dead line asap for a first stable but very light version.
 
 :checkered_flag: well advanced
+
 :bike: mandatory features for the 1st version
+
 :tractor: mandatory features for the 2nd version
+
 :oncoming_automobile: mandatory features for the 3st version
+
 :airplane: mandatory features for the 4th version
+
 :rocket: final version
 
 T0D0:
