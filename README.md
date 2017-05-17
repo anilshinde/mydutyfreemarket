@@ -1,135 +1,150 @@
 
-A WIP personal Symfony project created on March 27, 2017, 10:18 pm.
+A WIP personal Symfony project created on March 27, 2017, 10:18 pm for my personal projects.
+Dead line asap for a first stable but very light version.
+
+:checkered_flag: well advanced
+:bike: mandatory features for the 1st version
+:tractor: mandatory features for the 2nd version
+:oncoming_automobile: mandatory features for the 3st version
+:airplane: mandatory features for the 4th version
+:rocket: final version
 
 T0D0:
 =====
 
 Shop pages contents:
-- Navigation :checkered_flag:
-- Sliders :checkered_flag:
-- Textes :checkered_flag:
-- Images :checkered_flag:
-- Videos :checkered_flag:
-- Diaporama :checkered_flag:
-- Documents
-- Products gallery :checkered_flag:
-- Product page :checkered_flag:
-- Product purchase forms :checkered_flag:
-- Products reviews and commentaries
-- Shipping form
-- Register product form
-- Contact form
-- Payment form
-- Widgets (maps) :checkered_flag:
-- Social interactions :checkered_flag:
-- CGV, CGU, ...
-- 7 styles available
-- Newsletter subscription
-- Live support
+- :bike: :checkered_flag: Navigation
+- :bike: :checkered_flag: Sliders
+- :bike: :checkered_flag: Textes
+- :bike: :checkered_flag: Images
+- :bike: :checkered_flag: Videos
+- :bike: :checkered_flag: Diaporama
+- :bike: Documents
+- :tractor: :checkered_flag: Products gallery
+- :tractor: :checkered_flag: Product page
+- :tractor: :checkered_flag: Product purchase forms
+- :tractor: Products reviews and commentaries
+- :tractor: Shipping form
+- :tractor: Register product form
+- :tractor: Contact form
+- :tractor: Payment form
+- :tractor: :checkered_flag: Widgets (maps)
+- :tractor: :checkered_flag: Social interactions
+- :tractor: CGV, CGU, ...
+- :tractor: Dynamic pages blocs (images, textes, products, diaporama, ...) and URLs
+- :tractor: 2 styles available
+- :oncoming_automobile: 7 styles available
+- :oncoming_automobile: Newsletter subscription
+- :rocket: customization through GIT bundle
+- :rocket: connexion to Facebook, Amazon, GoogleShopping, ...
+- :oncoming_automobile: Live support
 
 Backoffice - CMS features:
-- Multi-sites management
-- Manage categories (images, description, ...) :checkered_flag:
-- Manage navigation menu (tree, ...) :checkered_flag:
-- Manage textes blocs :checkered_flag: 
-- Manage images blocs :checkered_flag:
-- Manage diaporama blocs :checkered_flag:
-- Manage sets of textes or images :checkered_flag:
-- Manage images (crops, resize, ...) :checkered_flag:
-- Manage download document blocs
-- Manage forms blocs
-- Manage products widgets blocs : best sales, last sales, manual, checkout, ...
-- Manage others widgets blocs : maps
-- Manage social interactions blocs
-- Manage pages structures
-- Manage footer 
-- Manage URL :checkered_flag:
-- Manage CGV, CGU, ...
-- Live support chat
-- Manage newsletters subscribers
-- Manage newsletters
-- Load front templates / styles
-- Load AMP front templates / style
+- :tractor: Multi-sites management
+- :bike: :checkered_flag: Manage categories (images, description, ...)
+- :bike: :checkered_flag: Manage navigation menu (tree, ...)
+- :bike: :checkered_flag: Manage pages
+- :bike: :checkered_flag: Manage pages structures
+- :bike: :checkered_flag: Manage pages routes
+- :bike: :checkered_flag: Manage textes blocs
+- :bike: :checkered_flag: Manage images blocs
+- :bike: :checkered_flag: Manage diaporama blocs
+- :bike: :checkered_flag: Manage sets of textes or images
+- :bike: :checkered_flag: Manage images (crops, resize, ...)
+- :bike: Manage download document blocs
+- :tractor: Manage forms blocs
+- :tractor: Manage products widgets blocs : best sales, last sales, manual, checkout, ...
+- :bike: Manage others widgets blocs : maps
+- :bike: Manage social interactions blocs
+- :bike: Manage footer 
+- :bike: :checkered_flag: Manage URL
+- :tractor: Manage CGV, CGU, ...
+- :oncoming_automobile: Live support chat
+- :oncoming_automobile: Manage newsletters subscribers
+- :oncoming_automobile: Manage newsletters
+- :tractor: Load front templates / styles
+- :tractor: Load AMP front templates / style
 
 Backoffice - Shop features:
-- Manage products :checkered_flag:
-- Manage stocks
-- Manage products images and descriptions :checkered_flag:
-- Manage products prices and promotions :checkered_flag:
-- Manage products commentaries and reviews
-- Manage orders
-- Manage shipings
-- Manage invoices
-- Manage transactions
-- Manage customers
-- Manage currencies
-- Manage taxes
-- Manage shipping taxes and products weights
-- Manage countries
-- Manage languages
-- Mail transactions
-- Mail marketing
+- :tractor: :checkered_flag: Manage products
+- :tractor: Manage stocks
+- :tractor: :checkered_flag: Manage products images and descriptions
+- :tractor: :checkered_flag: Manage products prices and promotions
+- :tractor: Manage products commentaries and reviews
+- :tractor: Manage orders
+- :tractor: Manage shipings
+- :tractor: Manage invoices
+- :tractor: Manage transactions
+- :tractor: Manage customers
+- :oncoming_automobile: Manage currencies
+- :oncoming_automobile: Manage taxes
+- :oncoming_automobile: Manage shipping taxes and products weights
+- :oncoming_automobile: Manage countries
+- :rocket: Manage languages
+- :oncoming_automobile: Mail transactions
+- :rocket: Mail marketing
 
 Backoffice - Analytics features:
-- Dashboard
-- Reports on products (best sales, ...)
-- Reports on views
-- Reports on transactions (processed, abandoned, validated, refunded, ...)
-- Reports on customers (new customers, geo, ...)
+- :tractor: Dashboard
+- :rocket: Reports on products (best sales, ...)
+- :rocket: Reports on views
+- :tractor: Reports on transactions (processed, abandoned, validated, refunded, ...)
+- :rocket: Reports on customers (new customers, geo, ...)
 
 Backoffice - General features
-- Project configuration (site name, description, address, etc...)
-- Download / Import CMS and Shop elements
-- Friendly UI :checkered_flag:
-- User management :checkered_flag:
-- API / FOSRest to access all CMS and Shop elements 
-- Bakckoffice docs
-- Mobile responsive :checkered_flag:
-- Project docs
+- :bike: Project configuration (site name, description, address, social network accounts, analytics tags, etc...)
+- :oncoming_automobile: Download / Import CMS and Shop elements
+- :bike: :checkered_flag: Friendly UI
+- :bike: :checkered_flag: User management
+- :oncoming_automobile: API / FOSRest to access all CMS and Shop elements 
+- :oncoming_automobile: Bakckoffice docs
+- :bike: :checkered_flag: Mobile responsive
+- :rocket: Project docs
 
 SEO / Mobile first:
-- OpenGraph meta :checkered_flag:
-- Twitter meta :checkered_flag:
-- Breadcrumbs Organization, Web, Product, Image, ... :checkered_flag:
-- Microdata Product, Image, ... :checkered_flag: 
-- Manage URLs
-- Manage sitemaps
-- Manage optimized images :checkered_flag:
-- Manage HTML main structured tags (title, h1, alt, ...) :checkered_flag:
-- Manage tracking tags (analytics, seach console, ...)
-- AMP slide
-- AMP menu side
-- AMP CMS and Shop bloc management
-- PWA app
-- Push notification
+- :bike: :checkered_flag: OpenGraph, Twitter, ... meta
+- :bike: :checkered_flag: Breadcrumbs Organization, Web, Product, Image, ... 
+- :bike: :checkered_flag: Microdata Product, Image, ...
+- :bike: Manage URLs
+- :tractor: Manage sitemaps
+- :bike: :checkered_flag: Manage optimized images
+- :bike: :checkered_flag: Manage HTML main structured tags (title, h1, alt, ...)
+- :bike: Manage tracking tags (analytics, seach console, ...)
+- :bike: AMP slide
+- :bike: AMP menu side
+- :bike: AMP CMS and Shop bloc management
+- :rocket: PWA app
+- :rocket: Push notification
 
 Performances:
-- Enable Redis SQL cache queries
-- Enable Apache assets cache :checkered_flag:
-- Enable Symfony http cache :checkered_flag:
-- Enable Opcache and Symfony class autoload
-- Enable AMP for full Google CDN http cache
-- Enable full CDN http cache by Symfony http headers
-
+- :bike: Enable Redis SQL cache queries
+- :bike: :checkered_flag: Enable Apache assets cache
+- :bike: :checkered_flag: Enable Symfony http cache
+- :bike: Enable Opcache and Symfony class autoload
+- :bike: Enable AMP for full Google CDN http cache
+- :rocket: Enable full CDN http cache by Symfony http headers
 
 Developpement and customization:
-- Use Symfony3 :checkered_flag:
-- Use Twig :checkered_flag:
-- Use PHP7 :checkered_flag:
-- Use bower :checkered_flag:
+- :bike: :checkered_flag: Use Symfony3
+- :bike: :checkered_flag: Use Twig
+- :bike: :checkered_flag: Use PHP v7
+- :bike: :checkered_flag: Use MySQL v14
+- :bike: Use Redis
+- :bike: Use AWS
+- :bike: :checkered_flag: Use bower
 
 Architecture:
-- Account creation
-- Deployment (reload, backup, flush, deploy, ...)
-- S3 files
-- EC2 servers and autoscaling
-- Cloudfront CDN
-- RDS database
-- Route53 
-- Backups
-- API keys
-- Sandbox
+- :oncoming_automobile: Account creation
+- :airplane: Deployment (reload, backup, flush, deploy, ...)
+- :bike: S3 files
+- :airplane: EC2 servers and autoscaling
+- :bike: Cloudfront CDN
+- :bike: RDS database
+- :oncoming_automobile: Route53 
+- :oncoming_automobile: Backups, AMI
+- :airplane: AWS API proxy interfaces
+- :airplane: Sandbox
 
 Payments
-- ...
+- :tractor: ...
 
