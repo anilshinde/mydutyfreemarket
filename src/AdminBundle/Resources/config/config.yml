@@ -21,8 +21,8 @@ easy_admin:
         menu:
             - label: 'Ma navigation'
               children:
-                - { entity: 'Category', label: 'Les rubriques' }
-                - { entity: 'Page', label: 'Les pages' }
+                - { entity: 'Category', label: 'Mes rubriques' }
+                - { entity: 'Page', label: 'Mes pages' }
             - label: 'Mes contenus'
               children:
                 - { entity: 'Text', label: 'Mes blocs textes' }
