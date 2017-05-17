@@ -36,9 +36,10 @@ class Product
     private $name;
 
     /**
-     * @var int
+     * @var Category
      *
-     * @ORM\Column(name="category", type="integer")
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
 
@@ -128,7 +129,7 @@ class Product
 
     public function __construct()
     {
-        $this->images = new ArrayCollection();
+        $this->images = array();
     }
 
     public function __toString()

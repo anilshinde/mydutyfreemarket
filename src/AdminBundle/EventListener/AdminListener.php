@@ -12,14 +12,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use ShopBundle\Entity\Slider;
 use ShopBundle\Entity\Text;
 use ShopBundle\Entity\Image;
+use ShopBundle\Entity\Picks;
 
 use ShopBundle\Entity\Page;
-use ShopBundle\Entity\PageElements;
+use ShopBundle\Entity\PageElement;
+
+use CMSBundle\Image\Optimizer;
 
 class AdminListener implements EventSubscriberInterface
 {
 
-    protected $em;
+    protected $entityManager;
+    protected $imagesOptimizer;
 
     public static function getSubscribedEvents()
     {
@@ -30,9 +34,16 @@ class AdminListener implements EventSubscriberInterface
         );
     }
 
-    function __construct(EntityManager $em)
+    function __construct(
+        EntityManager $entityManager
+    )
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
+    }
+
+    public function setImagesOptimizer($imagesOptimizer)
+    {
+        $this->imagesOptimizer = $imagesOptimizer;
     }
 
     public function onPostPersist(GenericEvent $event)
@@ -44,26 +55,25 @@ class AdminListener implements EventSubscriberInterface
             return;
         }
 
-        if(!(($entity instanceof Slider) or ($entity instanceof Text) or ($entity instanceof Image)))
+        if(!(($entity instanceof Slider) or ($entity instanceof Text) or ($entity instanceof Image) or ($entity instanceof Picks)))
         {
             return;
         }
 
         $page = $entity->getPage();
 
-        if(empty($page) and (($entity instanceof Slider) or ($entity instanceof Text))) {
+        if(empty($page) and (($entity instanceof Slider) or ($entity instanceof Text) or ($entity instanceof Picks))) {
             return;
         }
 
         if(!empty($page)) {
-            $query = $this->em->createQuery(
+            $query = $this->entityManager->createQuery(
                     'SELECT pe '.
-                    'FROM ShopBundle:PageElements pe '.
-                    'WHERE pe.id = :id '.
+                    'FROM ShopBundle:PageElement pe '.
+                    'WHERE pe.page = :page '.
                     'ORDER BY pe.position'
                 )
-                ->setParameter('id', $page->getId());
-
+                ->setParameter('page', $page->getId());
             $pageElements = $query->getResult();
 
             $newPosition = 1;
@@ -71,69 +81,44 @@ class AdminListener implements EventSubscriberInterface
                 $newPosition++;
             }
 
-            $pageElement = new PageElements();
+            $pageElement = new PageElement();
             $pageElement->setPage($entity->getPage());
             $pageElement->setElement($entity->getId());
-
-            if($entity instanceof Slider) {
-                $pageElement->setFormat(PageElements::FORMAT_SLIDER);
-            } else if($entity instanceof Text) {
-                $pageElement->setFormat(PageElements::FORMAT_TEXT);
-            } else if($entity instanceof Image) {
-                $pageElement->setFormat(PageElements::IMAGE);
+            if ($entity instanceof Slider)
+            {
+                $pageElement->setFormat(PageElement::FORMAT_SLIDER);
+            } else if ($entity instanceof Text)
+            {
+                $pageElement->setFormat(PageElement::FORMAT_TEXT);
+            } else if ($entity instanceof Image)
+            {
+                $pageElement->setFormat(PageElement::FORMAT_IMAGE);
+            } else if ($entity instanceof Picks)
+            {
+                $pageElement->setFormat(PageElement::FORMAT_PICKS);
             }
-
             $pageElement->setPosition($newPosition);
             $pageElement->setStatus(true);
 
-            $this->em->persist($pageElement);
-
-            $this->em->flush();
+            $this->entityManager->persist($pageElement);
+            $this->entityManager->flush();
         }
 
-
-        if($entity instanceof Image) {
-
-            $pathinfo = pathinfo($entity->getImageSource());
-            if(!in_array($pathinfo['extension'], array('jpg', 'png'))) {
-                return NULL;
-            }
-
+        if ($entity instanceof Image)
+        {
+            $source = $entity->getImageSource();
             $sizes = array(
                 array(345, 250),
                 array(560, 420),
                 array(1520, 686),
             );
-
-            $allNewImageFiles = array();
-            foreach($sizes as $size) {
-
-                list($width, $height) = $size;
-                $imageSource = new \Imagick('/var/www/mydutyfreemarket/web/images/local/'.$pathinfo['basename']);
-                $isImageResized = FALSE;
-
-                try {
-                    $imageSource->cropThumbnailImage($width, $height);
-                    $imageSource->stripImage();
-                    $imageSource->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
-                    $imageSource->setImageCompressionQuality(90);
-
-                    $newImageFile = substr($entity->getImageSource(), 0 , strrpos($entity->getImageSource(), '.', -1)).'-'.($width).'x'.($height).'.'.$pathinfo['extension'];
-                    $allNewImageFiles[] = $newImageFile;
-                    $imageSource->writeImage('/var/www/mydutyfreemarket/web/images/local/'.$newImageFile);
-                    $imageSource->destroy();
-                    $isImageResized = TRUE;
-                } catch(Exception $e) {
-                    die('Unable to resize image "'.$entity->getImageSource().'" using sizes '.$width.'-'.$height.' : '.$e->getMessage());
-                }
-            }
+            $allNewImageFiles = $this->imagesOptimizer->generateResizedImages($source, $sizes);
 
             $entity->setSmallImage($allNewImageFiles[0]);
             $entity->setMediumImage($allNewImageFiles[1]);
             $entity->setBigImage($allNewImageFiles[2]);
 
-            $this->em->flush();
-
+            $this->entityManager->flush();
         }
 
     }
@@ -143,99 +128,71 @@ class AdminListener implements EventSubscriberInterface
 
         $entity = $event['entity'];
 
-        if ($entity instanceof Slider or $entity instanceof Text or $entity instanceof Image)
+        if ($entity instanceof Slider or $entity instanceof Text or $entity instanceof Image or $entity instanceof Picks)
         {
             $page = $entity->getPage();
 
-            if(empty($page) and ($entity instanceof Slider or $entity instanceOf Text)) {
+            if (empty($page) and ($entity instanceof Slider or $entity instanceOf Text or $entity instanceof Picks))
+            {
                 return;
             }
 
-            if(!empty($page)) {
-                $query = $this->em->createQuery(
-                    'SELECT pe '.
-                        'FROM ShopBundle:PageElements pe '.
+            if (!empty($page))
+            {
+                $query = $this->entityManager->createQuery(
+                        'SELECT pe '.
+                        'FROM ShopBundle:PageElement pe '.
                         'WHERE pe.page = :id '.
-                        'AND pe.element = :element '.
-                        'AND pe.format = :format'
+                        'ORDER BY pe.position'
                     )
-                    ->setParameter('id', $page->getId())
-                    ->setParameter('element', $entity->getId())
-                    ->setParameter('format', PageElements::FORMAT_SLIDER);
+                    ->setParameter('id', $page->getId());
 
                 $pageElements = $query->getResult();
 
-                if(empty($pageElements)) {
-                    $query = $this->em->createQuery(
-                            'SELECT pe '.
-                            'FROM ShopBundle:PageElements pe '.
-                            'WHERE pe.page = :id '.
-                            'ORDER BY pe.position'
-                        )
-                        ->setParameter('id', $page->getId());
-
-                    $pageElements = $query->getResult();
-
-                    $newPosition = 1;
-                    foreach($pageElements as $pageElement) {
-                        $newPosition++;
-                    }
-
-                    $pageElement = new PageElements();
-                    $pageElement->setPage($entity->getPage());
-                    $pageElement->setElement($entity->getId());
-                    $pageElement->setFormat(PageElements::FORMAT_SLIDER);
-                    $pageElement->setPosition($newPosition);
-                    $pageElement->setStatus(true);
-
-                    $this->em->persist($pageElement);
-
-                    $this->em->flush();
+                $newPosition = 1;
+                foreach($pageElements as $pageElement) {
+                    $newPosition++;
                 }
+
+                $pageElement = new PageElement();
+                $pageElement->setPage($entity->getPage());
+                $pageElement->setElement($entity->getId());
+                if ($entity instanceof Slider)
+                {
+                    $pageElement->setFormat(PageElement::FORMAT_SLIDER);
+                } else if ($entity instanceof Text)
+                {
+                    $pageElement->setFormat(PageElement::FORMAT_TEXT);
+                } else if ($entity instanceof Picks)
+                {
+                    $pageElement->setFormat(PageElement::FORMAT_PICKS);
+                }
+
+                $pageElement->setPosition($newPosition);
+                $pageElement->setStatus(true);
+
+                $this->entityManager->persist($pageElement);
+
+                $this->entityManager->flush();
+
             }
         }
 
         if($entity instanceof Image) {
 
-            $pathinfo = pathinfo($entity->getImageSource());
-            if(!in_array($pathinfo['extension'], array('jpg', 'png'))) {
-                return NULL;
-            }
-
+            $source = $entity->getImageSource();
             $sizes = array(
                 array(345, 250),
                 array(560, 420),
                 array(1520, 686),
             );
-
-            $allNewImageFiles = array();
-            foreach($sizes as $size) {
-
-                list($width, $height) = $size;
-                $imageSource = new \Imagick('/var/www/mydutyfreemarket/web/images/local/'.$pathinfo['basename']);
-                $isImageResized = FALSE;
-
-                try {
-                    $imageSource->cropThumbnailImage($width, $height);
-                    $imageSource->stripImage();
-                    $imageSource->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
-                    $imageSource->setImageCompressionQuality(90);
-
-                    $newImageFile = substr($entity->getImageSource(), 0 , strrpos($entity->getImageSource(), '.', -1)).'-'.($width).'x'.($height).'.'.$pathinfo['extension'];
-                    $allNewImageFiles[] = $newImageFile;
-                    $imageSource->writeImage('/var/www/mydutyfreemarket/web/images/local/'.$newImageFile);
-                    $imageSource->destroy();
-                    $isImageResized = TRUE;
-                } catch(Exception $e) {
-                    die('Unable to resize image "'.$entity->getImageSource().'" using sizes '.$width.'-'.$height.' : '.$e->getMessage());
-                }
-            }
+            $allNewImageFiles = $this->imagesOptimizer->generateResizedImages($source, $sizes);
 
             $entity->setSmallImage($allNewImageFiles[0]);
             $entity->setMediumImage($allNewImageFiles[1]);
             $entity->setBigImage($allNewImageFiles[2]);
 
-            $this->em->flush();
+            $this->entityManager->flush();
 
         }
 

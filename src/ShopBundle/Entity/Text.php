@@ -48,11 +48,27 @@ class Text
     private $page;
 
     /**
+     * @var Picks
+     *
+     * @ORM\ManyToOne(targetEntity="Picks")
+     * @ORM\JoinColumn(name="picks_id", referencedColumnName="id", nullable=true)
+     */
+    private $picks;
+
+    /**
      * @var Format
      *
      * @ORM\Column(name="format", type="text", length=50)
      */
     private $format;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    private $status;
+
 
     public function __toString()
     {
@@ -142,6 +158,30 @@ class Text
     }
 
     /**
+     * Set picks
+     *
+     * @param string $picks
+     *
+     * @return Text
+     */
+    public function setPicks($picks)
+    {
+        $this->picks = $picks;
+
+        return $this;
+    }
+
+    /**
+     * Get picks
+     *
+     * @return string
+     */
+    public function getPicks()
+    {
+        return $this->picks;
+    }
+
+    /**
      * Set content
      *
      * @param string $content
@@ -165,5 +205,28 @@ class Text
         return $this->content;
     } 
 
+    /**
+     * Get status
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Page
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 }
 

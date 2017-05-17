@@ -45,21 +45,21 @@ class Slider
      * @var Page
      *
      * @ORM\ManyToOne(targetEntity="Page")
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
      */
     private $page;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delay", type="integer")
+     * @ORM\Column(name="delay", type="integer", options={"default": 2000}, nullable=true)
      */
     private $delay;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="color", type="string", length=6)
+     * @ORM\Column(name="color", type="string", length=6, nullable=true)
      *
      */
     private $color; 
@@ -70,6 +70,13 @@ class Slider
      * @ORM\Column(name="size", type="string", length=50)
      */
     private $size;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    private $status;
 
 
     public function __toString()
@@ -226,5 +233,28 @@ class Slider
         return $this->size;
     }
 
+    /**
+     * Get status
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Page
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 }
 

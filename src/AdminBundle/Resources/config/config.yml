@@ -21,16 +21,18 @@ easy_admin:
         menu:
             - label: 'Ma navigation'
               children:
+                - { entity: 'Category', label: 'Les rubriques' }
                 - { entity: 'Page', label: 'Les pages' }
             - label: 'Mes contenus'
               children:
-                - { entity: 'Text', label: 'Mes textes' }
-                - { entity: 'Image', label: 'Mes visuels' }
-                - { entity: 'Slider', label: 'Mes caroussels' }
-                - { entity: 'PageElements', label: 'Organisation des contenus' }
+                - { entity: 'Text', label: 'Mes blocs textes' }
+                - { entity: 'Image', label: 'Mes visuels et images' }
+                - { entity: 'Slider', label: "Mes diaporama" }
+                - { entity: 'Picks', label: 'Mes séléctions' }
+                - { entity: 'PageElement', label: 'Organiser mes contenus' }
             - label: 'Ma boutique'
               children:
-                - { entity: 'Product', label: 'Les produits' }
+                - { entity: 'Product', label: 'Mes produits' }
             - { entity: 'Transaction', label: 'Mes transactions' }
             - { entity: 'Transaction', label: 'Mes clients' }
             - { entity: 'User', label: 'Les administrateurs' }
@@ -45,16 +47,43 @@ easy_admin:
                     - { name: 'show', label: '', icon: 'search' }
                     - { name: 'edit', label: '', icon: 'edit' }
                     - { name: 'delete', label: '', icon: 'trash' }
+        Category:
+            class: ShopBundle\Entity\Category
+            label: 'Les rubriques'
+            form:
+                title: 'Rubrique'
+                fields:
+                    - { type: 'group', label: 'Associer des contenus à une page', help: "Décriver la catégorie." }
+                    - { property: 'qName', label: 'Identifiant', type: 'text' }
+                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'parent', label: 'Rubrique parente', type: 'easyadmin_autocomplete' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+            list:
+                title: 'Les rubriques'
+                sort: 'name'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'linked', label: '', icon: 'cubes' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'qName', label: 'Référence', type: 'text' }
+                    - { property: 'name', label: 'Libellé', type: 'text' }
+                    - { property: 'parent', label: 'Catégorie parente' }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
         Page:
             class: ShopBundle\Entity\Page
-            label: 'Pages'
+            label: 'Les pages'
             form:
                 title: 'Page'
                 fields:
+                    - { type: 'group', label: 'Définissez votre page', help: "Saisir l'identifiant, le libellé, la description, l'url et la rubrique de votre page." }
                     - { property: 'qName', label: 'Référence', type: 'text' }
                     - { property: 'name', label: 'Libellé', type: 'text' }
+                    - { property: 'description', label: 'Description', type: 'text' }
+                    - { property: 'category', label: 'Rubrique', type: 'easyadmin_autocomplete' }
                     - { property: 'url', label: 'URL', type: 'text' }
-                    - { property: 'content', label: 'Contenu', type: 'ckeditor' }
                     - { property: 'status', label: 'Actif', type: 'checkbox' }
             list:
                 title: 'Pages'
@@ -66,14 +95,18 @@ easy_admin:
                     - { name: 'delete', label: '', icon: 'trash' }
                 fields:
                     - id
-                    - { property: 'qName', label: 'Référence', type: 'text' }
+                    - { property: 'qName', label: 'Identifiant', type: 'text' }
                     - { property: 'name', label: 'Libellé', type: 'text' }
+                    - { property: 'category', label: 'Rubrique' }
+                    - { property: 'description', label: 'Description', type: 'text' }
                     - { property: 'url', label: 'URL', type: 'text' }
                     - { property: 'status', label: 'Actif', type: 'toggle' }
-        PageElements:
-            class: ShopBundle\Entity\PageElements
+        PageElement:
+            class: ShopBundle\Entity\PageElement
             label: 'Elements'
-            sort: 'page'
+            sort:
+                - 'page'
+                - 'position'
             list:
                 title: 'Elements'
                 actions:
@@ -89,43 +122,49 @@ easy_admin:
             form:
                 title: 'Element'
                 fields:
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'element', label: 'Composant', type: 'integer' }
+                    - { type: 'group', label: 'Associer des contenus à une page', help: "Saisir la page puis l'identifiant de l'élément et son type" }
+                    - { property: 'page', label: 'Positionné sur la page' }
+                    - { property: 'element', label: 'Identifiant du contenu', type: 'integer' }
                     - property: 'format' 
-                      label: 'Format'
+                      label: 'Type de contenu'
                       type: 'choice'
                       type_options: 
                         expanded: true
                         choices:
                           'Texte': 'text'
-                          'Slider': 'slider'
-                          'Galleries de produits': 'products'
+                          'Diaporama': 'slider'
+                          'Séléction': 'picks'
                           'Formulaire (livraison, contact, ...)': 'form'
                           'Image': 'image'
-                          'Messages en colonnes': 'columns'
                           'Carte GoogleMaps': 'map'
                           'Galleries de vidéos': 'video'
-                    - { property: 'position', label: 'Position', type: 'integer' }
+                    - { property: 'position', label: 'Index de position', type: 'integer' }
                     - { property: 'status', label: 'Actif', type: 'checkbox' }
-
         Product:
             class: ShopBundle\Entity\Product
-            label: 'Produits'
+            label: 'Les produits de la boutique'
             form:
                 title: 'Produit'
                 fields:
-                    - { property: 'qName', label: 'Code produit', type: 'text' }
-                    - { property: 'name', label: 'Libellé du produit', type: 'text' }
-                    - { property: 'promo', label: 'Libellé promotionnel', type: 'text'}
-                    - { property: 'price', label: 'Montant TTC', type: 'integer' }
+                    - { type: 'group', label: 'Designer votre produit', help: "Saisir l'identifiant, le libellé et la catégorie de votre produit." }
+                    - { property: 'qName', label: 'Identifiant', type: 'text' }
+                    - { property: 'name', label: 'Libellé', type: 'text' }
+                    - { property: 'category', label: 'Rubrique', type: 'easyadmin_autocomplete' }
+                    - { type: 'group', label: 'Définir le prix', help: "Saisissez le prix TTC de votre produit." }
+                    - { property: 'price', label: 'Montant TTC', type: 'integer' } 
+                    - { type: 'group', label: 'Promotion sur la vente', help: "Saisissez le libellé de l'offre, le taux de remise et le prix de remise TTC de votre produit." }
+                    - { property: 'promo', label: "Libellé de l'offre", type: 'text'}
                     - { property: 'promo_rate', label: 'Taux de remise', type: 'integer' }
                     - { property: 'discounted_price', label: 'Montant TTC après remise', type: 'integer' }
-                    - { property: 'description', label: 'Descriptif du produit', type: 'ckeditor' }
-                    - { property: 'details', label: 'Détail du produit', type: 'ckeditor' }
-                    - { property: 'documentation', label: 'Conseils d utilisation', type: 'ckeditor' }
-                    - { property: 'formats', label: 'Déclinaisons du produit', type: 'text' }
+                    - { type: 'group', label: 'Textes', help: "Saisir la description de votre produit, ses caractéristiques et indications pour son utilisation." }
+                    - { property: 'description', label: 'Descriptif', type: 'ckeditor' }
+                    - { property: 'details', label: 'Caractéristiques', type: 'ckeditor' }
+                    - { property: 'documentation', label: "Conseils d'utilisation", type: 'ckeditor' }
+                    - { type: 'group', label: 'Gestion des stocks', help: 'Entrer le stock en cours' }
                     - { property: 'current_stock', label: 'Stock en cours', type: 'integer' }
                     - { property: 'current_sales', label: 'Nobmre de ventes', type: 'integer' }
+                    - { type: 'group', label: 'Paramètres avancés', help: "Préciser les formats disponibles de votre produits (couleurs, ...)." }
+                    - { property: 'formats', label: 'Déclinaisons du produit', type: 'text' }
                     - { property: 'status', label: 'Actif', type: 'checkbox' }
             list:
                 title: 'Produits'
@@ -141,72 +180,88 @@ easy_admin:
                     - { property: 'promo', label: 'Libellé promotionnel', type: 'text' }
                     - { property: 'price', label: 'Montant TTC', type: 'integer' }
                     - { property: 'discounted_price', label: 'Montant TTC après remise', type: 'integer' }
+                    - { property: 'category', label: 'Rubrique' }
                     - { property: 'current_stock', label: 'Stock en cours', type: 'integer' }
                     - { property: 'current_sales', label: 'Nombre de ventes', type: 'integer' }
                     - { property: 'status', label: 'Actif', type: 'toggle' }
-        Text:
-            class: ShopBundle\Entity\Text
-            label: 'Text'
-            sort: 'name'
+        Picks:
+            class: ShopBundle\Entity\Picks
+            label: 'Mes séléctions'
+            sort: 'page'
             list:
-                title: 'Text'
+                title: 'Mes séléctions'
                 actions:
                     - { name: 'show', label: '', icon: 'search' }
                     - { name: 'edit', label: '', icon: 'edit' }
                     - { name: 'delete', label: '', icon: 'trash' }
                 fields:
                     - { property: 'id', label: 'Id', type: 'integer' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'format', label: 'Format', type: 'text' }
+                    - { property: 'name', label: 'Identifiant', type: 'text' }
+                    - { property: 'page', label: 'Positionné sur la page' }
+                    - { property: 'type', label: 'Type de séléction', type: 'text' }
+                    - { property: 'period', label: 'Période de séléction', type: 'text' }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
             form:
-                title: 'Text'
+                title: 'Mes séléctions'
                 fields:
+                    - { type: 'group', label: 'Créer une séléction', help: "Saisir l'identifiant et le mode de séléction des éléments" }
+                    - { property: 'name', label: 'Identifiant', type: 'text' }
+                    - property: 'type'
+                      label: 'Type'
+                      type: 'choice'
+                      type_options:
+                        expanded: true
+                        choices:
+                            - 'Choix manuel de produits': 'products_manual'
+                            - 'Produits les plus vendus': 'products_best_sales'
+                            - 'Dernier produits achetés': 'products_last_sales'
+                            - 'Choix manuel de textes': 'pages_manual'
+                            - "Choix manuel d'images": 'images_manual'
+                    - { type: 'group', label: 'Associer', help: "Positionner la séléction sur une page." }
+                    - { property: 'page', label: 'Positionné sur la page' }
+                    - { type: 'group', label: 'Paramètres avancés', help: "Saisir la période de séléctions des éléments" }
+                    - { property: 'period', label: 'Période de séléction' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+        Text:
+            class: ShopBundle\Entity\Text
+            label: 'Blocs de textes'
+            sort: 'page'
+            list:
+                title: 'Bloc de texte'
+                actions:
+                    - { name: 'show', label: '', icon: 'search' }
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - { property: 'id', label: 'Id', type: 'integer' }
                     - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'content', label: 'Contenu', type: 'ckeditor' }
-                    - { property: 'page', label: 'Page' }
+                    - { property: 'format', label: 'Affichage', type: 'text' }
+                    - { property: 'page', label: 'Positionné sur la page' }
+                    - { property: 'picks', label: 'Séléction de textes' }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
+            form:
+                title: 'Bloc de texte'
+                fields:
+                    - { type: 'group', label: 'Textes', help: "Saisir l'identifiant, le texte et la page de ce bloc." }
+                    - { property: 'name', label: 'Identifiant', type: 'text' }
+                    - { property: 'content', label: 'Contenu texte', type: 'ckeditor' }
+                    - { type: 'group', label: "Paramètres d'affichage", help: "Apparition du bloc sur la page" }
                     - property: 'format' 
                       label: 'Format'
                       type: 'choice'
                       type_options:
                         expanded: true
-                        choices: { 'Classique': 'standard', 'Message Flash': 'flash' }
-        Items:
-            class: ShopBundle\Entity\Items
-            label: 'Gallerie'
-            sort: 'name'
-            list:
-                title: 'Gallerie'
-                actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
-                fields:
-                    - { property: 'id', label: 'Id', type: 'integer' }
-                    - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'category', label: 'Category' }
-                    - { property: 'sort', label: 'Trié par ordre', type: 'text' }
-                    - { property: 'limit', label: 'Limite', type: 'integer' }
-            form:
-                title: 'Gallerie'
-                fields:
-                    - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'category', label: 'Category' }
-                    - { property: 'teasing', label: 'Accroche', type: 'ckeditor' }
-                    - property: 'sort'
-                      label: 'Trié par ordre'
-                      type: 'choice'
-                      type_options:
-                        expanded: true
-                        choices: { 'Aucun': 'standard', 'Meilleures ventes': 'best', 'Aléatoire': 'random' }
+                        choices: { 'Standard': 'standard', 'Affichage flash': 'flash' }
+                    - { type: 'group', label: "Paramètres d'affichage", help: "Positionner ce bloc de texte sur une page et/ou l'associer à une séléction de plusieurs textes" }
+                    - { property: 'page', label: 'Positionner ce bloc sur la page' }
+                    - { property: 'picks', label: 'Associer ce texte à la séléction de textes' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
         Slider:
             class: ShopBundle\Entity\Slider
-            label: 'Caroussel'
-            sort: 'name'
+            label: 'Diaporama'
+            sort: 'page'
             list:
-                title: 'Caroussel'
+                title: 'Diaporama'
                 actions:
                     - { name: 'show', label: '', icon: 'search' }
                     - { name: 'linked', label: '', icon: 'image' }
@@ -214,13 +269,14 @@ easy_admin:
                     - { name: 'delete', label: '', icon: 'trash' }
                 fields:
                     - { property: 'id', label: 'Id', type: 'integer' }
+                    - { property: 'name', label: 'Identifiant', type: 'text' }
                     - { property: 'page', label: 'Page' }
-                    - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
+                    - { property: 'delay', label: 'Delai entre les slides', type: 'integer' }
                     - { property: 'size', label: 'Taille', type: 'text' }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
             show:
                 fields:
-                    - { property: 'name', label: 'Titre', type: 'text' }
+                    - { property: 'name', label: 'Identifiant', type: 'text' }
                     - { property: 'page', label: 'Page' }
                     - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
                     - { property: 'color', label: 'Couleur', type: 'text' }
@@ -229,17 +285,22 @@ easy_admin:
                 fields:
                     - { property: 'page' }
             form:
-                title: 'Caroussel'
+                title: 'Diaporama'
                 fields:
-                    - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'page', label: 'Page' }
+                    - { type: 'group', label: "Créer un diaporama", help: "Séléctionner l'identifiant de votre diaporama." }
+                    - { property: 'name', label: 'Identifiant', type: 'text' }
+                    - { type: 'group', label: 'Associer', help: "Positionner votre diaporama sur une page." }
+                    - { property: 'page', label: 'Positionné sur la page' }
+                    - { type: 'group', label: 'Paramètres avancés', help: "Définir le délai entre les slides, la couleur des textes, ..." }
                     - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
+                    - { property: 'color', label: 'Couleur des textes', type: 'text' }
                     - property: 'size'
                       label: 'Taille'
                       type: 'choice'
                       type_options:
                         expanded: true
                         choices: { 'Normale': 'medium', 'Grande': 'big' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
         Image:
             class: ShopBundle\Entity\Image
             label: 'Images'
@@ -251,35 +312,41 @@ easy_admin:
                     - { name: 'edit', label: '', icon: 'edit' }
                     - { name: 'delete', label: '', icon: 'trash' }
                 fields:
-                    - { property: 'slider', label: 'Caroussel' }
-                    - { property: 'product', label: 'Produit' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
                     - { property: 'imageSmall', label: 'Petite Image', type: 'image', base_path: %app.path.product_images% }
                     - { property: 'imageMedium', label: 'Moyenne Image', type: 'image', base_path: %app.path.product_images% }
                     - { property: 'imageBig', label: 'Grande Image', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'slider', label: 'Associé à un diaporama' }
+                    - { property: 'product', label: 'Associé au produit' }
+                    - { property: 'page', label: 'Positionné sur la page' }
+                    - { property: 'picks', label: "Séléction d'images" }
+                    - { property: 'status', label: 'Actif', type: 'toggle' }
             show:
                 fields:
-                    - { property: 'slider', label: 'Caroussel' }
-                    - { property: 'product', label: 'Produit' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'teasing', label: 'Accroche', type: 'text' }
-                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
-                    - { property: 'imageSource', type: 'image', base_path: %app.path.product_images% }
                     - { property: 'imageSmall', type: 'image', base_path: %app.path.product_images% }
                     - { property: 'imageMedium', type: 'image', base_path: %app.path.product_images% }
                     - { property: 'imageBig', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'slider', label: 'Diaporama' }
+                    - { property: 'product', label: 'Produit' }
+                    - { property: 'page', label: 'Page' }
+                    - { property: 'picks', label: "Séléction d'images" }
+                    - { property: 'teasing', label: 'Accroche', type: 'text' }
+                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
                     - { property: 'legend', label: 'Légende', type: 'text' }
             form:
                 title: 'Image'
                 fields:
-                    - { property: 'slider', label: 'Caroussel', type: 'easyadmin_autocomplete' }
-                    - { property: 'product', label: 'Produit', type: 'easyadmin_autocomplete' }
-                    - { property: 'page', label: 'Page', type: 'easyadmin_autocomplete' }
+                    - { type: 'group', label: 'Ajouter une image', help: "Séléctionner l'image depuis votre ordinateur." }
+                    - { property: 'imageSourceFile', label: 'Envoyer depuis mon ordinateur', type: 'vich_image' }
+                    - { type: 'group', label: 'Décrivez cette image', help: "Saisir l'accroche qui apparaitra sur l'image et la légende de cette image" }
+                    - { property: 'legend', label: 'Légende', type: 'text' }
                     - { property: 'teasing', label: 'Accroche', type: 'ckeditor' }
                     - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
-                    - { property: 'imageSourceFile', type: 'vich_image' }
-                    - { property: 'legend', label: 'Légende', type: 'text' }
+                    - { type: 'group', label: 'Associer', help: "Vous pouvez associer cette image à un produit, une page et/ou un diaporama." }
+                    - { property: 'slider', label: 'Associé à un diaporama', type: 'easyadmin_autocomplete' }
+                    - { property: 'product', label: 'Associé à un produit', type: 'easyadmin_autocomplete' }
+                    - { property: 'page', label: 'Positionné sur la page', type: 'easyadmin_autocomplete' }
+                    - { property: 'picks', label: "Séléction d'images", type: 'easyadmin_autocomplete' }
+                    - { property: 'status', label: 'Actif', type: 'checkbox' }
         Transaction:
             sort: 'dateOpened'
             class: ShopBundle\Entity\Transaction

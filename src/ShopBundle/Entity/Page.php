@@ -38,16 +38,24 @@ class Page
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="text")
+     * @ORM\Column(name="description", type="string", length=255)
      */
-    private $url;
+    private $description;
+
+   /**
+     * @var Category
+     *
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="url", type="text")
      */
-    private $content;
+    private $url;
 
     /**
      * @var boolean
@@ -55,6 +63,7 @@ class Page
      * @ORM\Column(name="status", type="boolean")
      */
     private $status;
+
 
     public function __toString()
     {
@@ -120,27 +129,51 @@ class Page
     }
 
     /**
-     * Set content
+     * Set description
      *
-     * @param string $content
+     * @param string $description
      *
      * @return Page
      */
-    public function setContent($content)
+    public function setDescription($description)
     {
-        $this->content = $content;
-
+        $this->description = $description;
+    
         return $this;
     }
 
     /**
-     * Get content
+     * Get description
      *
      * @return string
      */
-    public function getContent()
+    public function getDescription()
     {
-        return $this->content;
+        return $this->description;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     *
+     * @return Page
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 
     /**
@@ -190,7 +223,5 @@ class Page
 
         return $this;
     }
-
-
 }
 

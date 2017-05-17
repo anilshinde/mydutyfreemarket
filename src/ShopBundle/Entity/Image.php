@@ -48,6 +48,14 @@ class Image
      */
     private $page;
 
+   /**
+     * @var Picks
+     *
+     * @ORM\ManyToOne(targetEntity="Picks")
+     * @ORM\JoinColumn(name="picks_id", referencedColumnName="id", nullable=true)
+     */
+    private $picks;
+
     /**
      * @var text
      *
@@ -125,6 +133,13 @@ class Image
      * @ORM\Column(name="legend", type="string", length=255)
      */
     private $legend;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    private $status;
 
 
     public function __toString()
@@ -212,6 +227,30 @@ class Image
     public function getPage()
     {
         return $this->page;
+    }
+
+   /**
+     * Set picks
+     *
+     * @param integer $picks
+     *
+     * @return Picks
+     */
+    public function setPicks($picks)
+    {
+        $this->picks = $picks;
+
+        return $this;
+    }
+
+    /**
+     * Get picks
+     *
+     * @return int
+     */
+    public function getPicks()
+    {
+        return $this->picks;
     }
 
     /**
@@ -443,5 +482,28 @@ class Image
         return $this->imageBig;
     }
 
+    /**
+     * Get status
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Page
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 }
 

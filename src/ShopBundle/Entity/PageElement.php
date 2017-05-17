@@ -5,23 +5,22 @@ namespace ShopBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PageElements
+ * PageElement
  *
- * @ORM\Table(name="page_elements")
- * @ORM\Entity(repositoryClass="ShopBundle\Repository\PageElementsRepository")
+ * @ORM\Table(name="page_element")
+ * @ORM\Entity(repositoryClass="ShopBundle\Repository\PageElementRepository")
  */
-class PageElements
+class PageElement
 {
 
     const FORMAT_TEXT = 'text';
     const FORMAT_SLIDER = 'slider';
-    const FORMAT_PRODUCTS = 'products';
     const FORMAT_FORM = 'form';
     const FORMAT_IMAGE = 'image';
     const FORMAT_COLUMNS = 'columns';
     const FORMAT_MAP = 'map';
     const FORMAT_VIDEO = 'video';
-
+    const FORMAT_PICKS = 'picks';
     /**
      * @var int
      *
@@ -82,7 +81,7 @@ class PageElements
      *
      * @param integer $page
      *
-     * @return PageElements
+     * @return PageElement
      */
     public function setPage($page)
     {
@@ -107,7 +106,7 @@ class PageElements
      *
      * @param integer $element
      *
-     * @return PageElements
+     * @return PageElement
      */
     public function setElement($element)
     {
@@ -131,7 +130,7 @@ class PageElements
      *
      * @param string $format
      *
-     * @return PageElements
+     * @return PageElement
      */
     public function setFormat($format)
     {
@@ -155,7 +154,7 @@ class PageElements
      *
      * @param integer $position
      *
-     * @return PageElements
+     * @return PageElement
      */
     public function setPosition($position)
     {
@@ -179,7 +178,7 @@ class PageElements
      *
      * @param boolean $status
      *
-     * @return PageElements
+     * @return PageElement
      */
     public function setStatus($status)
     {

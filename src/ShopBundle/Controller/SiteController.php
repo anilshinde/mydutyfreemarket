@@ -27,6 +27,11 @@ class SiteController extends Controller
             ->getRepository('ShopBundle:Text')
             ->findAllTextesOrderedByName('accueil');
 
+        $textes = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('ShopBundle:Picks')
+            ->findAllPicksOrderedByName('accueil');
+
         return $this->render('ShopBundle:Default:index.html.twig', array(
             'products' => $products,
             'countProducts' => count($products),

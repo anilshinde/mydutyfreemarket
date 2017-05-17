@@ -11,8 +11,17 @@
 services:
     app.admin_listener:
         class: AdminBundle\EventListener\AdminListener
+        calls: 
+            - [ "setImagesOptimizer", [ "@app.images_optimizer" ] ]
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: kernel.event_listener, event: easy_admin.post_persist, method: onPostPersist }
             - { name: kernel.event_listener, event: easy_admin.post_update, method: onPostEdit }
+    app.images_optimizer:
+        class: CMSBundle\Image\Optimizer
+        arguments:
+            - "%kernel.root_dir%/../web/images/local/"
+            - { width: 345, height: 250 }
+            - { width: 560, height: 420 }
+            - { width: 1520, height: 686 }

@@ -8,6 +8,10 @@ AMP (slide, side, home, categories, ...)
 
 API / FOSRest (product, images, ...)
 
+Enable Redis SQL cache queries
+
+Enable Opcache
+
 Categories (images, description, tree, ...)
 
 Products (price rules, coupon, stock, weight, ...)

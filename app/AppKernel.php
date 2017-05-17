@@ -29,6 +29,7 @@ class AppKernel extends Kernel
 
             new ShopBundle\ShopBundle(),
             new AdminBundle\AdminBundle(),
+            new CMSBundle\CMSBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
