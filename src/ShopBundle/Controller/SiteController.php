@@ -12,6 +12,12 @@ class SiteController extends Controller
      */
     public function indexAction($productsBySerie = 4)
     {
+
+        $pageElements = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('ShopBundle:PageElement')
+            ->findAllPageElementsOrderedByPosition('accueil');
+
         $products = $this->getDoctrine()
             ->getManager()
             ->getRepository('ShopBundle:Product')
@@ -27,10 +33,10 @@ class SiteController extends Controller
             ->getRepository('ShopBundle:Text')
             ->findAllTextesOrderedByName('accueil');
 
-        $textes = $this->getDoctrine()
+        $picks = $this->getDoctrine()
             ->getManager()
             ->getRepository('ShopBundle:Picks')
-            ->findAllPicksOrderedByName('accueil');
+            ->findAllWithImagesAndTextesOrderedByName('accueil');
 
         return $this->render('ShopBundle:Default:index.html.twig', array(
             'products' => $products,
@@ -39,6 +45,7 @@ class SiteController extends Controller
             'productsBySerie' => $productsBySerie,
             'slider' => $sliders[0],
             'texte' => $textes[0],
+            'picks' => $picks[0],
             'tab1' => 'Accueil'
         ));
     }

@@ -19,342 +19,405 @@ easy_admin:
         brand_color: 'black'
         color_scheme: 'light'
         menu:
-            - label: 'Ma navigation'
+            - label: app.menu.navigation
               children:
-                - { entity: 'Category', label: 'Mes rubriques' }
-                - { entity: 'Page', label: 'Mes pages' }
-            - label: 'Mes contenus'
+                - { entity: 'Category', label: app.menu.categories }
+                - { entity: 'Page', label: app.menu.pages }
+            - label: app.menu.contents
               children:
-                - { entity: 'Text', label: 'Mes blocs textes' }
-                - { entity: 'Image', label: 'Mes visuels et images' }
-                - { entity: 'Slider', label: "Mes diaporama" }
-                - { entity: 'Picks', label: 'Mes séléctions' }
-                - { entity: 'PageElement', label: 'Organiser mes contenus' }
-            - label: 'Ma boutique'
+                - { entity: 'Text', label: app.menu.textes }
+                - { entity: 'Image', label: app.menu.images }
+                - { entity: 'Slider', label: app.menu.sliders }
+                - { entity: 'Picks', label: app.menu.pickss }
+                - { entity: 'PageElement', label: app.menu.pageelements }
+            - label: app.menu.shop 
               children:
-                - { entity: 'Product', label: 'Mes produits' }
-            - { entity: 'Transaction', label: 'Mes transactions' }
-            - { entity: 'Transaction', label: 'Mes clients' }
-            - { entity: 'User', label: 'Les administrateurs' }
+                - { entity: 'Product', label: app.menu.products }
+            - { entity: 'Transaction', label: app.menu.transactions }
+            - { entity: 'Transaction', label: app.menu.customers }
+            - { entity: 'User', label: app.menu.users }
 
     entities:
         User:
             class: ShopBundle\Entity\User
-            label: 'Utilisateurs'
+            label: app.menu.users
             list:
-                title: 'Utilisateurs'
+                title: app.menu.users
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+            form:
+                title: app.menu.user
+            list:
+                title: app.menu.users
         Category:
             class: ShopBundle\Entity\Category
-            label: 'Les rubriques'
+            label: app.menu.categories
             form:
-                title: 'Rubrique'
+                title: app.menu.category
                 fields:
-                    - { type: 'group', label: 'Associer des contenus à une page', help: "Décriver la catégorie." }
-                    - { property: 'qName', label: 'Identifiant', type: 'text' }
-                    - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'parent', label: 'Rubrique parente', type: 'easyadmin_autocomplete' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+                    - { type: 'group', label: app.menu.category.group1, help: app.menu.category.group1.help }
+                    - { property: 'qName', label: app.menu.category.qName, type: 'text', help: app.menu.category.qName.help }
+                    - { property: 'name', label: app.menu.category.name, type: 'text', help: app.menu.category.name.help }
+                    - { property: 'parent', label: app.menu.category.parent, type: 'easyadmin_autocomplete', help: app.menu.category.parent.help }
+                    - { property: 'subcategories', label: app.menu.category.subcategories, type: 'entity', type_options: { class: 'ShopBundle\Entity\Category', multiple: true } }
+                    - { property: 'status', label: app.menu.category.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'qName', label: app.menu.category.qName }
+                    - { property: 'name', label: app.menu.category.name }
+                    - { property: 'parent', label: app.menu.category.parent }
+                    - { property: 'subcategories', label: app.menu.category.subcategories }
+                    - { property: 'status', label: app.menu.category.status }
             list:
-                title: 'Les rubriques'
+                title: app.menu.categories
                 sort: 'name'
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'linked', label: '', icon: 'cubes' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'cubes' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
-                    - id
-                    - { property: 'qName', label: 'Référence', type: 'text' }
-                    - { property: 'name', label: 'Libellé', type: 'text' }
-                    - { property: 'parent', label: 'Catégorie parente' }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                    - { property: 'qName', label: app.menu.category.qName, type: 'text' }
+                    - { property: 'name', label: app.menu.category.name, type: 'text' }
+                    - { property: 'parent', label: app.menu.category.parent }
+                    - { property: 'subcategories', label: app.menu.category.subcategories }
+                    - { property: 'status', label: app.menu.category.status, type: 'toggle' }
         Page:
             class: ShopBundle\Entity\Page
-            label: 'Les pages'
+            label: app.menu.pages
             form:
-                title: 'Page'
+                title: app.menu.page
                 fields:
-                    - { type: 'group', label: 'Définissez votre page', help: "Saisir l'identifiant, le libellé, la description, l'url et la rubrique de votre page." }
-                    - { property: 'qName', label: 'Référence', type: 'text' }
-                    - { property: 'name', label: 'Libellé', type: 'text' }
-                    - { property: 'description', label: 'Description', type: 'text' }
-                    - { property: 'category', label: 'Rubrique', type: 'easyadmin_autocomplete' }
-                    - { property: 'url', label: 'URL', type: 'text' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+                    - { type: 'group', label: app.menu.page.group1, help: app.menu.page.group1.help }
+                    - { property: 'qName', label: app.menu.page.qName, type: 'text', help: app.menu.page.qName.help }
+                    - { property: 'name', label: app.menu.page.name, type: 'text', help: app.menu.page.name.help }
+                    - { property: 'description', label: app.menu.page.description, type: 'text', help: app.menu.page.description.help }
+                    - { property: 'category', label: app.menu.page.category, type: 'easyadmin_autocomplete', help: app.menu.page.category.help }
+                    - { property: 'url', label: app.menu.page.externalurl, type: 'text', help: app.menu.page.externalurl.help }
+                    - { property: 'status', label: app.menu.page.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'qName', label: app.menu.page.qName }
+                    - { property: 'name', label: app.menu.page.name }
+                    - { property: 'description', label: app.menu.page.description }
+                    - { property: 'category', label: app.menu.page.category }
+                    - { property: 'url', label: app.menu.page.externalurl }
+                    - { property: 'status', label: app.menu.page.status }
             list:
-                title: 'Pages'
+                title: app.menu.pages
                 sort: 'name'
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'linked', label: '', icon: 'cubes' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'cubes' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
-                    - id
-                    - { property: 'qName', label: 'Identifiant', type: 'text' }
-                    - { property: 'name', label: 'Libellé', type: 'text' }
-                    - { property: 'category', label: 'Rubrique' }
-                    - { property: 'description', label: 'Description', type: 'text' }
-                    - { property: 'url', label: 'URL', type: 'text' }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                    - { property: 'qName', label: app.menu.page.qName, type: 'text' }
+                    - { property: 'name', label: app.menu.page.name, type: 'text' }
+                    - { property: 'category', label: app.menu.page.category }
+                    - { property: 'status', label: app.menu.status, type: 'toggle' }
         PageElement:
             class: ShopBundle\Entity\PageElement
-            label: 'Elements'
+            label: app.menu.pageelements
             sort:
                 - 'page'
                 - 'position'
             list:
-                title: 'Elements'
+                title: app.menu.pageelements
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'element', label: 'Composant', type: 'integer' }
-                    - { property: 'format', label: 'Format', type: 'text' }
-                    - { property: 'position', label: 'Position', type: 'integer' }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                    - { property: 'page', label: app.menu.pageelement.page }
+                    - { property: 'element', label: app.menu.pageelement.element, type: 'integer' }
+                    - { property: 'format', label: app.menu.pageelement.format, type: 'text' }
+                    - { property: 'position', label: app.menu.pageelement.position, type: 'integer' }
+                    - { property: 'status', label: app.menu.pageelement.status, type: 'toggle' }
             form:
-                title: 'Element'
+                title: app.menu.pageelement
                 fields:
-                    - { type: 'group', label: 'Associer des contenus à une page', help: "Saisir la page puis l'identifiant de l'élément et son type" }
-                    - { property: 'page', label: 'Positionné sur la page' }
-                    - { property: 'element', label: 'Identifiant du contenu', type: 'integer' }
+                    - { type: 'group', label: app.menu.pageelement.group1, help: app.menu.pageelement.group1.help }
+                    - { property: 'page', label: app.menu.pageelement.page, help: app.menu.pageelement.page.help }
+                    - { property: 'element', label: app.menu.pageelement.element, type: 'integer', help: app.menu.pageelement.element.help }
                     - property: 'format' 
-                      label: 'Type de contenu'
+                      label: app.menu.pageelement.format
                       type: 'choice'
+                      help: app.menu.pageelement.format.help
                       type_options: 
                         expanded: true
                         choices:
-                          'Texte': 'text'
-                          'Diaporama': 'slider'
-                          'Séléction': 'picks'
+                          app.menu.text: 'text'
+                          app.menu.slider: 'slider'
+                          app.menu.picks: 'picks'
                           'Formulaire (livraison, contact, ...)': 'form'
-                          'Image': 'image'
+                          app.menu.image: 'image'
                           'Carte GoogleMaps': 'map'
                           'Galleries de vidéos': 'video'
-                    - { property: 'position', label: 'Index de position', type: 'integer' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+                    - { property: 'position', label: app.menu.pageelement.position, type: 'integer', help: app.menu.pageelement.position.help }
+                    - { property: 'status', label: app.menu.pageelement.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'page', label: app.menu.pageelement.page }
+                    - { property: 'element', label: app.menu.pageelement.element }
+                    - { property: 'format', label: app.menu.pageelement.format }
+                    - { property: 'position', label: app.menu.pageelement.position }
+                    - { property: 'status', label: app.menu.pageelement.status }
         Product:
             class: ShopBundle\Entity\Product
-            label: 'Les produits de la boutique'
+            label: app.menu.products
             form:
-                title: 'Produit'
+                title: app.menu.product
                 fields:
-                    - { type: 'group', label: 'Designer votre produit', help: "Saisir l'identifiant, le libellé et la catégorie de votre produit." }
-                    - { property: 'qName', label: 'Identifiant', type: 'text' }
-                    - { property: 'name', label: 'Libellé', type: 'text' }
-                    - { property: 'category', label: 'Rubrique', type: 'easyadmin_autocomplete' }
-                    - { type: 'group', label: 'Définir le prix', help: "Saisissez le prix TTC de votre produit." }
-                    - { property: 'price', label: 'Montant TTC', type: 'integer' } 
-                    - { type: 'group', label: 'Promotion sur la vente', help: "Saisissez le libellé de l'offre, le taux de remise et le prix de remise TTC de votre produit." }
-                    - { property: 'promo', label: "Libellé de l'offre", type: 'text'}
-                    - { property: 'promo_rate', label: 'Taux de remise', type: 'integer' }
-                    - { property: 'discounted_price', label: 'Montant TTC après remise', type: 'integer' }
-                    - { type: 'group', label: 'Textes', help: "Saisir la description de votre produit, ses caractéristiques et indications pour son utilisation." }
-                    - { property: 'description', label: 'Descriptif', type: 'ckeditor' }
-                    - { property: 'details', label: 'Caractéristiques', type: 'ckeditor' }
-                    - { property: 'documentation', label: "Conseils d'utilisation", type: 'ckeditor' }
-                    - { type: 'group', label: 'Gestion des stocks', help: 'Entrer le stock en cours' }
-                    - { property: 'current_stock', label: 'Stock en cours', type: 'integer' }
-                    - { property: 'current_sales', label: 'Nobmre de ventes', type: 'integer' }
-                    - { type: 'group', label: 'Paramètres avancés', help: "Préciser les formats disponibles de votre produits (couleurs, ...)." }
-                    - { property: 'formats', label: 'Déclinaisons du produit', type: 'text' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+                    - { type: 'group', label: app.menu.product.group1, help: app.menu.product.group1.help }
+                    - { property: 'qName', label: app.menu.product.qName, type: 'text', help: app.menu.product.qName.help }
+                    - { property: 'name', label: app.menu.product.name, type: 'text', help: app.menu.product.name.help }
+                    - { property: 'category', label: app.menu.product.category, type: 'easyadmin_autocomplete', help: app.menu.product.category.help }
+                    - { type: 'group', label: app.menu.product.group2, help: app.menu.product.group2.help }
+                    - { property: 'price', label: app.menu.product.price, type: 'integer', help: app.menu.product.price.help } 
+                    - { type: 'group', label: app.menu.product.group3, help: app.menu.product.group3.help }
+                    - { property: 'promo', label: app.menu.product.promo, type: 'text', help: app.menu.product.promo.help}
+                    - { property: 'promoRate', label: app.menu.product.promorate, type: 'integer', help: app.menu.product.promorate.help }
+                    - { property: 'discountedPrice', label: app.menu.product.discountedprice, type: 'integer', help: app.menu.product.discountedprice.help }
+                    - { type: 'group', label: app.menu.product.group4, help: app.menu.product.group4.help }
+                    - { property: 'description', label: app.menu.product.description, type: 'ckeditor', help: app.menu.product.description.help }
+                    - { property: 'details', label: app.menu.product.details, type: 'ckeditor', help: app.menu.product.details.help }
+                    - { property: 'documentation', label: app.menu.product.documentation, type: 'ckeditor', help: app.menu.product.documentation.help }
+                    - { type: 'group', label: app.menu.product.group5, help: app.menu.product.group5.help }
+                    - { property: 'currentStock', label: app.menu.product.currentstock, type: 'integer', help: app.menu.product.currentstock.help }
+                    - { property: 'currentSales', label: app.menu.product.currentsales, type: 'integer', help: app.menu.product.currentsales.help }
+                    - { type: 'group', label: app.menu.product.group6, help: app.menu.product.group6.help }
+                    - { property: 'formats', label: app.menu.product.formats, type: 'text', help: app.menu.product.formats.help }
+                    - { property: 'status', label: app.menu.product.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'qName', label: app.menu.product.qName }
+                    - { property: 'name', label: app.menu.product.name }
+                    - { property: 'category', label: app.menu.product.category }
+                    - { property: 'price', label: app.menu.product.price }
+                    - { property: 'promo', label: app.menu.product.promo }
+                    - { property: 'promo_rate', label: app.menu.product.promorate }
+                    - { property: 'discounted_price', label: app.menu.product.discountedprice }
+                    - { property: 'description', label: app.menu.product.description }
+                    - { property: 'details', label: app.menu.product.details }
+                    - { property: 'documentation', label: app.menu.product.documentation }
+                    - { property: 'current_stock', label: app.menu.product.currentstock }
+                    - { property: 'current_sales', label: app.menu.product.currentsales }
+                    - { property: 'formats', label: app.menu.product.formats }
+                    - { property: 'status', label: app.menu.product.status }
             list:
-                title: 'Produits'
+                title: app.menu.products
                 sort: 'name'
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'linked', label: '', icon: 'image' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'image' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
-                    - id
-                    - { property: 'name', label: 'Libellé du produit', type: 'text' }
-                    - { property: 'promo', label: 'Libellé promotionnel', type: 'text' }
-                    - { property: 'price', label: 'Montant TTC', type: 'integer' }
-                    - { property: 'discounted_price', label: 'Montant TTC après remise', type: 'integer' }
-                    - { property: 'category', label: 'Rubrique' }
-                    - { property: 'current_stock', label: 'Stock en cours', type: 'integer' }
-                    - { property: 'current_sales', label: 'Nombre de ventes', type: 'integer' }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                    - { property: 'name', label: app.menu.product.name, type: 'text' }
+                    - { property: 'promo', label: app.menu.product.promo, type: 'text' }
+                    - { property: 'price', label: app.menu.product.price, type: 'integer' }
+                    - { property: 'discounted_price', label: app.menu.product.discountedprice, type: 'integer' }
+                    - { property: 'category', label: app.menu.product.category }
+                    - { property: 'current_stock', label: app.menu.product.currentstock, type: 'integer' }
+                    - { property: 'current_sales', label: app.menu.product.currentsales, type: 'integer' }
+                    - { property: 'status', label: app.menu.product.status, type: 'toggle' }
         Picks:
             class: ShopBundle\Entity\Picks
-            label: 'Mes séléctions'
+            label: app.menu.pickss
             sort: 'page'
             list:
-                title: 'Mes séléctions'
+                title: app.menu.pickss
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
-                    - { property: 'id', label: 'Id', type: 'integer' }
-                    - { property: 'name', label: 'Identifiant', type: 'text' }
-                    - { property: 'page', label: 'Positionné sur la page' }
-                    - { property: 'type', label: 'Type de séléction', type: 'text' }
-                    - { property: 'period', label: 'Période de séléction', type: 'text' }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                    - { property: 'id', type: 'integer' }
+                    - { property: 'name', label: app.menu.picks.name, type: 'text' }
+                    - { property: 'images', label: app.menu.picks.images }
+                    - { property: 'textes', label: app.menu.picks.textes }
+                    - { property: 'page', label: app.menu.picks.page }
+                    - { property: 'type', label: app.menu.picks.type, type: 'text' }
+                    - { property: 'period', label: app.menu.picks.period, type: 'text' }
+                    - { property: 'status', label: app.menu.picks.status, type: 'toggle' }
             form:
-                title: 'Mes séléctions'
+                title: app.menu.picks
                 fields:
-                    - { type: 'group', label: 'Créer une séléction', help: "Saisir l'identifiant et le mode de séléction des éléments" }
-                    - { property: 'name', label: 'Identifiant', type: 'text' }
+                    - { type: 'group', label: app.menu.picks.group1, help: app.menu.picks.group1.help }
+                    - { property: 'name', label: app.menu.picks.name, type: 'text', help: app.menu.picks.name.help }
                     - property: 'type'
-                      label: 'Type'
+                      label: app.menu.picks.type
+                      help: app.menu.picks.type.help
                       type: 'choice'
                       type_options:
                         expanded: true
                         choices:
-                            - 'Choix manuel de produits': 'products_manual'
-                            - 'Produits les plus vendus': 'products_best_sales'
-                            - 'Dernier produits achetés': 'products_last_sales'
-                            - 'Choix manuel de textes': 'pages_manual'
-                            - "Choix manuel d'images": 'images_manual'
-                    - { type: 'group', label: 'Associer', help: "Positionner la séléction sur une page." }
-                    - { property: 'page', label: 'Positionné sur la page' }
-                    - { type: 'group', label: 'Paramètres avancés', help: "Saisir la période de séléctions des éléments" }
-                    - { property: 'period', label: 'Période de séléction' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+                            - app.menu.picks.type.productsmanual: 'products_manual'
+                            - app.menu.picks.type.productsbestsales: 'products_best_sales'
+                            - app.menu.picks.type.productslastsales: 'products_last_sales'
+                            - app.menu.picks.type.pagesmanual: 'pages_manual'
+                            - app.menu.picks.type.imagesmanual: 'images_manual'
+                    - { type: 'group', label: app.menu.picks.group2, help: app.menu.picks.group2.help }
+                    - { property: 'images', label: app.menu.picks.images, type: 'entity', help: app.menu.picks.images.help, type_options: { class: 'ShopBundle\Entity\Image', multiple: true } }
+                    - { property: 'textes', label: app.menu.picks.textes, type: 'entity', help: app.menu.picks.textes.help, type_options: { class: 'ShopBundle\Entity\Text', multiple: true } }
+                    - { property: 'page', label: app.menu.picks.page, help: app.menu.picks.page.help }
+                    - { type: 'group', label: app.menu.picks.group3, help: app.menu.picks.group3.help }
+                    - { property: 'period', label: app.menu.picks.period, help: app.menu.picks.period.help }
+                    - { property: 'status', label: app.menu.picks.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'name', label: app.menu.picks.name }
+                    - { property: 'type', label: app.menu.picks.type }
+                    - { property: 'images', label: app.menu.picks.images }
+                    - { property: 'textes', label: app.menu.picks.textes }
+                    - { property: 'page', label: app.menu.picks.page }
+                    - { property: 'period', label: app.menu.picks.period }
+                    - { property: 'status', label: app.menu.picks.status }
         Text:
             class: ShopBundle\Entity\Text
-            label: 'Blocs de textes'
+            label: app.menu.textes
             sort: 'page'
             list:
-                title: 'Bloc de texte'
+                title: app.menu.textes
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
-                    - { property: 'id', label: 'Id', type: 'integer' }
-                    - { property: 'name', label: 'Titre', type: 'text' }
-                    - { property: 'format', label: 'Affichage', type: 'text' }
-                    - { property: 'page', label: 'Positionné sur la page' }
-                    - { property: 'picks', label: 'Séléction de textes' }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                    - { property: 'id', type: 'integer' }
+                    - { property: 'name', label: app.menu.text.name, type: 'text' }
+                    - { property: 'format', label: app.menu.text.format, type: 'text' }
+                    - { property: 'page', label: app.menu.text.page }
+                    - { property: 'pickss', label: app.menu.text.pickss }
+                    - { property: 'status', label: app.menu.text.status, type: 'toggle' }
             form:
-                title: 'Bloc de texte'
+                title: app.menu.text
                 fields:
-                    - { type: 'group', label: 'Textes', help: "Saisir l'identifiant, le texte et la page de ce bloc." }
-                    - { property: 'name', label: 'Identifiant', type: 'text' }
-                    - { property: 'content', label: 'Contenu texte', type: 'ckeditor' }
-                    - { type: 'group', label: "Paramètres d'affichage", help: "Apparition du bloc sur la page" }
+                    - { type: 'group', label: app.menu.text.group1, help: app.menu.text.group1.help }
+                    - { property: 'name', label: app.menu.text.name, type: 'text', help: app.menu.text.name.help }
+                    - { property: 'content', label: app.menu.text.content, type: 'ckeditor', help: app.menu.text.content.help }
+                    - { type: 'group', label: app.menu.text.group2, help: app.menu.text.group2.help }
                     - property: 'format' 
-                      label: 'Format'
+                      label: app.menu.text.format
+                      help: app.menu.text.format.help
                       type: 'choice'
                       type_options:
                         expanded: true
-                        choices: { 'Standard': 'standard', 'Affichage flash': 'flash' }
-                    - { type: 'group', label: "Paramètres d'affichage", help: "Positionner ce bloc de texte sur une page et/ou l'associer à une séléction de plusieurs textes" }
-                    - { property: 'page', label: 'Positionner ce bloc sur la page' }
-                    - { property: 'picks', label: 'Associer ce texte à la séléction de textes' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
-        Slider:
-            class: ShopBundle\Entity\Slider
-            label: 'Diaporama'
-            sort: 'page'
-            list:
-                title: 'Diaporama'
-                actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'linked', label: '', icon: 'image' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
-                fields:
-                    - { property: 'id', label: 'Id', type: 'integer' }
-                    - { property: 'name', label: 'Identifiant', type: 'text' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'delay', label: 'Delai entre les slides', type: 'integer' }
-                    - { property: 'size', label: 'Taille', type: 'text' }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                        choices: { app.menu.text.format.standard: 'standard', app.menu.text.format.flash: 'flash' }
+                    - { type: 'group', label: app.menu.text.group3, help: app.menu.text.group3.help }
+                    - { property: 'page', label: app.menu.text.page, help: app.menu.text.page.help }
+                    - { property: 'pickss', label: app.menu.text.pickss, type: 'entity', help: app.menu.text.pickss.help, type_options: { class: 'ShopBundle\Entity\Picks', multiple: true } }
+                    - { property: 'status', label: app.menu.text.status, type: 'checkbox' }
             show:
                 fields:
-                    - { property: 'name', label: 'Identifiant', type: 'text' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
-                    - { property: 'color', label: 'Couleur', type: 'text' }
-                    - { property: 'size', label: 'Taille', type: 'text' }
+                    - { property: 'name', label: app.menu.text.name }
+                    - { property: 'content', label: app.menu.text.content }
+                    - { property: 'format', label: app.menu.text.format }
+                    - { property: 'page', label: app.menu.text.page }
+                    - { property: 'pickss', label: app.menu.text.pickss }
+                    - { property: 'status', label: app.menu.text.status }
+        Slider:
+            class: ShopBundle\Entity\Slider
+            label: app.menu.sliders
+            sort: 'page'
+            list:
+                title: app.menu.sliders
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'image' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - { property: 'id', type: 'integer' }
+                    - { property: 'name', label: app.menu.slider.name, type: 'text' }
+                    - { property: 'page', label: app.menu.slider.page }
+                    - { property: 'delay', label: app.menu.slider.delay, type: 'integer' }
+                    - { property: 'size', label: app.menu.slider.size, type: 'text' }
+                    - { property: 'status', label: app.menu.slider.status, type: 'toggle' }
+            show:
+                fields:
+                    - { property: 'name', label: app.menu.slider.name, type: 'text' }
+                    - { property: 'page', label: app.menu.slider.page }
+                    - { property: 'delay', label: app.menu.slider.delay, type: 'integer' }
+                    - { property: 'color', label: app.menu.slider.color, type: 'text' }
+                    - { property: 'size', label: app.menu.slider.size, type: 'text' }
+                    - { property: 'status', label: app.menu.slider.status }
             search:
                 fields:
                     - { property: 'page' }
             form:
-                title: 'Diaporama'
+                title: app.menu.slider
                 fields:
-                    - { type: 'group', label: "Créer un diaporama", help: "Séléctionner l'identifiant de votre diaporama." }
-                    - { property: 'name', label: 'Identifiant', type: 'text' }
-                    - { type: 'group', label: 'Associer', help: "Positionner votre diaporama sur une page." }
-                    - { property: 'page', label: 'Positionné sur la page' }
-                    - { type: 'group', label: 'Paramètres avancés', help: "Définir le délai entre les slides, la couleur des textes, ..." }
-                    - { property: 'delay', label: 'Delai entre slides', type: 'integer' }
-                    - { property: 'color', label: 'Couleur des textes', type: 'text' }
+                    - { type: 'group', label: app.menu.slider.group1, help: app.menu.slider.group1.help }
+                    - { property: 'name', label: app.menu.slider.name, type: 'text', help: app.menu.slider.name.help }
+                    - { type: 'group', label: app.menu.slider.group2, help: app.menu.slider.group2.help }
+                    - { property: 'page', label: app.menu.slider.page, help: app.menu.slider.page.help }
+                    - { type: 'group', label: app.menu.slider.group3, help: app.menu.slider.group3.help }
+                    - { property: 'delay', label: app.menu.slider.delay, type: 'integer', help: app.menu.slider.delay.help }
+                    - { property: 'color', label: app.menu.slider.color, type: 'text', help: app.menu.slider.color.help }
                     - property: 'size'
-                      label: 'Taille'
+                      label: app.menu.slider.size
                       type: 'choice'
+                      help: app.menu.slider.size.help
                       type_options:
                         expanded: true
                         choices: { 'Normale': 'medium', 'Grande': 'big' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+                    - { property: 'status', label: app.menu.slider.status, type: 'checkbox' }
         Image:
             class: ShopBundle\Entity\Image
-            label: 'Images'
+            label: app.menu.images
             sort: 'slider'
             list:
-                title: 'Images'
+                title: app.menu.images
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
-                    - { property: 'imageSmall', label: 'Petite Image', type: 'image', base_path: %app.path.product_images% }
-                    - { property: 'imageMedium', label: 'Moyenne Image', type: 'image', base_path: %app.path.product_images% }
-                    - { property: 'imageBig', label: 'Grande Image', type: 'image', base_path: %app.path.product_images% }
-                    - { property: 'slider', label: 'Associé à un diaporama' }
-                    - { property: 'product', label: 'Associé au produit' }
-                    - { property: 'page', label: 'Positionné sur la page' }
-                    - { property: 'picks', label: "Séléction d'images" }
-                    - { property: 'status', label: 'Actif', type: 'toggle' }
+                    - { property: 'imageMedium', label: app.menu.image.imagemedium, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'slider', label: app.menu.image.slider }
+                    - { property: 'product', label: app.menu.image.product }
+                    - { property: 'page', label: app.menu.image.page }
+                    - { property: 'pickss', label: app.menu.image.pickss }
+                    - { property: 'status', label: app.menu.image.status, type: 'toggle' }
             show:
                 fields:
-                    - { property: 'imageSmall', type: 'image', base_path: %app.path.product_images% }
-                    - { property: 'imageMedium', type: 'image', base_path: %app.path.product_images% }
-                    - { property: 'imageBig', type: 'image', base_path: %app.path.product_images% }
-                    - { property: 'slider', label: 'Diaporama' }
-                    - { property: 'product', label: 'Produit' }
-                    - { property: 'page', label: 'Page' }
-                    - { property: 'picks', label: "Séléction d'images" }
-                    - { property: 'teasing', label: 'Accroche', type: 'text' }
-                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
-                    - { property: 'legend', label: 'Légende', type: 'text' }
+                    - { property: 'imageSmall', label: app.menu.image.imagesmall, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageMedium', label: app.menu.image.imagemedium, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageBig', label: app.menu.image.imagebig, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'slider', label: app.menu.image.slider }
+                    - { property: 'product', label: app.menu.image.product }
+                    - { property: 'page', label: app.menu.image.page }
+                    - { property: 'pickss', label: app.menu.image.pickss }
+                    - { property: 'teasing', label: app.menu.image.teasing, type: 'text' }
+                    - { property: 'redirectUrl', label: app.menu.image.redirecturl, type: 'text' }
+                    - { property: 'legend', label: app.menu.image.legend, type: 'text' }
             form:
                 title: 'Image'
                 fields:
-                    - { type: 'group', label: 'Ajouter une image', help: "Séléctionner l'image depuis votre ordinateur." }
-                    - { property: 'imageSourceFile', label: 'Envoyer depuis mon ordinateur', type: 'vich_image' }
-                    - { type: 'group', label: 'Décrivez cette image', help: "Saisir l'accroche qui apparaitra sur l'image et la légende de cette image" }
-                    - { property: 'legend', label: 'Légende', type: 'text' }
-                    - { property: 'teasing', label: 'Accroche', type: 'ckeditor' }
-                    - { property: 'redirectUrl', label: 'URL de redirection', type: 'text' }
-                    - { type: 'group', label: 'Associer', help: "Vous pouvez associer cette image à un produit, une page et/ou un diaporama." }
-                    - { property: 'slider', label: 'Associé à un diaporama', type: 'easyadmin_autocomplete' }
-                    - { property: 'product', label: 'Associé à un produit', type: 'easyadmin_autocomplete' }
-                    - { property: 'page', label: 'Positionné sur la page', type: 'easyadmin_autocomplete' }
-                    - { property: 'picks', label: "Séléction d'images", type: 'easyadmin_autocomplete' }
-                    - { property: 'status', label: 'Actif', type: 'checkbox' }
+                    - { type: 'group', label: app.menu.image.group1, help: app.menu.image.group1.help }
+                    - { property: 'imageSourceFile', label: app.menu.image.imagesourcefile, help: app.menu.image.imagesourcefile.help, type: 'vich_image' }
+                    - { type: 'group', label: app.menu.image.group2, help: app.menu.image.group2.help }
+                    - { property: 'legend', label: app.menu.image.legend, type: 'text', help: app.menu.image.legend.help }
+                    - { property: 'teasing', label: app.menu.image.teasing, type: 'ckeditor', help: app.menu.image.teasing.help }
+                    - { property: 'redirectUrl', label: app.menu.image.redirecturl, type: 'text', help: app.menu.image.redirecturl.help }
+                    - { type: 'group', label: app.menu.image.group3, help: app.menu.image.group3.help }
+                    - { property: 'slider', label: app.menu.image.slider, type: 'easyadmin_autocomplete', help: app.menu.image.slider.help }
+                    - { property: 'product', label: app.menu.image.product, type: 'easyadmin_autocomplete', help: app.menu.image.product.help }
+                    - { property: 'page', label: app.menu.image.page, type: 'easyadmin_autocomplete', help: app.menu.image.page.help }
+                    - { property: 'pickss', label: app.menu.image.pickss, type: 'entity', help: app.menu.image.pickss.help, type_options: { class: 'ShopBundle\Entity\Picks', multiple: true } }
+                    - { property: 'status', label: app.menu.image.status, type: 'checkbox' }
         Transaction:
             sort: 'dateOpened'
             class: ShopBundle\Entity\Transaction
-            label: 'Transactions'
+            label: app.menu.transactions
             list:
-                title: 'Transactions'
+                title: app.menu.transaction
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
 

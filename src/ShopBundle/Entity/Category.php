@@ -38,15 +38,18 @@ class Category
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="subcategories")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     private $parent;
  
     /**
+     * Many categories have many subcategories.
+     * @var integer
+     *
      * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
      */
-    protected $children;
+    private $subcategories;
 
     /**
      * @var boolean
@@ -55,6 +58,11 @@ class Category
      */
     private $status;
 
+
+    public function __construct()
+    {
+        $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -141,6 +149,42 @@ class Category
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Add a child category
+     *
+     * @param Category $category
+     *
+     * @return Category
+     */
+    public function addCategory(Category $category)
+    {
+        $this->subcategories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove a child category
+     *
+     * @param Category $category
+     *
+     * @return Category
+     */
+    public function removeCategory(Category $category)
+    {
+        $this->subcategories->removeElement($category);
+    }
+
+    /**
+     * Get all children categories
+     *
+     * @return ArrayCollection
+     */
+    public function getSubcategories()
+    {
+        return $this->subcategories;
     }
 
     /**

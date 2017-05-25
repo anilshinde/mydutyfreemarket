@@ -134,7 +134,7 @@ class Product
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getQName();
     }
 
     /**

@@ -64,6 +64,26 @@ class Picks
      */
     private $status;
 
+    /**
+     * Many Picks have Many Images.
+     * @ORM\ManyToMany(targetEntity="Image", inversedBy="pickss")
+     * @ORM\JoinTable(name="pickss_images")
+     */
+    private $images;
+
+    /**
+     * Many Picks have Many Textes.
+     * @ORM\ManyToMany(targetEntity="Text", inversedBy="pickss")
+     * @ORM\JoinTable(name="pickss_textes")
+     */
+    private $textes;
+
+
+    public function __construct()
+    {
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->textes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -198,6 +218,78 @@ class Picks
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * Add an image
+     *
+     * @param Image $image
+     *
+     * @return Picks
+     */
+    public function addImage(Image $image)
+    {   
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove an image
+     *
+     * @param Image $image
+     *
+     * @return Picks
+     */
+    public function removeImage(Image $image)
+    {   
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get all images
+     *
+     * @return ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Add a text
+     *
+     * @param Text $text
+     *
+     * @return Picks
+     */
+    public function addText(Text $text)
+    {
+        $this->textes[] = $text;
+
+        return $this;
+    }
+
+    /**
+     * Remove a text
+     *
+     * @param Text $text
+     *
+     * @return Picks
+     */
+    public function removeText(Text $text)
+    {
+        $this->textes->removeElement($text);
+    }
+
+    /**
+     * Get all textes
+     *
+     * @return ArrayCollection
+     */
+    public function getTextes()
+    {
+        return $this->textes;
     }
 
 }

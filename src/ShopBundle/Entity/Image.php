@@ -48,14 +48,6 @@ class Image
      */
     private $page;
 
-   /**
-     * @var Picks
-     *
-     * @ORM\ManyToOne(targetEntity="Picks")
-     * @ORM\JoinColumn(name="picks_id", referencedColumnName="id", nullable=true)
-     */
-    private $picks;
-
     /**
      * @var text
      *
@@ -141,10 +133,21 @@ class Image
      */
     private $status;
 
+    /**
+     * Many Picks have Many Images.
+     * @ORM\ManyToMany(targetEntity="Picks", mappedBy="images")
+     * @ORM\JoinTable(name="pickss_images")
+     */
+    private $pickss;
+
+
+    public function __construct() {
+        $this->pickss = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function __toString()
     {
-        return $this->getId();
+        return (string) $this->getImageSource();
     }
 
     /**
@@ -227,30 +230,6 @@ class Image
     public function getPage()
     {
         return $this->page;
-    }
-
-   /**
-     * Set picks
-     *
-     * @param integer $picks
-     *
-     * @return Picks
-     */
-    public function setPicks($picks)
-    {
-        $this->picks = $picks;
-
-        return $this;
-    }
-
-    /**
-     * Get picks
-     *
-     * @return int
-     */
-    public function getPicks()
-    {
-        return $this->picks;
     }
 
     /**
@@ -505,5 +484,42 @@ class Image
 
         return $this;
     }
+
+    /**
+     * Add a picks
+     *
+     * @param Picks $picks
+     *
+     * @return Image
+     */
+    public function addPicks(Picks $picks)
+    {
+        $this->pickss[] = $picks;
+
+        return $this;
+    }
+
+    /**
+     * Remove a picks
+     *
+     * @param Picks $picks
+     *
+     * @return Image
+     */
+    public function removePicks(Picks $picks)
+    {
+        $this->pickss->removeElement($picks);
+    }
+
+    /**
+     * Get all pickss
+     *
+     * @return ArrayCollection
+     */
+    public function getPickss()
+    {
+        return $this->pickss;
+    }
+
 }
 

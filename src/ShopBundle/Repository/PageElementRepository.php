@@ -10,4 +10,38 @@ namespace ShopBundle\Repository;
  */
 class PageElementRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /*
+     * Find all pageElements (by page identifier)
+     *
+     * return array of page elements
+     */
+    public function findAllPageElementsOrderedByPosition($pageQName = null)
+    {
+
+        if($pageQName !== null)
+        {
+            $queryQName = 'AND p.qName = :qName ';
+        }
+
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT pe '.
+                'FROM ShopBundle:PageElement pe, ShopBundle:Page p '.
+                'WHERE p.id=pe.page '.
+                $queryQName.' '.
+                'ORDER BY pe.position ASC'
+            );
+
+        if($pageQName !== null)
+        {
+            $query->setParameter('qName', $pageQName);
+        }
+
+        $pageElements = $query->getResult();
+
+        return $pageElements;
+
+    }
+
 }
