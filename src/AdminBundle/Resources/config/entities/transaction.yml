@@ -1,0 +1,12 @@
+easy_admin:
+    entities:
+        Transaction:
+            sort: 'dateOpened'
+            class: ShopBundle\Entity\Transaction
+            label: app.menu.transactions
+            list:
+                title: app.menu.transaction
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }

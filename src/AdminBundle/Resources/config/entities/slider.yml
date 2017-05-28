@@ -1,0 +1,53 @@
+easy_admin:
+    entities:
+        Slider:
+            class: ShopBundle\Entity\Slider
+            label: app.menu.sliders
+            sort: 'page'
+            list:
+                title: app.menu.sliders
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'image' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - { property: 'id', type: 'integer' }
+                    - { property: 'name', label: app.menu.slider.name, type: 'text' }
+                    - { property: 'page', label: app.menu.slider.page }
+                    - { property: 'images', label: app.menu.slider.images }
+                    - { property: 'status', label: app.menu.slider.status, type: 'toggle' }
+            show:
+                fields:
+                    - { property: 'name', label: app.menu.slider.name, type: 'text' }
+                    - { property: 'page', label: app.menu.slider.page }
+                    - { property: 'delay', label: app.menu.slider.delay, type: 'integer' }
+                    - { property: 'color', label: app.menu.slider.color, type: 'text' }
+                    - { property: 'size', label: app.menu.slider.size, type: 'text' }
+                    - { property: 'status', label: app.menu.slider.status }
+            search:
+                fields:
+                    - { property: 'page' }
+            form:
+                title: app.menu.slider
+                fields:
+                    - { type: 'group', label: app.menu.slider.group1, help: app.menu.slider.group1.help }
+                    - { property: 'name', label: app.menu.slider.name, type: 'text', help: app.menu.slider.name.help }
+                    - { type: 'group', label: app.menu.slider.group2, help: app.menu.slider.group2.help }
+                    - property: 'images'
+                      label: app.menu.slider.images
+                      type: 'entity'
+                      help: app.menu.slider.images.help
+                      type_options: { class: 'ShopBundle\Entity\Image', multiple: true }
+                    - { property: 'page', label: app.menu.slider.page, help: app.menu.slider.page.help }
+                    - { type: 'group', label: app.menu.slider.group3, help: app.menu.slider.group3.help }
+                    - { property: 'delay', label: app.menu.slider.delay, type: 'integer', help: app.menu.slider.delay.help }
+                    - { property: 'color', label: app.menu.slider.color, type: 'text', help: app.menu.slider.color.help }
+                    - property: 'size'
+                      label: app.menu.slider.size
+                      type: 'choice'
+                      help: app.menu.slider.size.help
+                      type_options:
+                        expanded: true
+                        choices: { 'Normale': 'medium', 'Grande': 'big' }
+                    - { property: 'status', label: app.menu.slider.status, type: 'checkbox' }

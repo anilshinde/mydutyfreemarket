@@ -1,0 +1,63 @@
+easy_admin:
+    entities:
+        Picks:
+            class: ShopBundle\Entity\Picks
+            label: app.menu.pickss
+            sort: 'page'
+            list:
+                title: app.menu.pickss
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'id', type: 'integer' }
+                    - { property: 'name', label: app.menu.picks.name, type: 'text' }
+                    - { property: 'images', label: app.menu.picks.images }
+                    - { property: 'textes', label: app.menu.picks.textes }
+                    - { property: 'page', label: app.menu.picks.page }
+                    - { property: 'type', label: app.menu.picks.type, type: 'text' }
+                    - { property: 'period', label: app.menu.picks.period, type: 'text' }
+                    - { property: 'status', label: app.menu.picks.status, type: 'toggle' }
+            form:
+                title: app.menu.picks
+                fields:
+                    - { type: 'group', label: app.menu.picks.group1, help: app.menu.picks.group1.help }
+                    - { property: 'name', label: app.menu.picks.name, type: 'text', help: app.menu.picks.name.help }
+                    - property: 'type'
+                      label: app.menu.picks.type
+                      help: app.menu.picks.type.help
+                      type: 'choice'
+                      type_options:
+                        expanded: true
+                        choices:
+                            - app.menu.picks.type.productsmanual: 'products_manual'
+                            - app.menu.picks.type.productsbestsales: 'products_best_sales'
+                            - app.menu.picks.type.productslastsales: 'products_last_sales'
+                            - app.menu.picks.type.pagesmanual: 'pages_manual'
+                            - app.menu.picks.type.imagesmanual: 'images_manual'
+                    - { type: 'group', label: app.menu.picks.group2, help: app.menu.picks.group2.help }
+                    - property: 'images'
+                      label: app.menu.picks.images
+                      type: 'entity'
+                      help: app.menu.picks.images.help
+                      type_options: { class: 'ShopBundle\Entity\Image', multiple: true }
+                    - property: 'textes'
+                      label: app.menu.picks.textes
+                      type: 'entity'
+                      help: app.menu.picks.textes.help
+                      type_options: { class: 'ShopBundle\Entity\Text', multiple: true }
+                    - { property: 'page', label: app.menu.picks.page, help: app.menu.picks.page.help }
+                    - { type: 'group', label: app.menu.picks.group3, help: app.menu.picks.group3.help }
+                    - { property: 'period', label: app.menu.picks.period, help: app.menu.picks.period.help }
+                    - { property: 'status', label: app.menu.picks.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'name', label: app.menu.picks.name }
+                    - { property: 'type', label: app.menu.picks.type }
+                    - { property: 'images', label: app.menu.picks.images }
+                    - { property: 'textes', label: app.menu.picks.textes }
+                    - { property: 'page', label: app.menu.picks.page }
+                    - { property: 'period', label: app.menu.picks.period }
+                    - { property: 'status', label: app.menu.picks.status }

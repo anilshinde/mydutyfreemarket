@@ -25,20 +25,13 @@ class Image
     private $id;
 
     /**
-     * @var Slider
-     *
-     * @ORM\ManyToOne(targetEntity="Slider")
-     * @ORM\JoinColumn(name="slider_id", referencedColumnName="id", nullable=true)
-     */
-    private $slider;
-
-    /**
      * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true)
      */
     private $product;
+
 
     /**
      * @var Page
@@ -134,6 +127,13 @@ class Image
     private $status;
 
     /**
+     * Many Sliders have Many Images.
+     * @ORM\ManyToMany(targetEntity="Slider", mappedBy="images")
+     * @ORM\JoinTable(name="sliders_images")
+     */
+    private $sliders;
+
+    /**
      * Many Picks have Many Images.
      * @ORM\ManyToMany(targetEntity="Picks", mappedBy="images")
      * @ORM\JoinTable(name="pickss_images")
@@ -143,6 +143,7 @@ class Image
 
     public function __construct() {
         $this->pickss = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sliders = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -170,7 +171,6 @@ class Image
     public function setSlider($slider)
     {
         $this->slider = $slider;
-
         return $this;
     }
 
@@ -194,7 +194,6 @@ class Image
     public function setProduct($product)
     {
         $this->product = $product;
-
         return $this;
     }
 
@@ -218,7 +217,6 @@ class Image
     public function setPage($page)
     {
         $this->page = $page;
-
         return $this;
     }
 
@@ -242,7 +240,6 @@ class Image
     public function setLegend($legend)
     {
         $this->legend = $legend;
-
         return $this;
     }
 
@@ -266,7 +263,6 @@ class Image
     public function setTeasing($teasing)
     {
         $this->teasing = $teasing;
-
         return $this;
     }
 
@@ -290,7 +286,6 @@ class Image
     public function setRedirectUrl($redirectUrl)
     {
         $this->redirectUrl = $redirectUrl;
-
         return $this;
     }
 
@@ -481,7 +476,6 @@ class Image
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -495,7 +489,6 @@ class Image
     public function addPicks(Picks $picks)
     {
         $this->pickss[] = $picks;
-
         return $this;
     }
 
@@ -512,7 +505,7 @@ class Image
     }
 
     /**
-     * Get all pickss
+     * Get all picks
      *
      * @return ArrayCollection
      */
@@ -521,5 +514,39 @@ class Image
         return $this->pickss;
     }
 
+    /**
+     * Get all sliders
+     *
+     * @return ArrayCollection
+     */
+    public function getSliders()
+    {
+        return $this->sliders;
+    }
+
+    /**
+     * Add a slider
+     *
+     * @param Slider $slider
+     *
+     * @return Image
+     */
+    public function addSlider(Slider $slider)
+    {
+        $this->sliders[] = $slider;
+        return $this;
+    }
+
+    /**
+     * Remove a slider
+     *
+     * @param Slider $slider
+     *
+     * @return Image
+     */
+    public function removeSlider(Slider $slider)
+    {
+        $this->sliders->removeElement($slider);
+    }
 }
 

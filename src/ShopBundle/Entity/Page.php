@@ -64,6 +64,19 @@ class Page
      */
     private $status;
 
+    /**
+     * Page have many PageElement.
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="PageElement", mappedBy="page")
+     */
+    private $pageElements;
+
+
+    public function __construct()
+    {
+        $this->pageElements = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -223,5 +236,42 @@ class Page
 
         return $this;
     }
+
+    /**
+     * Add a pageElement
+     *
+     * @param PageElement $pageElement
+     *
+     * @return Page
+     */
+    public function addPageElement(PageElement $pageElement)
+    {
+        $this->pageElements[] = $pageElement;
+
+        return $this;
+    }
+
+    /**
+     * Remove a pageElement
+     *
+     * @param PageElement $pageElement
+     *
+     * @return Page
+     */
+    public function removePageElement(PageElement $pageElement)
+    {
+        $this->pageElements->removeElement($pageElement);
+    }
+
+    /**
+     * Get all page elements
+     *
+     * @return ArrayCollection
+     */
+    public function getPageElements()
+    {
+        return $this->pageElements;
+    }
+
 }
 

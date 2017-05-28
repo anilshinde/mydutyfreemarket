@@ -1,0 +1,38 @@
+easy_admin:
+    entities:
+        Page:
+            class: ShopBundle\Entity\Page
+            label: app.menu.pages
+            form:
+                title: app.menu.page
+                fields:
+                    - { type: 'group', label: app.menu.page.group1, help: app.menu.page.group1.help }
+                    - { property: 'qName', label: app.menu.page.qName, type: 'text', help: app.menu.page.qName.help }
+                    - { property: 'name', label: app.menu.page.name, type: 'text', help: app.menu.page.name.help }
+                    - { property: 'description', label: app.menu.page.description, type: 'text', help: app.menu.page.description.help }
+                    - { property: 'category', label: app.menu.page.category, type: 'easyadmin_autocomplete', help: app.menu.page.category.help }
+                    - { property: 'url', label: app.menu.page.externalurl, type: 'text', help: app.menu.page.externalurl.help }
+                    - { property: 'status', label: app.menu.page.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'qName', label: app.menu.page.qName }
+                    - { property: 'name', label: app.menu.page.name }
+                    - { property: 'description', label: app.menu.page.description }
+                    - { property: 'category', label: app.menu.page.category }
+                    - { property: 'url', label: app.menu.page.externalurl }
+                    - { property: 'pageElements', label: app.menu.page.pageelements }
+                    - { property: 'status', label: app.menu.page.status }
+            list:
+                title: app.menu.pages
+                sort: 'name'
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'cubes' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'qName', label: app.menu.page.qName, type: 'text' }
+                    - { property: 'name', label: app.menu.page.name, type: 'text' }
+                    - { property: 'category', label: app.menu.page.category }
+                    - { property: 'status', label: app.menu.page.status, type: 'toggle' }

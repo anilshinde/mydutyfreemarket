@@ -1,0 +1,15 @@
+easy_admin:
+    entities:
+        User:
+            class: ShopBundle\Entity\User
+            label: app.menu.users
+            list:
+                title: app.menu.users
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+            form:
+                title: app.menu.user
+            list:
+                title: app.menu.users

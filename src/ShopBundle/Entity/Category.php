@@ -158,10 +158,12 @@ class Category
      *
      * @return Category
      */
-    public function addCategory(Category $category)
+    public function addSubcategory(Category $subcategory)
     {
-        $this->subcategories[] = $category;
-
+        $this->subcategories[] = $subcategory;
+        if (!$subcategory->getSubcategories()->contains($this)) {
+            $subcategory->addSubcategory($this);
+        }
         return $this;
     }
 
@@ -172,9 +174,9 @@ class Category
      *
      * @return Category
      */
-    public function removeCategory(Category $category)
+    public function removeSubcategory(Category $subcategory)
     {
-        $this->subcategories->removeElement($category);
+        $this->subcategories->removeElement($subcategory);
     }
 
     /**

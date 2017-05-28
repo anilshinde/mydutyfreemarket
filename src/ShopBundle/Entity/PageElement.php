@@ -66,6 +66,12 @@ class PageElement
      */
     private $status;
 
+
+    public function __toString()
+    { 
+        return (string) ($this->getFormat() . ' - ' . $this->getId());
+    }
+
     /**
      * Get id
      *
@@ -196,6 +202,5 @@ class PageElement
     {
         return $this->status;
     }
-
 }
 

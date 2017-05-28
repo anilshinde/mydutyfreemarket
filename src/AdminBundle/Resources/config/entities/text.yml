@@ -1,0 +1,49 @@
+easy_admin:
+    entities:
+        Text:
+            class: ShopBundle\Entity\Text
+            label: app.menu.textes
+            sort: 'page'
+            list:
+                title: app.menu.textes
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - { property: 'id', type: 'integer' }
+                    - { property: 'name', label: app.menu.text.name, type: 'text' }
+                    - { property: 'format', label: app.menu.text.format, type: 'text' }
+                    - { property: 'page', label: app.menu.text.page }
+                    - { property: 'pickss', label: app.menu.text.pickss }
+                    - { property: 'status', label: app.menu.text.status, type: 'toggle' }
+            form:
+                title: app.menu.text
+                fields:
+                    - { type: 'group', label: app.menu.text.group1, help: app.menu.text.group1.help }
+                    - { property: 'name', label: app.menu.text.name, type: 'text', help: app.menu.text.name.help }
+                    - { property: 'content', label: app.menu.text.content, type: 'ckeditor', help: app.menu.text.content.help }
+                    - { type: 'group', label: app.menu.text.group2, help: app.menu.text.group2.help }
+                    - property: 'format'
+                      label: app.menu.text.format
+                      help: app.menu.text.format.help
+                      type: 'choice'
+                      type_options:
+                        expanded: true
+                        choices: { app.menu.text.format.standard: 'standard', app.menu.text.format.flash: 'flash' }
+                    - { type: 'group', label: app.menu.text.group3, help: app.menu.text.group3.help }
+                    - { property: 'page', label: app.menu.text.page, help: app.menu.text.page.help }
+                    - property: 'pickss'
+                      label: app.menu.text.pickss
+                      type: 'entity'
+                      help: app.menu.text.pickss.help
+                      type_options: { class: 'ShopBundle\Entity\Picks', multiple: true }
+                    - { property: 'status', label: app.menu.text.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'name', label: app.menu.text.name }
+                    - { property: 'content', label: app.menu.text.content }
+                    - { property: 'format', label: app.menu.text.format }
+                    - { property: 'page', label: app.menu.text.page }
+                    - { property: 'pickss', label: app.menu.text.pickss }
+                    - { property: 'status', label: app.menu.text.status }

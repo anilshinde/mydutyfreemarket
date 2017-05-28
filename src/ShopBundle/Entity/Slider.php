@@ -29,10 +29,12 @@ class Slider
     private $id; 
 
     /**
-     * @var array
-     *
+     * Many Slider have Many Images.
+     * @ORM\ManyToMany(targetEntity="Image", inversedBy="sliders")
+     * @ORM\JoinTable(name="sliders_images")
      */
     private $images;
+
 
     /**
      * @var string
@@ -143,25 +145,6 @@ class Slider
     }
 
     /**
-     * Set images
-     *
-     */
-    public function setImage($images)
-    {
-        $this->images[] = $images;
-    }
-
-    /**
-     * Get images
-     *
-     * return array
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
-
-    /**
      * Set delay
      *
      * @param integer $delay
@@ -256,5 +239,42 @@ class Slider
 
         return $this;
     }
+
+    /**
+     * Add an image
+     *
+     * @param Image $image
+     *
+     * @return Slider
+     */
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove an image
+     *
+     * @param Image $image
+     *
+     * @return Slider
+     */
+    public function removeImage(Image $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get all images
+     *
+     * @return ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
 }
 

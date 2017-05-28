@@ -113,25 +113,21 @@ class AdminListener implements EventSubscriberInterface
                 array(1520, 686),
             );
             $allNewImageFiles = $this->imagesOptimizer->generateResizedImages($source, $sizes);
-
             $entity->setSmallImage($allNewImageFiles[0]);
             $entity->setMediumImage($allNewImageFiles[1]);
             $entity->setBigImage($allNewImageFiles[2]);
 
             $this->entityManager->flush();
         }
-
     }
 
     public function onPostEdit(GenericEvent $event)
     {
-
         $entity = $event['entity'];
 
         if ($entity instanceof Slider or $entity instanceof Text or $entity instanceof Image or $entity instanceof Picks)
         {
             $page = $entity->getPage();
-
             if (empty($page) and ($entity instanceof Slider or $entity instanceOf Text or $entity instanceof Picks))
             {
                 return;
@@ -146,9 +142,7 @@ class AdminListener implements EventSubscriberInterface
                         'ORDER BY pe.position'
                     )
                     ->setParameter('id', $page->getId());
-
                 $pageElements = $query->getResult();
-
                 $newPosition = 1;
                 foreach($pageElements as $pageElement) {
                     $newPosition++;
@@ -167,35 +161,28 @@ class AdminListener implements EventSubscriberInterface
                 {
                     $pageElement->setFormat(PageElement::FORMAT_PICKS);
                 }
-
                 $pageElement->setPosition($newPosition);
                 $pageElement->setStatus(true);
 
                 $this->entityManager->persist($pageElement);
-
                 $this->entityManager->flush();
-
             }
         }
 
         if($entity instanceof Image) {
-
             $source = $entity->getImageSource();
+
             $sizes = array(
                 array(345, 250),
                 array(560, 420),
                 array(1520, 686),
             );
             $allNewImageFiles = $this->imagesOptimizer->generateResizedImages($source, $sizes);
-
             $entity->setSmallImage($allNewImageFiles[0]);
             $entity->setMediumImage($allNewImageFiles[1]);
             $entity->setBigImage($allNewImageFiles[2]);
-
             $this->entityManager->flush();
-
         }
-
     }
 
 }

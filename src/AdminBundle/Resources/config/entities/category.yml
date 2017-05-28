@@ -1,0 +1,39 @@
+easy_admin:
+    entities:
+        Category:
+            class: ShopBundle\Entity\Category
+            label: app.menu.categories
+            form:
+                title: app.menu.category
+                fields:
+                    - { type: 'group', label: app.menu.category.group1, help: app.menu.category.group1.help }
+                    - { property: 'qName', label: app.menu.category.qName, type: 'text', help: app.menu.category.qName.help }
+                    - { property: 'name', label: app.menu.category.name, type: 'text', help: app.menu.category.name.help }
+                    - { property: 'parent', label: app.menu.category.parent, type: 'easyadmin_autocomplete', help: app.menu.category.parent.help }
+                    - property: 'subcategories'
+                      label: app.menu.category.subcategories
+                      type: 'entity'
+                      type_options: { class: 'ShopBundle\Entity\Category', multiple: true }
+                    - { property: 'status', label: app.menu.category.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'qName', label: app.menu.category.qName }
+                    - { property: 'name', label: app.menu.category.name }
+                    - { property: 'parent', label: app.menu.category.parent }
+                    - { property: 'subcategories', label: app.menu.category.subcategories }
+                    - { property: 'status', label: app.menu.category.status }
+            list:
+                title: app.menu.categories
+                sort: 'name'
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'cubes' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'qName', label: app.menu.category.qName, type: 'text' }
+                    - { property: 'name', label: app.menu.category.name, type: 'text' }
+                    - { property: 'parent', label: app.menu.category.parent }
+                    - { property: 'subcategories', label: app.menu.category.subcategories }
+                    - { property: 'status', label: app.menu.category.status, type: 'toggle' }

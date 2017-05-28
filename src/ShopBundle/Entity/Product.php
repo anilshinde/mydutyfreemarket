@@ -79,10 +79,13 @@ class Product
     private $description;
 
     /**
-     * @var array
+     * Product have many subcategories.
+     * @var integer
      *
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="product")
      */
     private $images;
+
 
     /**
      * @var text
@@ -127,9 +130,8 @@ class Product
     private $status;
 
 
-    public function __construct()
-    {
-        $this->images = array();
+    public function __construct() {
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -220,22 +222,38 @@ class Product
     }
 
     /**
-     * Set images
+     * Get all images
      *
-     */
-    public function setImage($images)
-    {
-        $this->images[] = $images;
-    }
-
-    /**
-     * Get images
-     *
-     * return array
+     * @return ArrayCollection
      */
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Add an image
+     *
+     * @param Image $image
+     *
+     * @return Product
+     */
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+        return $this;
+    }
+
+    /**
+     * Remove an image
+     *
+     * @param Image $image
+     *
+     * @return Product
+     */
+    public function removeImage(Image $image)
+    {
+        $this->images->removeElement($image);
     }
 
     /**

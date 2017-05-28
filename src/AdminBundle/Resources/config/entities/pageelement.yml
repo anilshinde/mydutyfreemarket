@@ -1,0 +1,41 @@
+easy_admin:
+    entities:
+        PageElement:
+            class: ShopBundle\Entity\PageElement
+            label: app.menu.pageelements
+            list:
+                title: app.menu.pageelements
+                sort: 'page'
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'page', label: app.menu.pageelement.page }
+                    - { property: 'element', label: app.menu.pageelement.element, type: 'integer' }
+                    - { property: 'format', label: app.menu.pageelement.format, type: 'text' }
+                    - { property: 'position', label: app.menu.pageelement.position, type: 'integer' }
+                    - { property: 'status', label: app.menu.pageelement.status, type: 'toggle' }
+            form:
+                title: app.menu.pageelement
+                fields:
+                    - { type: 'group', label: app.menu.pageelement.group1, help: app.menu.pageelement.group1.help }
+                    - { property: 'page', label: app.menu.pageelement.page, help: app.menu.pageelement.page.help }
+                    - { property: 'element', label: app.menu.pageelement.element, type: 'integer', help: app.menu.pageelement.element.help }
+                    - property: 'format'
+                      label: app.menu.pageelement.format
+                      type: 'choice'
+                      help: app.menu.pageelement.format.help
+                      type_options:
+                        expanded: true
+                        choices:
+                          app.menu.text: 'text'
+                          app.menu.slider: 'slider'
+                          app.menu.picks: 'picks'
+                          'Formulaire (livraison, contact, ...)': 'form'
+                          app.menu.image: 'image'
+                          'Carte GoogleMaps': 'map'
+                          'Galleries de vidéos': 'video'
+                    - { property: 'position', label: app.menu.pageelement.position, type: 'integer', help: app.menu.pageelement.position.help }
+                    - { property: 'status', label: app.menu.pageelement.status, type: 'checkbox' }

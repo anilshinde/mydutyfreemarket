@@ -1,0 +1,55 @@
+easy_admin:
+    entities:
+        Image:
+            class: ShopBundle\Entity\Image
+            label: app.menu.images
+            sort: 'slider'
+            list:
+                title: app.menu.images
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'imageMedium', label: app.menu.image.imagemedium, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'sliders', label: app.menu.image.sliders }
+                    - { property: 'product', label: app.menu.image.product }
+                    - { property: 'page', label: app.menu.image.page }
+                    - { property: 'pickss', label: app.menu.image.pickss }
+                    - { property: 'status', label: app.menu.image.status, type: 'toggle' }
+            show:
+                fields:
+                    - { property: 'imageSmall', label: app.menu.image.imagesmall, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageMedium', label: app.menu.image.imagemedium, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imageBig', label: app.menu.image.imagebig, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'sliders', label: app.menu.image.sliders }
+                    - { property: 'product', label: app.menu.image.product }
+                    - { property: 'page', label: app.menu.image.page }
+                    - { property: 'pickss', label: app.menu.image.pickss }
+                    - { property: 'teasing', label: app.menu.image.teasing, type: 'text' }
+                    - { property: 'redirectUrl', label: app.menu.image.redirecturl, type: 'text' }
+                    - { property: 'legend', label: app.menu.image.legend, type: 'text' }
+            form:
+                title: 'Image'
+                fields:
+                    - { type: 'group', label: app.menu.image.group1, help: app.menu.image.group1.help }
+                    - { property: 'imageSourceFile', label: app.menu.image.imagesourcefile, help: app.menu.image.imagesourcefile.help, type: 'vich_image' }
+                    - { type: 'group', label: app.menu.image.group2, help: app.menu.image.group2.help }
+                    - { property: 'legend', label: app.menu.image.legend, type: 'text', help: app.menu.image.legend.help }
+                    - { property: 'teasing', label: app.menu.image.teasing, type: 'ckeditor', help: app.menu.image.teasing.help }
+                    - { property: 'redirectUrl', label: app.menu.image.redirecturl, type: 'text', help: app.menu.image.redirecturl.help }
+                    - { type: 'group', label: app.menu.image.group3, help: app.menu.image.group3.help }
+                    - property: 'sliders'
+                      label: app.menu.image.sliders
+                      type: 'entity'
+                      help: app.menu.image.sliders.help
+                      type_options: { class: 'ShopBundle\Entity\Slider', multiple: true }
+                    - { property: 'product', label: app.menu.image.product, type: 'easyadmin_autocomplete', help: app.menu.image.product.help }
+                    - { property: 'page', label: app.menu.image.page, type: 'easyadmin_autocomplete', help: app.menu.image.page.help }
+                    - property: 'pickss'
+                      label: app.menu.image.pickss
+                      type: 'entity'
+                      help: app.menu.image.pickss.help
+                      type_options: { class: 'ShopBundle\Entity\Picks', multiple: true }
+                    - { property: 'status', label: app.menu.image.status, type: 'checkbox' }

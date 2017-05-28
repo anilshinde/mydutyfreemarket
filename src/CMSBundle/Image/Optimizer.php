@@ -31,8 +31,6 @@ class Optimizer
      * @sizes Array of sizes requested in result
      */
     public function generateResizedImages($sourcePath, $sizes) {
-
-
         $pathinfo = pathinfo($sourcePath);
         if(!in_array($pathinfo['extension'], array('jpg', 'png'))) {
             return NULL;
@@ -40,11 +38,9 @@ class Optimizer
 
         $allNewImageFiles = array();
         foreach($sizes as $size) {
-
             list($width, $height) = $size;
             $imageSource = new \Imagick($this->pathToLocalImage.'/'.$pathinfo['basename']);
             $isImageResized = FALSE;
-
             try {
                 $imageSource->cropThumbnailImage($width, $height);
                 $imageSource->stripImage();
@@ -61,6 +57,5 @@ class Optimizer
             }
         }
         return $allNewImageFiles;
-
     }
 }

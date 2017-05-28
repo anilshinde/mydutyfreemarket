@@ -1,0 +1,67 @@
+easy_admin:
+    entities:
+        Product:
+            class: ShopBundle\Entity\Product
+            label: app.menu.products
+            form:
+                title: app.menu.product
+                fields:
+                    - { type: 'group', label: app.menu.product.group1, help: app.menu.product.group1.help }
+                    - { property: 'qName', label: app.menu.product.qName, type: 'text', help: app.menu.product.qName.help }
+                    - { property: 'name', label: app.menu.product.name, type: 'text', help: app.menu.product.name.help }
+                    - { property: 'category', label: app.menu.product.category, type: 'easyadmin_autocomplete', help: app.menu.product.category.help }
+                    - { type: 'group', label: app.menu.product.group2, help: app.menu.product.group2.help }
+                    - { property: 'price', label: app.menu.product.price, type: 'integer', help: app.menu.product.price.help }
+                    - { type: 'group', label: app.menu.product.group3, help: app.menu.product.group3.help }
+                    - { property: 'promo', label: app.menu.product.promo, type: 'text', help: app.menu.product.promo.help}
+                    - { property: 'promoRate', label: app.menu.product.promorate, type: 'integer', help: app.menu.product.promorate.help }
+                    - { property: 'discountedPrice', label: app.menu.product.discountedprice, type: 'integer', help: app.menu.product.discountedprice.help }
+                    - { type: 'group', label: app.menu.product.group7, help: app.menu.product.group7.help }
+                    - property: 'images'
+                      label: app.menu.product.images
+                      type: 'entity'
+                      help: app.menu.product.images.help
+                      type_options: { class: 'ShopBundle\Entity\Image', multiple: true }
+                    - { type: 'group', label: app.menu.product.group4, help: app.menu.product.group4.help }
+                    - { property: 'description', label: app.menu.product.description, type: 'ckeditor', help: app.menu.product.description.help }
+                    - { property: 'details', label: app.menu.product.details, type: 'ckeditor', help: app.menu.product.details.help }
+                    - { property: 'documentation', label: app.menu.product.documentation, type: 'ckeditor', help: app.menu.product.documentation.help }
+                    - { type: 'group', label: app.menu.product.group5, help: app.menu.product.group5.help }
+                    - { property: 'currentStock', label: app.menu.product.currentstock, type: 'integer', help: app.menu.product.currentstock.help }
+                    - { property: 'currentSales', label: app.menu.product.currentsales, type: 'integer', help: app.menu.product.currentsales.help }
+                    - { type: 'group', label: app.menu.product.group6, help: app.menu.product.group6.help }
+                    - { property: 'formats', label: app.menu.product.formats, type: 'text', help: app.menu.product.formats.help }
+                    - { property: 'status', label: app.menu.product.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'qName', label: app.menu.product.qName }
+                    - { property: 'name', label: app.menu.product.name }
+                    - { property: 'category', label: app.menu.product.category }
+                    - { property: 'price', label: app.menu.product.price }
+                    - { property: 'promo', label: app.menu.product.promo }
+                    - { property: 'promo_rate', label: app.menu.product.promorate }
+                    - { property: 'discounted_price', label: app.menu.product.discountedprice }
+                    - { property: 'description', label: app.menu.product.description }
+                    - { property: 'details', label: app.menu.product.details }
+                    - { property: 'documentation', label: app.menu.product.documentation }
+                    - { property: 'current_stock', label: app.menu.product.currentstock }
+                    - { property: 'current_sales', label: app.menu.product.currentsales }
+                    - { property: 'formats', label: app.menu.product.formats }
+                    - { property: 'status', label: app.menu.product.status }
+            list:
+                title: app.menu.products
+                sort: 'name'
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'image' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'name', label: app.menu.product.name, type: 'text' }
+                    - { property: 'promo', label: app.menu.product.promo, type: 'text' }
+                    - { property: 'category', label: app.menu.product.category }
+                    - { property: 'images', label: app.menu.product.images }
+                    - { property: 'currentStock', label: app.menu.product.currentstock, type: 'integer' }
+                    - { property: 'currentSales', label: app.menu.product.currentsales, type: 'integer' }
+                    - { property: 'status', label: app.menu.product.status, type: 'toggle' }
