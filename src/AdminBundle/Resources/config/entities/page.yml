@@ -2,6 +2,7 @@ easy_admin:
     entities:
         Page:
             class: ShopBundle\Entity\Page
+            class: AdminBundle\Controller\AdminController
             label: app.menu.pages
             form:
                 title: app.menu.page

@@ -17,7 +17,6 @@ class PageElement
     const FORMAT_SLIDER = 'slider';
     const FORMAT_FORM = 'form';
     const FORMAT_IMAGE = 'image';
-    const FORMAT_COLUMNS = 'columns';
     const FORMAT_MAP = 'map';
     const FORMAT_VIDEO = 'video';
     const FORMAT_PICKS = 'picks';

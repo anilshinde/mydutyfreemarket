@@ -2,6 +2,7 @@ easy_admin:
     entities:
         Slider:
             class: ShopBundle\Entity\Slider
+            controller: AdminBundle\Controller\SliderController
             label: app.menu.sliders
             sort: 'page'
             list:

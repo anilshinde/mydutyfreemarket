@@ -10,4 +10,45 @@ namespace ShopBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Find categories and current page's one
+     * 
+     * @param string $pageQName
+     *
+     * return array $categories $currentCategory
+     */
+    public function findCategories($pageQName = null)
+    {
+
+        // First query to get all categories
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT c '.
+                'FROM ShopBundle:Category c '.
+                'WHERE c.status=1 '.
+                'ORDER BY c.rank ASC'
+            );
+        $categories = $query->getResult();
+
+        $currentCategory = null;
+        if($pageQName !== null) {
+            // Query page to get its category
+            $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT p '.
+                    'FROM ShopBundle:Page p '.
+                    'WHERE p.qName = :qName '
+                )
+                ->setParameter('qName', $pageQName);
+
+            foreach($categories as $category) {
+                if($category->getQName() === $pageQName()) {
+                    $currentCategory = $category;
+                    break;
+                }
+            }
+        }
+        return array($categories, $currentCategory);
+    }
 }

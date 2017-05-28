@@ -2,6 +2,7 @@ easy_admin:
     entities:
         Text:
             class: ShopBundle\Entity\Text
+            controller: AdminBundle\Controller\TextController
             label: app.menu.textes
             sort: 'page'
             list:

@@ -2,13 +2,16 @@ easy_admin:
     entities:
         PageElement:
             class: ShopBundle\Entity\PageElement
+            controller: AdminBundle\Controller\PageElementController
             label: app.menu.pageelements
             list:
                 title: app.menu.pageelements
-                sort: 'page'
+                sort: [ 'page', 'ASC' ]
                 actions:
                     - { name: 'show', label: app.menu.actions.show, icon: 'search' }
                     - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'moveUpPageElement', label: app.menu.actions.moveup, icon: 'arrow-up' }
+                    - { name: 'moveDownPageElement', label: app.menu.actions.movedown, icon: 'arrow-down' }
                     - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
                     - id

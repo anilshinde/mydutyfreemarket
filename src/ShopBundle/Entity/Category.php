@@ -54,6 +54,20 @@ class Category
     /**
      * @var boolean
      *
+     * @ORM\Column(name="shop", type="boolean")
+     */
+    private $shop;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank", type="integer", nullable=true)
+     */
+    private $rank;
+
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="status", type="boolean")
      */
     private $status;
@@ -187,6 +201,54 @@ class Category
     public function getSubcategories()
     {
         return $this->subcategories;
+    }
+
+    /**
+     * Set true if page under shop
+     *
+     * @param boolean
+     *
+     * @return Category
+     */
+    public function setShop($isShop)
+    {
+        $this->shop = $isShop;
+
+        return $this;
+    }
+
+    /**
+     * Get true if page under shop
+     *
+     * @return boolean
+     */
+    public function getShop()
+    {
+        return $this->shop;
+    }
+
+    /**
+     * Set rank
+     *
+     * @param integer $rank
+     *
+     * @return Category
+     */
+    public function setRank($rank)
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
+
+    /**
+     * Get rank
+     *
+     * @return integer
+     */
+    public function getRank()
+    {
+        return $this->rank;
     }
 
     /**

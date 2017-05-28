@@ -3,6 +3,7 @@ easy_admin:
         Transaction:
             sort: 'dateOpened'
             class: ShopBundle\Entity\Transaction
+            controller: AdminBundle\Controller\AdminController
             label: app.menu.transactions
             list:
                 title: app.menu.transaction

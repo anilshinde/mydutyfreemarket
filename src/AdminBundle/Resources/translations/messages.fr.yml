@@ -10,10 +10,12 @@ PageElement: 'association de bloc à page'
 Transaction: 'transaction'
 Customer: 'client'
 
-app.menu.actions.show: 'Voir'
-app.menu.actions.edit: 'Modifier'
-app.menu.actions.delete: 'Supprimer'
-app.menu.actions.linked: 'Liaisons'
+app.menu.actions.show: '' # 'Voir'
+app.menu.actions.edit: '' # 'Modifier'
+app.menu.actions.delete: '' # 'Supprimer'
+app.menu.actions.linked: '' # 'Liaisons'
+app.menu.actions.movedown: '' # 'Descendre'
+app.menu.actions.moveup: '' # 'Remonter'
 
 app.menu.pageelements: 'Organiser mes contenus'
 app.menu.navigation: 'Ma navigation'
@@ -46,6 +48,10 @@ app.menu.category.parent: 'Rubrique parente'
 app.menu.category.parent.help: 'Sous-positionner dnas le menu de navigation.'
 app.menu.category.subcategories: 'Rubriques enfants'
 app.menu.category.subcategories.help: ''
+app.menu.category.rank: 'Ordre'
+app.menu.category.rank.help: "Ordre de cette rubrique dans l'arborescence des rubriques"
+app.menu.category.shop: 'Boutique'
+app.menu.category.shop.help: "Cocher cette case si vous souhaitez faire une page (gallerie, ...) pour une catégorie de vos produits"
 app.menu.category.status: 'Actif'
 
 app.menu.page: 'Nouvelle page'

@@ -14,58 +14,58 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /*
-     * Find all products
+     * Find all products with their images
      *
      * return array of products
      */
     public function findAllWithImagesAndOrderedByName($category = null, $productQName = null)
     {
 
-
+        // First query to get products by category or identifier
         $queryCategory = ($category !== null ? 'AND p.category = :category ' : '');
         $queryQName = ($productQName !== null ? 'AND p.qName = :qName ' : '');
 
         $query = $this->getEntityManager()
             ->createQuery(
-                'SELECT p, pi '.
-                'FROM ShopBundle:Product p, ShopBundle:Image pi '.
-                'WHERE p.id=pi.product AND p.status=1 '.
+                'SELECT p '.
+                'FROM ShopBundle:Product p '.
+                'WHERE p.status=1 '.
                 $queryCategory.' '.
                 $queryQName.' '.
                 'ORDER BY p.name ASC'
             );
-
-        if($category !== null)
+        if ($category !== null)
         {
             $query->setParameter('category', $category);
         }
-
-        if($productQName !== null)
+        if ($productQName !== null)
         {
             $query->setParameter('qName', $productQName);
         }
+        $products = $query->getResult();
 
-        $data = $query->getResult();
-
-        $products = array();
-
-        foreach($data as $row) {
-            
-              if($row instanceof \ShopBundle\Entity\Product) {
-                  $product = $row;
-              }
-
-              if($row instanceof \ShopBundle\Entity\Image) {
-                  $productImages = $row;
-                  $product->setImage($productImages);
-              } else {
-                  $products[] = $product;
-              }
-
+        // Second query to get all images of previously filtered products
+        $productsWithImages = array();
+        $ids = array();
+        foreach($products as $product) {
+            $productsWithImages[$product->getId()] = $product;
+            $ids[] = $product->getId();
         }
+        if(!empty($ids)) {
+            $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT i '.
+                    'FROM ShopBundle:Image i '.
+                    'WHERE i.status=1 '.
+                    'AND i.product IN ('.implode(',', $ids).') '
+                );
+            $images = $query->getResult();
 
-        return $products;
-
+            // Arrange products result
+            foreach($images as $image) {
+                $productsWithImages[$image->getProduct()->getId()]->addImage($image);
+            }
+        }
+        return $productsWithImages;
     }
-
 }

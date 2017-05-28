@@ -2,6 +2,7 @@ easy_admin:
     entities:
         Picks:
             class: ShopBundle\Entity\Picks
+            controller: AdminBundle\Controller\PicksController
             label: app.menu.pickss
             sort: 'page'
             list:

@@ -2,6 +2,7 @@ easy_admin:
     entities:
         Category:
             class: ShopBundle\Entity\Category
+            controller: AdminBundle\Controller\CategoryController
             label: app.menu.categories
             form:
                 title: app.menu.category
@@ -10,6 +11,8 @@ easy_admin:
                     - { property: 'qName', label: app.menu.category.qName, type: 'text', help: app.menu.category.qName.help }
                     - { property: 'name', label: app.menu.category.name, type: 'text', help: app.menu.category.name.help }
                     - { property: 'parent', label: app.menu.category.parent, type: 'easyadmin_autocomplete', help: app.menu.category.parent.help }
+                    - { property: 'rank', label: app.menu.category.rank, type: 'integer', help: app.menu.category.rank.help }
+                    - { property: 'shop', label: app.menu.category.shop, type: 'checkbox', help: app.menu.category.rank.help }
                     - property: 'subcategories'
                       label: app.menu.category.subcategories
                       type: 'entity'
@@ -21,13 +24,17 @@ easy_admin:
                     - { property: 'name', label: app.menu.category.name }
                     - { property: 'parent', label: app.menu.category.parent }
                     - { property: 'subcategories', label: app.menu.category.subcategories }
+                    - { property: 'rank', label: app.menu.category.rank }
+                    - { property: 'shop', label: app.menu.category.shop }
                     - { property: 'status', label: app.menu.category.status }
             list:
                 title: app.menu.categories
-                sort: 'name'
+                sort: [ 'rank', 'ASC' ]
                 actions:
                     - { name: 'show', label: app.menu.actions.show, icon: 'search' }
                     - { name: 'linked', label: app.menu.actions.linked, icon: 'cubes' }
+                    - { name: 'moveUpCategory', label: app.menu.actions.moveup, icon: 'arrow-up' }
+                    - { name: 'moveDownCategory', label: app.menu.actions.movedown, icon: 'arrow-down' }
                     - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
                     - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
                 fields:
@@ -36,4 +43,5 @@ easy_admin:
                     - { property: 'name', label: app.menu.category.name, type: 'text' }
                     - { property: 'parent', label: app.menu.category.parent }
                     - { property: 'subcategories', label: app.menu.category.subcategories }
+                    - { property: 'rank', label: app.menu.category.rank }
                     - { property: 'status', label: app.menu.category.status, type: 'toggle' }

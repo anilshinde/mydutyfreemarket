@@ -10,13 +10,78 @@ class SiteController extends Controller
     /**
      * @Route("/")
      */
-    public function indexAction($productsBySerie = 4)
-    {
+    public function indexAction($pageName)
+    { 
+        $cache = $this->container->get('app.redis_connector');
 
-        $pageElements = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:PageElement')
-            ->findAllPageElementsOrderedByPosition('accueil');
+        // Get the site categories tree and the current page category
+        $pageName = 
+        // Get page all contents. Entirely from Redis cache using its name
+        $keyPage = 'frontpage-'.$pageName;
+        $page = $cache->fetch($keyPage);
+
+        if(empty($pageElements)) {
+
+            // Get page elements structure
+            $keyPageElements = 'frontpage-pageelements-'.$pagename;
+            $pageElements = $cache->fetch($keyPageElements);
+
+            if(empty($pageElements)) {
+                // Get page elements structure from MySQL db
+                $pageElements = $this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('ShopBundle:PageElement')
+                    ->findAllPageElementsOrderedByPosition($pageName);
+            }
+
+            // Get each page element content to rebuild the page entirely
+            $positions = 0;
+            foreach($pageElements as $pageElement) {
+                
+                switch($pageElement->getFormat()) {
+                    case \ShopBundle\Entity\PageElement::FORMAT_TEXT :
+                        break;
+                    case \ShopBundle\Entity\PageElement::FORMAT_SLIDER :
+                        break;
+                    case \ShopBundle\Entity\PageElement::FORMAT_FORM :
+                        break;
+                    case \ShopBundle\Entity\PageElement::FORMAT_IMAGE :
+                        break;
+                    case \ShopBundle\Entity\PageElement::FORMAT_MAP :
+                        break;
+                    case \ShopBundle\Entity\PageElement::FORMAT_VIDEO :
+                        break;
+                    case \ShopBundle\Entity\PageElement::FORMAT_PICKS :
+                        $key = 'all-products-with-images';
+                        $products = $cache->fetch($key);
+                        if(empty($products)) {
+                            $products = $this->getDoctrine()
+                                ->getManager()
+                                ->getRepository('ShopBundle:Product')
+                                ->findAllWithImagesAndOrderedByName();
+                            $return = $cache->save($key, $products);
+                        }
+                        break;
+                    default:
+                }
+
+                $position++;
+            }
+
+            // Save the entire content of the page in Redis cache
+            $cache->save($keyPage, $page);
+
+        }
+
+        $key = 'all-products-with-images';
+        $products = $cache->fetch($key);
+        if(empty($products)) {
+            $products = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('ShopBundle:Product')
+                ->findAllWithImagesAndOrderedByName();
+            $return = $cache->save($key, $products);
+        }
 
         $products = $this->getDoctrine()
             ->getManager()
