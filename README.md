@@ -19,6 +19,7 @@ T0D0:
 =====
 
 Shop pages contents:
+- :bike: dynamic data to frontend generation (navigation, page, blocs, ...) 
 - :bike: :checkered_flag: Navigation
 - :bike: :checkered_flag: Sliders
 - :bike: :checkered_flag: Textes
@@ -123,21 +124,26 @@ SEO / Mobile first:
 - :rocket: Push notification
 
 Performances:
-- :bike: Enable Redis SQL cache queries
-- :bike: :checkered_flag: Enable Apache assets cache
-- :bike: :checkered_flag: Enable Symfony http cache
+- :bike: :checkered_flag: Enable Redis cache of all frontend MySQL queries
+- :bike: :checkered_flag: Enable Apache and http assets cache for front pages
+- :bike: :checkered_flag: Enable Symfony header cache
+- :bike: :checkered_flag: No-complex SQL queries (joined, non-indexed, ...), for ensuring database high scalability
 - :bike: Enable Opcache and Symfony class autoload
 - :bike: Enable AMP for full Google CDN http cache
 - :rocket: Enable full CDN http cache by Symfony http headers
 
 Developpement and customization:
-- :bike: :checkered_flag: Use Symfony3
-- :bike: :checkered_flag: Use Twig
 - :bike: :checkered_flag: Use PHP v7
 - :bike: :checkered_flag: Use MySQL v14
-- :bike: Use Redis
-- :bike: Use AWS
-- :bike: :checkered_flag: Use bower
+- :bike: :checkered_flag: Use Symfony3 for PHP framework
+- :bike: :checkered_flag: Use Doctrine for data management
+- :bike: :checkered_flag: Use Twig for template
+- :bike: :checkered_flag: Use Redis for data cache
+- :bike: :checkered_flag: Use Apache for assets and HTTP cache
+- :bike: :checkered_flag: Use Bower for assets dependencies
+- :bike: :checkered_flag: Use Composer for application dependencies
+- :bike: Use AWS APIs
+- :tractor: Unit tests
 
 Architecture:
 - :oncoming_automobile: Account creation

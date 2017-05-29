@@ -78,11 +78,18 @@ class Picks
      */
     private $textes;
 
+    /**
+     * Many Picks have Many Products.
+     * @ORM\ManyToMany(targetEntity="Product", inversedBy="pickss")
+     * @ORM\JoinTable(name="pickss_products")
+     */
+    private $products;
 
     public function __construct()
     {
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
         $this->textes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -290,6 +297,41 @@ class Picks
     public function getTextes()
     {
         return $this->textes;
+    }
+
+    /**
+     * Add a product
+     *
+     * @param Product $product
+     *
+     * @return Picks
+     */
+    public function addProduct(Product $product)
+    {
+        $this->products[] = $product;
+        return $this;
+    }
+
+    /**
+     * Remove a product
+     *
+     * @param Product $product
+     *
+     * @return Picks
+     */
+    public function removeProduct(Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get all products
+     *
+     * @return ArrayCollection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 
 }

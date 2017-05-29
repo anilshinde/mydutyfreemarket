@@ -31,6 +31,11 @@ easy_admin:
                     - { property: 'currentStock', label: app.menu.product.currentstock, type: 'integer', help: app.menu.product.currentstock.help }
                     - { property: 'currentSales', label: app.menu.product.currentsales, type: 'integer', help: app.menu.product.currentsales.help }
                     - { type: 'group', label: app.menu.product.group6, help: app.menu.product.group6.help }
+                    - property: 'pickss'
+                      label: app.menu.product.pickss
+                      type: 'entity'
+                      help: app.menu.product.pickss.help
+                      type_options: { class: 'ShopBundle\Entity\Picks', multiple: true }
                     - { property: 'formats', label: app.menu.product.formats, type: 'text', help: app.menu.product.formats.help }
                     - { property: 'status', label: app.menu.product.status, type: 'checkbox' }
             show:
@@ -47,6 +52,7 @@ easy_admin:
                     - { property: 'documentation', label: app.menu.product.documentation }
                     - { property: 'current_stock', label: app.menu.product.currentstock }
                     - { property: 'current_sales', label: app.menu.product.currentsales }
+                    - { property: 'pickss', label: app.menu.product.pickss }
                     - { property: 'formats', label: app.menu.product.formats }
                     - { property: 'status', label: app.menu.product.status }
             list:
@@ -65,4 +71,5 @@ easy_admin:
                     - { property: 'images', label: app.menu.product.images }
                     - { property: 'currentStock', label: app.menu.product.currentstock, type: 'integer' }
                     - { property: 'currentSales', label: app.menu.product.currentsales, type: 'integer' }
+                    - { property: 'pickss', label: app.menu.product.pickss }
                     - { property: 'status', label: app.menu.product.status, type: 'toggle' }

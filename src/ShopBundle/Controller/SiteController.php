@@ -9,310 +9,164 @@ class SiteController extends Controller
 {
     /**
      * @Route("/")
+     * @Route("/{category}/")
+     * @Route("/{category}/{page}")
+     * @Route("/{parentCategory}/{category}")
+     * @Route("/{parentCategory}/{category}/{page}")
      */
-    public function indexAction($pageName)
-    { 
+    public function indexAction($category = null, $parentCategory = null, $page = null)
+    {
         $cache = $this->container->get('app.redis_connector');
 
         // Get the site categories tree and the current page category
-        $pageName = 
-        // Get page all contents. Entirely from Redis cache using its name
-        $keyPage = 'frontpage-'.$pageName;
+
+        // First, get the nav categories tree entirely from Redis cache using either its page and/or category identifier
+        $keyNav = 'frontpage-nav-'.$category;
+        $categories = $cache->fetch($keyNav);
+
+        if(empty($categories)) {
+
+            list($categories, $currentCategory) = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('ShopBundle:Category')
+                ->findCategories($category, $page);
+            $category = $currentCategory->getQName();
+            $cache->save($keyNav, $categories);
+        }
+
+        // Then, try to get all the page content entirely from Redis cache using its category identifier
+        $keyPage = 'frontpage-all-'.$category;
         $page = $cache->fetch($keyPage);
 
-        if(empty($pageElements)) {
 
-            // Get page elements structure
-            $keyPageElements = 'frontpage-pageelements-'.$pagename;
+        if(empty($page)) {
+            // Get page elements structure entirely from Redis cache using its category identifier
+            $keyPageElements = 'frontpage-pageelements-'.$category;
             $pageElements = $cache->fetch($keyPageElements);
 
+
             if(empty($pageElements)) {
-                // Get page elements structure from MySQL db
+
+                // Get page elements structure from MySQL db using its category identifier
                 $pageElements = $this->getDoctrine()
                     ->getManager()
                     ->getRepository('ShopBundle:PageElement')
-                    ->findAllPageElementsOrderedByPosition($pageName);
+                    ->findAllPageElementsOrderedByPosition($category);
+                $cache->save($keyPageElements, $pageElements);
             }
 
-            // Get each page element content to rebuild the page entirely
-            $positions = 0;
+            // Get each page element content to rebuild the page content entirely
+            $page = array();
             foreach($pageElements as $pageElement) {
-                
-                switch($pageElement->getFormat()) {
-                    case \ShopBundle\Entity\PageElement::FORMAT_TEXT :
-                        break;
-                    case \ShopBundle\Entity\PageElement::FORMAT_SLIDER :
-                        break;
-                    case \ShopBundle\Entity\PageElement::FORMAT_FORM :
-                        break;
-                    case \ShopBundle\Entity\PageElement::FORMAT_IMAGE :
-                        break;
-                    case \ShopBundle\Entity\PageElement::FORMAT_MAP :
-                        break;
-                    case \ShopBundle\Entity\PageElement::FORMAT_VIDEO :
-                        break;
-                    case \ShopBundle\Entity\PageElement::FORMAT_PICKS :
-                        $key = 'all-products-with-images';
-                        $products = $cache->fetch($key);
-                        if(empty($products)) {
-                            $products = $this->getDoctrine()
-                                ->getManager()
-                                ->getRepository('ShopBundle:Product')
-                                ->findAllWithImagesAndOrderedByName();
-                            $return = $cache->save($key, $products);
-                        }
-                        break;
-                    default:
+                // First, try to get element content from Redis cache using its page identifier
+                $keyPageElement = 'frontpage-element-'.$pageElement->getId();
+                $pageElement = $cache->fetch($keyPageElement);
+
+                if(empty($pageElement)) {
+                    $element = array();
+                    $element['format'] = $pageElement->getFormat();
+                    switch($pageElement->getFormat()) {
+                        case \ShopBundle\Entity\PageElement::FORMAT_TEXT :
+                            $element['element'] = $this->getTextFromPageElement($pageElement);
+                            break;
+                        case \ShopBundle\Entity\PageElement::FORMAT_SLIDER :
+                            $element['element'] = $this->getSliderFromPageElement($pageElement);
+                            break;
+                        case \ShopBundle\Entity\PageElement::FORMAT_FORM :
+                            $element['element'] = $this->getFormFromPageElement($pageElement);
+                            break;
+                        case \ShopBundle\Entity\PageElement::FORMAT_IMAGE :
+                            $element['element'] = $this->getImageFromPageElement($pageElement);
+                            break;
+                        case \ShopBundle\Entity\PageElement::FORMAT_MAP :
+                            $element['element'] = $this->getMapFromPageElement($pageElement);
+                            break;
+                        case \ShopBundle\Entity\PageElement::FORMAT_VIDEO :
+                            $element['element'] = $this->getVideoFromPageElement($pageElement);
+                            break;
+                        case \ShopBundle\Entity\PageElement::FORMAT_PICKS :
+                            $element['element'] = $this->getPicksFromPageElement($pageElement);
+                            break;
+                        default:
+                    }
+                    $page[] = $element;
+                    $cache->save($keyPageElement, $element);
                 }
-
-                $position++;
             }
-
             // Save the entire content of the page in Redis cache
             $cache->save($keyPage, $page);
-
         }
-
-        $key = 'all-products-with-images';
-        $products = $cache->fetch($key);
-        if(empty($products)) {
-            $products = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('ShopBundle:Product')
-                ->findAllWithImagesAndOrderedByName();
-            $return = $cache->save($key, $products);
-        }
-
-        $products = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Product')
-            ->findAllWithImagesAndOrderedByName();
-
-        $sliders = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Slider')
-            ->findAllWithImagesAndOrderedByName('accueil');
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('accueil');
-
-        $picks = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Picks')
-            ->findAllWithImagesAndTextesOrderedByName('accueil');
-
         return $this->render('ShopBundle:Default:index.html.twig', array(
-            'products' => $products,
-            'countProducts' => count($products),
-            'seriesProducts' => 2, 
-            'productsBySerie' => $productsBySerie,
-            'slider' => $sliders[0],
-            'texte' => $textes[0],
-            'picks' => $picks[0],
-            'tab1' => 'Accueil'
+            'categories' => $categories,
+            'tab1' => $currentCategory->getName(),
+            'page' => $page
         ));
     }
 
-    /**
-     * @Route("/achat-fers-a-cheveux-professionnel/{category}")
-     */
-    public function galleryAction($category = null, $productsBySerie = 4)
-    {
+    private function getTextFromPageElement($pageElement) {
+        $keyText = 'frontpage-text-'.$pageElement->getElement();
+        $text = $cache->fetch($keyText);
 
-        $products = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Product')
-            ->findAllWithImagesAndOrderedByName($category);
 
-        $sliders = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Slider')
-            ->findAllWithImagesAndOrderedByName('boutique');
+        if(empty($text)) {
 
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('boutique');
-
-        return $this->render('ShopBundle:Default:gallery.html.twig', array(
-            'category' => $category,
-            'products' => $products,
-            'countProducts' => count($products),
-            'seriesProducts' => (int) (count($products) / $productsBySerie),
-            'productsBySerie' => $productsBySerie,
-            'slider' => $sliders[0],
-            'texte' => $textes[0],
-            'tab1' => 'Boutique en ligne'
-        ));
-    } 
-
-    /**
-     * @Route("/acheter-fer-a-cheveux-professionnel/{productQName}")
-     */
-    public function productAction($productQName = null)
-    {
-
-        $products = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Product')
-            ->findAllWithImagesAndOrderedByName(null, $productQName);
-
-        if (!$products) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$productQName
-            );
+            $text = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('ShopBundle:Text')
+                ->findText($pageElement->getElement());
+            $cache->save($keyText, $text);
         }
-
-        return $this->render('ShopBundle:Default:product.html.twig', array(
-            'category' => $category,
-            'product' => $products[0],
-            'tab1' => 'Achat ' . $products[0]->getName()
-        ));
     }
 
-    /**
-     * @Route("/contact")
-     */
-    public function contactAction()
-    {
-        $sliders = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Slider')
-            ->findAllWithImagesAndOrderedByName('contact');
+    private function getSliderFromPageElement($pageElement) {
+        $keySlider = 'frontpage-slider-'.$pageElement->getElement();
+        $slider = $cache->fetch($keySlider);
 
-        return $this->render('ShopBundle:Default:contact.html.twig', array('slider' => $sliders[0], 'tab1' => 'Contact'));
+
+        if(empty($slider)) {
+
+            $slider = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('ShopBundle:Slider')
+                ->findSliderWithImages($pageElement->getElement());
+            $cache->save($keySlider, $slider);
+        }
+        return $slider;
     }
 
-    /**
-     * @Route("/a-propos-jose-eber-coiffure")
-     */
-    public function aboutAction()
-    {
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('a-propos');
-
-        return $this->render('ShopBundle:Default:about.html.twig', array('texte' => $textes[0], 'tab1' => 'A propos'));
+    private function getFormFromPageElement($pageElement) {
+        // TODO
     }
 
-    /**
-     * @Route("/conseils-professionnels/videos-coiffure-fer-a-lisser-conseils-professionnel")
-     */
-    public function other1Action()
-    {
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('conseils-video');
-	
-        return $this->render('ShopBundle:Default:other1.html.twig', array('texte' => $textes[0], 'tab1' => 'Conseils'));
+    private function getImageFromPageElement($pageElement) {
+        // TODO: create template
     }
 
-    /**
-     * @Route("/conseils-professionnels/fers-a-lisser-et-boucler-conseils-professionnel-materiaux-ceramique")
-     */
-    public function other2Action()
-    {
+    private function getPicksFromPageElement($pageElement) {
+        // Get picks from Redis cache using its id
+        $keyPicks = 'frontpage-picks-'.$pageElement->getElement();
+        $picks = $cache->fetch($keyPicks);
 
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('conseils-materiaux');
 
-        $sliders = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Slider')
-            ->findAllWithImagesAndOrderedByName('conseils-materiaux');
+        if(empty($picks)) {
 
-        return $this->render('ShopBundle:Default:other2.html.twig', array('texte' => $textes[0], 'slider' => $sliders[0], 'tab1' => 'Conseils'));
+            // Get picks from MySQL db using its id
+            $picks = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('ShopBundle:Picks')
+                ->findPicksWithImagesAndTextesAndProducts($pageElement->getElement());
+            $cache->save($keyPicks, $picks);
+        }
+        return $picks;
     }
 
-    /**
-     * @Route("/conseils-professionnels/fer-a-lisser-et-boucler-conseils-professionnel-utilisation")
-     */
-    public function other3Action()
-    {
-        $sliders = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Slider')
-            ->findAllWithImagesAndOrderedByName('conseils-utilisation');
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('conseils-utilisation');
-
-        return $this->render('ShopBundle:Default:other3.html.twig', array('texte' => $textes[0], 'slider' => $sliders[0], 'tab1' => 'Conseils'));
+    private function getVideoFromPageElement($pageElement) {
+        // TODO: create entity, admin, template,...
+        return null;
     }
 
-    /**
-     * @Route("/les-revendeurs-agrees-de-fers-a-lisser-professionnel")
-     */
-    public function sellersAction()
-    {
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('revendeurs-agrees');
-
-        return $this->render('ShopBundle:Default:sellers.html.twig', array('texte' => $textes[0], 'tab1' => 'Nos services'));
+    private function getMapFromPageElement($pageElement) {
+        // TODO: create entity, admin, template,...
+        return null;
     }
-
-    /**
-     * @Route("/fer-a-lisser-avis-des-consommateurs")
-     */
-    public function other4Action()
-    {
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('faq');
-
-        return $this->render('ShopBundle:Default:other4.html.twig', array('texte' => $textes[0], 'tab1' => 'A propos'));
-    }
-
-    /**
-     * @Route("/fer-a-lisser-professionnel-garantie-a-vie")
-     */
-    public function warantAction()
-    {
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('garantie');
-
-        return $this->render('ShopBundle:Default:warant.html.twig', array('texte' => $textes[0], 'tab1' => 'Nos services'));
-    }
-
-    /**
-     * @Route("/fer-a-lisser-enregister-un-produit")
-     */
-    public function registerAction()
-    {
-        return $this->render('ShopBundle:Default:register.html.twig', array('texte' => $textes[0], 'tab1' => 'Nos services'));
-    }
-
-    /**
-     * @Route("/fer-a-lisser-livraison-gratuite")
-     */
-    public function shippingAction()
-    {
-
-        $textes = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('ShopBundle:Text')
-            ->findAllTextesOrderedByName('livraison');
-
-        return $this->render('ShopBundle:Default:shipping.html.twig', array('texte' => $textes[0], 'tab1' => 'Nos services'));
-
-    }
-
 }

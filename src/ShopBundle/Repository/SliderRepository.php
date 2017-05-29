@@ -17,53 +17,40 @@ class SliderRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /*
-     * Find all sliders
+     * Find slider with images
      *
-     * return array of sliders
+     * return Slider
      */
-    public function findAllWithImagesAndOrderedByName($pageQName = null)
+    public function findSliderWithImages($id = null)
     {
 
-        if($pageQName !== null)
-        {
-            $queryQName = 'AND p.qName = :qName ';
+        if($id === null) {
+            return null;
         }
-
+        // Get slider using its id
         $query = $this->getEntityManager()
             ->createQuery(
-                'SELECT s, si '.
-                'FROM ShopBundle:Slider s, ShopBundle:Image si, ShopBundle:Page p '.
-                'WHERE s.id=si.slider AND p.id=s.page '.
-                $queryQName.' '.
-                'ORDER BY s.name ASC'
-            );
+                'SELECT s '.
+                'FROM ShopBundle:Slider s '.
+                'WHERE s.id = :id '
+            )
+            ->setParameter('id', $id);
+        $slider = $query->getResult();
 
-        if($pageQName !== null)
-        {
-            $query->setParameter('qName', $pageQName);
+        if(!empty($slider)) {
+            // Get images associated to this slider
+            $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT i '.
+                    'FROM ShopBundle:Image i '.
+                    'WHERE :slider MEMBER OF i.sliders '
+                )
+                ->setSlider($slider->getId());
+            $images = $query->getResult();
+            foreach($images as $image) {
+                $slider->addImage($image);
+            }
         }
-
-        $data = $query->getResult();
-
-        $sliders = array();
-
-        foreach($data as $row) {
-            
-              if($row instanceof Slider) {
-                  $slider = $row;
-              }
-
-              if($row instanceof Image) {
-	          $sliderImages = $row;
-                  $slider->setImage($sliderImages);
-              } else {
-                  $sliders[] = $slider;
-              }
-
-        }
-
-        return $sliders;
-
+        return $slider;
     }
-
 }

@@ -12,33 +12,51 @@ class PageElementRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /*
-     * Find all pageElements (by page identifier)
+     * Find all pageElements of a page identifying it using its category qName
      *
      * return array of page elements
      */
-    public function findAllPageElementsOrderedByPosition($pageQName = null)
+    public function findAllPageElementsOrderedByPosition($categoryQName = null)
     {
 
-        if($pageQName !== null)
+        $pageElements = null
+        if($categoryQName !== null)
         {
-            $queryQName = 'AND p.qName = :qName ';
+            $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT c '.
+                    'FROM ShopBundle:Category c '.
+                    'WHERE c.qName = :qName '
+                );
+                ->setParameter('qName', $categoryQName);
+            $category = $query->getResult();
+            if(empty($category)) {
+                return null;
+            }
+
+            $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT p '.
+                    'FROM ShopBundle:Page p'.
+                    'WHERE p.category = :category'
+                )
+                ->setParameter('category', $category->getId());
+            $page = $query->getResult();
+            if(empty($page) or count($page) > 1) {
+                return null;
+            }
+
+            $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT pe '.
+                    'FROM ShopBundle:PageElement pe '.
+                    'WHERE pe.page = :page  '.
+                    'ORDER BY pe.position ASC'
+                )
+                ->setParameter('page', $page->getId());
+            $pageElements = $query->getResult();
+
         }
-
-        $query = $this->getEntityManager()
-            ->createQuery(
-                'SELECT pe '.
-                'FROM ShopBundle:PageElement pe, ShopBundle:Page p '.
-                'WHERE p.id=pe.page '.
-                $queryQName.' '.
-                'ORDER BY pe.position ASC'
-            );
-
-        if($pageQName !== null)
-        {
-            $query->setParameter('qName', $pageQName);
-        }
-
-        $pageElements = $query->getResult();
 
         return $pageElements;
 

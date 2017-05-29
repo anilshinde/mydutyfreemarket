@@ -14,36 +14,24 @@ class TextRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /*
-     * Find all textes
+     * Find text by its id
      *
-     * return array of text
+     * return Text
      */
-    public function findAllTextesOrderedByName($pageQName = null)
+    public function findText($id = null)
     {
-
-        if($pageQName !== null)
-        {
-            $queryQName = 'AND p.qName = :qName ';
+        if($id === null) {
+            return null;
         }
-
         $query = $this->getEntityManager()
             ->createQuery(
                 'SELECT t '.
-                'FROM ShopBundle:Text t, ShopBundle:Page p '.
-                'WHERE p.id=t.page '.
-                $queryQName.' '.
-                'ORDER BY t.name ASC'
-            );
-
-        if($pageQName !== null)
-        {
-            $query->setParameter('qName', $pageQName);
-        }
-
-        $textes = $query->getResult();
-
-        return $textes;
-
+                'FROM ShopBundle:Text t '.
+                'WHERE t.id = :id '
+            )
+            ->setParameter('id', $id);
+        $text = $query->getResult();
+        return $text;
     }
 
 }

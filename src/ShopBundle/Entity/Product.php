@@ -129,9 +129,16 @@ class Product
      */
     private $status;
 
+    /**
+     * Many Picks have Many Products.
+     * @ORM\ManyToMany(targetEntity="Picks", mappedBy="products")
+     * @ORM\JoinTable(name="pickss_products")
+     */
+    private $pickss;
 
     public function __construct() {
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pickss = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -494,6 +501,41 @@ class Product
         $this->currentSales = $currentSales;
 
         return $this;
+    }
+
+    /**
+     * Get all pickss
+     *
+     * @return ArrayCollection
+     */
+    public function getPickss()
+    {
+        return $this->pickss;
+    }
+
+    /**
+     * Add a picks
+     *
+     * @param Picks $picks
+     *
+     * @return Product
+     */
+    public function addPicks(Picks $picks)
+    {
+        $this->picks[] = $picks;
+        return $this;
+    }
+
+    /**
+     * Remove a picks
+     *
+     * @param Picks $picks
+     *
+     * @return Product
+     */
+    public function removePicks(Picks $picks)
+    {
+        $this->pickss->removeElement($picks);
     }
 
     /**

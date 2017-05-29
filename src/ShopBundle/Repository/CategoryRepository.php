@@ -18,7 +18,7 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
      *
      * return array $categories $currentCategory
      */
-    public function findCategories($pageQName = null)
+    public function findCategories($categoryQName = null, $pageQName = null)
     {
 
         // First query to get all categories
@@ -32,6 +32,8 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
         $categories = $query->getResult();
 
         $currentCategory = null;
+
+        // Find current category using page qName parameter
         if($pageQName !== null) {
             // Query page to get its category
             $query = $this->getEntityManager()
@@ -41,14 +43,31 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
                     'WHERE p.qName = :qName '
                 )
                 ->setParameter('qName', $pageQName);
+            $page = $query->getResult();
 
             foreach($categories as $category) {
-                if($category->getQName() === $pageQName()) {
+                if($category->getId() === $page->getCategory->getId()) {
                     $currentCategory = $category;
                     break;
                 }
             }
         }
+
+        // Find current category using category qName parameter
+        if($categoryQName !== null) {
+            foreach($categories as $category) {
+                if($category->getQName() === $categoryQName) {
+                    $currentCategory = $category;
+                    break;
+                }
+            }
+        }
+
+        // If no category or page specified in the route then we redirect to the first page (i.e: home)
+        if(empty($category) and count($categories) > 0) {
+            $currentCategory = $categories[0];
+        }
+
         return array($categories, $currentCategory);
     }
 }

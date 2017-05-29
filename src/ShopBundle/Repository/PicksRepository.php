@@ -11,106 +11,56 @@ namespace ShopBundle\Repository;
 class PicksRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    /*
-     * Find all products widget
-     *
-     * return array of products widget
-     */
-    public function findAllPicksOrderedByName($pageQName = null)
+    public function findPicksWithImagesAndTextesAndProducts($id = null)
     {
 
-        if($pageQName !== null)
-        {
-            $queryQName = 'AND p.qName = :qName ';
+        if($id === null) {
+            return null;
         }
-
         $query = $this->getEntityManager()
             ->createQuery(
-                'SELECT pi '.
-                'FROM ShopBundle:Picks pi, ShopBundle:Page p '.
-                'WHERE p.id=pi.page '.
-                $queryQName.' '.
-                'ORDER BY pi.name ASC'
-            );
-
-        if($pageQName !== null)
-        {
-            $query->setParameter('qName', $pageQName);
-        }
-
+                'SELECT p '.
+                'FROM ShopBundle:Picks p '.
+                'WHERE p.id = :id '
+            )
+            ->setParameter('id', $id);
         $picks = $query->getResult();
 
+        if(in_array(
+            $picks->getFormat(),
+            array(
+                \ShopBundle\Entity\Picks::PRODUCTS_MANUAL,
+                \ShopBundle\Entity\Picks::PRODUCTS_BEST_SALES,
+                \ShopBundle\Entity\Picks::PRODUCTS_LAST_SALES
+            )
+        )) {
+           // Get products
+           // TODO apply requested rule to select products (last sales, best sales, manual, ...)
+           $query = $this->getEntityManager()
+               ->createQuery(
+                   'SELECT p '.
+                   'FROM ShopBundle:Product p '
+               );
+           $products = $query->getResult();
+           foreach($products as $product) {
+               $picks->addProduct($product);
+           }
+        } else if(in_array(
+            $picks->getFormat(),
+            array(
+                 \ShopBundle\Entity\Picks::PAGES_MANUAL
+            )
+        )) {
+            // Get textes
+        } else if(in_array(
+            $picks->getFormat(),
+            array(
+                 \ShopBundle\Entity\Picks::IMAGES_MANUAL
+            )
+        )) {
+           // Get images
+        }
+
         return $picks;
-
     }
-
-    public function findAllWithImagesAndTextesOrderedByName($pageQName = null)
-    {
-
-        $queryQName = ($pageQName !== null ? 'AND p.qName = :qName ' : '');
-
-        // Get picks with images from db
-        $queryPicksImages = $this->getEntityManager()
-            ->createQuery(
-                'SELECT pi, i '.
-                'FROM ShopBundle:Picks pi, ShopBundle:Image i '.
-                'WHERE pi.id=i.picks_id '.
-                $queryQName.' '
-//                'ORDER BY p.q ASC'
-            );
-
-        // Get picks with textes from db
-        $queryPicksTextes = $this->getEntityManager()
-            ->createQuery(
-                'SELECT pi, t '.
-                'FROM ShopBundle:Picks pi, ShopBundle:Textes t '.
-                'WHERE pi.id=t.picks_id '.
-                $queryQName.' '
-//                'ORDER BY p. ASC'
-            );
-
-        if($pageQName !== null)
-        {
-            $queryPicksImages->setParameter('qName', $pageQName);
-            $queryPicksTextes->setParameter('qName', $pageQName);
-        }
-
-        $picksImages = $queryPicksImages->getResult();
-        $picksTextes = $queryPicksTextes->getResult();
-
-        $pickss = array();
-
-        // Merge images and texts into picks object
-        foreach($picksImages as $picksImage) {
-              if($picksImage instanceof \ShopBundle\Entity\Picks) {
-                  $picks = $picksImage;
-              }
-              if($picksImage instanceof \ShopBundle\Entity\Image) {
-                  $image = $picksImage;
-                  $picks->setImage($image);
-              } else {
-                  $pickss[$picks->getId()] = $picks;
-              }
-        }
-
-        foreach($picksTextes as $picksText) {
-              if($picksText instanceof \ShopBundle\Entity\Picks) {
-                  if(isset($pickss[$picksText->getId()])) {
-                      $picks = $pickss[$picksText->getId()];
-                  } else {
-                      $picks = $picksText;
-                  }
-              }
-              if($picksText instanceof \ShopBundle\Entity\Text) {
-                  $text = $picksText;
-                  $picks->setImage($text);
-              } else {
-                  $pickss[$picks->getId] = $picks;
-              }
-        }        
-
-        return $pickss;
-
-    }
-
 }

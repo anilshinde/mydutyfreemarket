@@ -17,6 +17,7 @@ easy_admin:
                     - { property: 'name', label: app.menu.picks.name, type: 'text' }
                     - { property: 'images', label: app.menu.picks.images }
                     - { property: 'textes', label: app.menu.picks.textes }
+                    - { property: 'products', label: app.menu.picks.products }
                     - { property: 'page', label: app.menu.picks.page }
                     - { property: 'type', label: app.menu.picks.type, type: 'text' }
                     - { property: 'period', label: app.menu.picks.period, type: 'text' }
@@ -49,6 +50,11 @@ easy_admin:
                       type: 'entity'
                       help: app.menu.picks.textes.help
                       type_options: { class: 'ShopBundle\Entity\Text', multiple: true }
+                    - property: 'products'
+                      label: app.menu.picks.products
+                      type: 'entity'
+                      help: app.menu.picks.products.help
+                      type_options: { class: 'ShopBundle\Entity\Product', multiple: true }
                     - { property: 'page', label: app.menu.picks.page, help: app.menu.picks.page.help }
                     - { type: 'group', label: app.menu.picks.group3, help: app.menu.picks.group3.help }
                     - { property: 'period', label: app.menu.picks.period, help: app.menu.picks.period.help }
@@ -59,6 +65,7 @@ easy_admin:
                     - { property: 'type', label: app.menu.picks.type }
                     - { property: 'images', label: app.menu.picks.images }
                     - { property: 'textes', label: app.menu.picks.textes }
+                    - { property: 'products', label: app.menu.picks.products }
                     - { property: 'page', label: app.menu.picks.page }
                     - { property: 'period', label: app.menu.picks.period }
                     - { property: 'status', label: app.menu.picks.status }
