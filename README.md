@@ -19,14 +19,16 @@ T0D0:
 =====
 
 Shop pages contents:
-- :bike: dynamic data to frontend generation (navigation, page, blocs, ...) 
+- :bike: Dynamic data to frontend generation: navigation, page, blocs, ...
 - :bike: :checkered_flag: Navigation
+- :bike: :checkered_flag: Categories (2-level)
 - :bike: :checkered_flag: Sliders
 - :bike: :checkered_flag: Textes
 - :bike: :checkered_flag: Images
 - :bike: :checkered_flag: Videos
 - :bike: :checkered_flag: Diaporama
 - :bike: Documents
+- :tractor: HTML / Ads Bloc
 - :tractor: :checkered_flag: Products gallery
 - :tractor: :checkered_flag: Product page
 - :tractor: :checkered_flag: Product purchase forms
@@ -38,8 +40,9 @@ Shop pages contents:
 - :tractor: :checkered_flag: Widgets (maps)
 - :tractor: :checkered_flag: Social interactions
 - :tractor: CGV, CGU, ...
-- :tractor: Dynamic pages blocs (images, textes, products, diaporama, ...) and URLs
+- :tractor: Dynamic route to frontend generation: urls, categories, pages, home, ...
 - :tractor: 2 styles available
+- :tractor: connexion to Analytics (Bing, Google, ...), Search console (Bing, Google, ...) 
 - :oncoming_automobile: 7 styles available
 - :oncoming_automobile: Newsletter subscription
 - :rocket: customization through GIT bundle
@@ -48,18 +51,20 @@ Shop pages contents:
 
 Backoffice - CMS features:
 - :tractor: Multi-sites management
-- :bike: :checkered_flag: Manage categories (images, description, ...)
-- :bike: :checkered_flag: Manage navigation menu (tree, ...)
-- :bike: :checkered_flag: Manage pages
-- :bike: :checkered_flag: Manage pages structures
-- :bike: :checkered_flag: Manage pages routes
-- :bike: :checkered_flag: Manage textes blocs
-- :bike: :checkered_flag: Manage images blocs
-- :bike: :checkered_flag: Manage diaporama blocs
-- :bike: :checkered_flag: Manage sets of textes or images
-- :bike: :checkered_flag: Manage images (crops, resize, ...)
-- :bike: Manage download document blocs
-- :tractor: Manage forms blocs
+- :bike: :checkered_flag: Manage Categories (N-level): images, description, ...
+- :bike: :checkered_flag: Manage Navigation menu: name, tree, parent category, subcategories, category position, ...
+- :bike: :checkered_flag: Manage Pages: name, url, category, ...
+- :bike: :checkered_flag: Manage ages Structures: blocs, elements, ...
+- :bike: :checkered_flag: Manage pages Routes: pages' urls, ...
+- :bike: :checkered_flag: Manage Textes blocs: texte, display, ...
+- :bike: :checkered_flag: Manage Images blocs: image, legend, sizes, ...
+- :bike: :checkered_flag: Manage Diaporama blocs: images, size, dispay, legends, ...
+- :bike: :checkered_flag: Manage Sets of textes or images or products
+- :bike: :checkered_flag: Manage Images: sizes, crops, resize, ...
+- :bike: :checkered_flag: Manage Products: name, descriptions, images, brand, weight, stock, facets (style, color, season, composant)
+- :tractor: Move image from local disk to S3/Cloudfront
+- :bike: Manage download document blocs: document, download button, ...
+- :tractor: Manage forms blocs: 
 - :tractor: Manage products widgets blocs : best sales, last sales, manual, checkout, ...
 - :bike: Manage others widgets blocs : maps
 - :bike: Manage social interactions blocs
@@ -93,13 +98,17 @@ Backoffice - Shop features:
 
 Backoffice - Analytics features:
 - :tractor: Dashboard
-- :rocket: Reports on products (best sales, ...)
+- :tractor: Reports on products: best sales, ...
+- :tractor: Reports on transactions: processed, abandoned, validated, refunded, ...
+- :oncoming_automobile: Internal tracking: view, page views, element views, ...
 - :rocket: Reports on views
-- :tractor: Reports on transactions (processed, abandoned, validated, refunded, ...)
-- :rocket: Reports on customers (new customers, geo, ...)
+- :rocket: Reports on customers: new customers, geo, ...
 
 Backoffice - General features
-- :bike: Project configuration (site name, description, address, social network accounts, analytics tags, etc...)
+- :bike: Project configuration: url, email, multi-users, copyright, ...
+- :bike: Site configuration: site name, favicon, logo, description, address, phone, contact, social networks, cookies, ...
+- :tractor: Shop configuration: payments, vat, languages, ...
+- :oncoming_automobile: subdomain affectaion, DNS redirection configuration, ...
 - :oncoming_automobile: Download / Import CMS and Shop elements
 - :bike: :checkered_flag: Friendly UI
 - :bike: :checkered_flag: User management
@@ -115,8 +124,8 @@ SEO / Mobile first:
 - :bike: Manage URLs
 - :tractor: Manage sitemaps
 - :bike: :checkered_flag: Manage optimized images
-- :bike: :checkered_flag: Manage HTML main structured tags (title, h1, alt, ...)
-- :bike: Manage tracking tags (analytics, seach console, ...)
+- :bike: :checkered_flag: Manage HTML main structured tags: title, h1, alt, ...
+- :bike: Manage tracking tags: analytics, seach console, ...
 - :bike: AMP slide
 - :bike: AMP menu side
 - :bike: AMP CMS and Shop bloc management
@@ -147,7 +156,7 @@ Developpement and customization:
 
 Architecture:
 - :oncoming_automobile: Account creation
-- :airplane: Deployment (reload, backup, flush, deploy, ...)
+- :airplane: Deployment: reload, backup, flush, deploy, ...
 - :bike: S3 files
 - :airplane: EC2 servers and autoscaling
 - :bike: Cloudfront CDN

@@ -7,6 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class SiteController extends Controller
 {
+
+    protected $cache;
+
     /**
      * @Route("/")
      * @Route("/{category}/")
@@ -16,43 +19,46 @@ class SiteController extends Controller
      */
     public function indexAction($category = null, $parentCategory = null, $page = null)
     {
-        $cache = $this->container->get('app.redis_connector');
+        if($this->cache === null) {
+            $this->cache = $this->container->get('app.redis_connector');
+        }
 
         // Get the site categories tree and the current page category
 
         // First, get the nav categories tree entirely from Redis cache using either its page and/or category identifier
-        $keyNav = 'frontpage-nav-'.$category;
-        $categories = $cache->fetch($keyNav);
+        $categories = null;
+        $currentCategory = null;
 
-        if(empty($categories)) {
-
+        if(!empty($category)) {
+            $keyNav = 'frontpage-nav-'.$category;
+            list($categories, $currentCategory) = $this->cache->fetch($keyNav);
+        }
+        if(empty($category) or empty($categories)) {
             list($categories, $currentCategory) = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('ShopBundle:Category')
                 ->findCategories($category, $page);
             $category = $currentCategory->getQName();
-            $cache->save($keyNav, $categories);
+            $keyNav = 'frontpage-nav-'.$category;
+            $this->cache->save($keyNav, array($categories, $currentCategory));
         }
 
         // Then, try to get all the page content entirely from Redis cache using its category identifier
         $keyPage = 'frontpage-all-'.$category;
-        $page = $cache->fetch($keyPage);
-
+        $page = $this->cache->fetch($keyPage);
 
         if(empty($page)) {
             // Get page elements structure entirely from Redis cache using its category identifier
             $keyPageElements = 'frontpage-pageelements-'.$category;
-            $pageElements = $cache->fetch($keyPageElements);
-
+            $pageElements = $this->cache->fetch($keyPageElements);
 
             if(empty($pageElements)) {
-
                 // Get page elements structure from MySQL db using its category identifier
                 $pageElements = $this->getDoctrine()
                     ->getManager()
                     ->getRepository('ShopBundle:PageElement')
                     ->findAllPageElementsOrderedByPosition($category);
-                $cache->save($keyPageElements, $pageElements);
+                $this->cache->save($keyPageElements, $pageElements);
             }
 
             // Get each page element content to rebuild the page content entirely
@@ -60,9 +66,8 @@ class SiteController extends Controller
             foreach($pageElements as $pageElement) {
                 // First, try to get element content from Redis cache using its page identifier
                 $keyPageElement = 'frontpage-element-'.$pageElement->getId();
-                $pageElement = $cache->fetch($keyPageElement);
-
-                if(empty($pageElement)) {
+                $pageElementFromCache = $this->cache->fetch($keyPageElement);
+                if(empty($pageElementFromCache)) {
                     $element = array();
                     $element['format'] = $pageElement->getFormat();
                     switch($pageElement->getFormat()) {
@@ -90,46 +95,42 @@ class SiteController extends Controller
                         default:
                     }
                     $page[] = $element;
-                    $cache->save($keyPageElement, $element);
+                    $this->cache->save($keyPageElement, $element);
                 }
             }
             // Save the entire content of the page in Redis cache
-            $cache->save($keyPage, $page);
+            $this->cache->save($keyPage, $page);
         }
         return $this->render('ShopBundle:Default:index.html.twig', array(
-            'categories' => $categories,
-            'tab1' => $currentCategory->getName(),
-            'page' => $page
+            'categoriesTree' => $categories,
+            'currentCategory' => $currentCategory,
+            'pageContent' => $page
         ));
     }
 
     private function getTextFromPageElement($pageElement) {
         $keyText = 'frontpage-text-'.$pageElement->getElement();
-        $text = $cache->fetch($keyText);
-
+        $text = $this->cache->fetch($keyText);
 
         if(empty($text)) {
-
             $text = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('ShopBundle:Text')
                 ->findText($pageElement->getElement());
-            $cache->save($keyText, $text);
+            $this->cache->save($keyText, $text);
         }
     }
 
     private function getSliderFromPageElement($pageElement) {
         $keySlider = 'frontpage-slider-'.$pageElement->getElement();
-        $slider = $cache->fetch($keySlider);
-
+        $slider = $this->cache->fetch($keySlider);
 
         if(empty($slider)) {
-
             $slider = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('ShopBundle:Slider')
                 ->findSliderWithImages($pageElement->getElement());
-            $cache->save($keySlider, $slider);
+            $this->cache->save($keySlider, $slider);
         }
         return $slider;
     }
@@ -145,17 +146,15 @@ class SiteController extends Controller
     private function getPicksFromPageElement($pageElement) {
         // Get picks from Redis cache using its id
         $keyPicks = 'frontpage-picks-'.$pageElement->getElement();
-        $picks = $cache->fetch($keyPicks);
-
+        $picks = $this->cache->fetch($keyPicks);
 
         if(empty($picks)) {
-
             // Get picks from MySQL db using its id
             $picks = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('ShopBundle:Picks')
                 ->findPicksWithImagesAndTextesAndProducts($pageElement->getElement());
-            $cache->save($keyPicks, $picks);
+            $this->cache->save($keyPicks, $picks);
         }
         return $picks;
     }

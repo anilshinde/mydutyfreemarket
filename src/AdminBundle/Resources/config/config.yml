@@ -37,4 +37,8 @@ easy_admin:
                 - { entity: 'Product', label: app.menu.products }
             - { entity: 'Transaction', label: app.menu.transactions }
             - { entity: 'Transaction', label: app.menu.customers }
-            - { entity: 'User', label: app.menu.users }
+            - label: app.menu.configuration
+              children:
+                - { entity: 'SiteConfig', label: app.menu.sites }
+                - { entity: 'User', label: app.menu.users }
+            

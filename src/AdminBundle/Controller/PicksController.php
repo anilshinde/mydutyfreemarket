@@ -79,6 +79,29 @@ class PicksController extends AdminController
             $this->em->flush();
         }
 
+        // Flush Picks and Products associations, will rebuild it just below
+        $query = $this->em->createQuery(
+                'SELECT p '.
+                'FROM ShopBundle:Product p '.
+                'WHERE :picks MEMBER OF p.pickss '
+            )
+            ->setParameter('picks', $entity->getId());
+
+        $products = $query->getResult();
+        foreach($products as $product) {
+            $product->removePicks($entity);
+            $this->em->persist($product);
+            $this->em->flush();
+        }
+
+        // Rebuild Pickss and Products associations
+        $products = $entity->getProducts();
+        foreach($products as $product) {
+            $product->addPicks($entity);
+            $this->em->persist($product);
+            $this->em->flush();
+        }
+
     }
 
    /**

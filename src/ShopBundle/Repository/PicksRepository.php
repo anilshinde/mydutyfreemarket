@@ -24,10 +24,10 @@ class PicksRepository extends \Doctrine\ORM\EntityRepository
                 'WHERE p.id = :id '
             )
             ->setParameter('id', $id);
-        $picks = $query->getResult();
+        $picks = $query->getOneOrNullResult();
 
         if(in_array(
-            $picks->getFormat(),
+            $picks->getType(),
             array(
                 \ShopBundle\Entity\Picks::PRODUCTS_MANUAL,
                 \ShopBundle\Entity\Picks::PRODUCTS_BEST_SALES,
@@ -46,14 +46,14 @@ class PicksRepository extends \Doctrine\ORM\EntityRepository
                $picks->addProduct($product);
            }
         } else if(in_array(
-            $picks->getFormat(),
+            $picks->getType(),
             array(
                  \ShopBundle\Entity\Picks::PAGES_MANUAL
             )
         )) {
             // Get textes
         } else if(in_array(
-            $picks->getFormat(),
+            $picks->getType(),
             array(
                  \ShopBundle\Entity\Picks::IMAGES_MANUAL
             )

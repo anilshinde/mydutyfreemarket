@@ -30,7 +30,7 @@ class TextRepository extends \Doctrine\ORM\EntityRepository
                 'WHERE t.id = :id '
             )
             ->setParameter('id', $id);
-        $text = $query->getResult();
+        $text = $query->getOneOrNullResult();
         return $text;
     }
 

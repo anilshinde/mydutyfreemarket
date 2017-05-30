@@ -18,8 +18,7 @@ class PageElementRepository extends \Doctrine\ORM\EntityRepository
      */
     public function findAllPageElementsOrderedByPosition($categoryQName = null)
     {
-
-        $pageElements = null
+        $pageElements = null;
         if($categoryQName !== null)
         {
             $query = $this->getEntityManager()
@@ -27,9 +26,9 @@ class PageElementRepository extends \Doctrine\ORM\EntityRepository
                     'SELECT c '.
                     'FROM ShopBundle:Category c '.
                     'WHERE c.qName = :qName '
-                );
+                )
                 ->setParameter('qName', $categoryQName);
-            $category = $query->getResult();
+            $category = $query->getOneOrNullResult();
             if(empty($category)) {
                 return null;
             }
@@ -37,12 +36,12 @@ class PageElementRepository extends \Doctrine\ORM\EntityRepository
             $query = $this->getEntityManager()
                 ->createQuery(
                     'SELECT p '.
-                    'FROM ShopBundle:Page p'.
+                    'FROM ShopBundle:Page p '.
                     'WHERE p.category = :category'
                 )
                 ->setParameter('category', $category->getId());
-            $page = $query->getResult();
-            if(empty($page) or count($page) > 1) {
+            $page = $query->getOneOrNullResult();
+            if(empty($page)) {
                 return null;
             }
 
@@ -55,11 +54,8 @@ class PageElementRepository extends \Doctrine\ORM\EntityRepository
                 )
                 ->setParameter('page', $page->getId());
             $pageElements = $query->getResult();
-
         }
 
         return $pageElements;
-
     }
-
 }

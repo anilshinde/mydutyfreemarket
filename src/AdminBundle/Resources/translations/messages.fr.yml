@@ -26,6 +26,8 @@ app.menu.textes: 'Mes blocs textes'
 app.menu.images: 'Mes visuels et images'
 app.menu.sliders: 'Mes diaporama'
 app.menu.pickss: 'Mes séléctions'
+app.menu.configuration: 'Administration'
+app.menu.sites: 'Mes paramètres de sites'
 
 app.menu.shop: 'Ma boutique'
 app.menu.products: 'Mes produits'
@@ -36,6 +38,35 @@ app.menu.users: 'Les administrateurs'
 app.menu.users: 'Les administrateurs'
 app.menu.user: 'Nouvel administrateur'
 app.menu.user.username: "Login de l'utilisateur"
+
+app.menu.site: 'Nouveau site'
+app.menu.site.group1: 'Description du site'
+app.menu.site.group1.help: 'Designer votre site en renseignant son nom, sa description et son URL.'
+app.menu.site.name: 'Nom'
+app.menu.site.name.help: 'Le nom désigne votre site apparaîtra dans certaines pages de votre site.'
+app.menu.site.description: 'Description'
+app.menu.site.description.help: "La description n'apparaîtra pas sur votre site, mais sera utilisée dans certains meta de votre page."
+app.menu.site.url: 'URL'
+app.menu.site.url.help: "L'URL de votre site apparaitra dans certaines pages de votre site."
+app.menu.site.group2: 'Icônes'
+app.menu.site.group2.help: 'Ajouter le logo et le favicon de votre site.'
+app.menu.site.favicon: 'Favicon'
+app.menu.site.favicon.help: "Cette image apparaîtra dans le navigateur de vos client à gauche de l'URL de votre site."
+app.menu.site.logo: 'Logo'
+app.menu.site.logo.help: 'Cette image apparaitra sur toutes les pages de votre site.'
+app.menu.site.faviconSourceFile: 'Favicon'
+app.menu.site.faviconSourceFile.help: "Cette image apparaîtra dans le navigateur de vos client à gauche de l'URL de votre site."
+app.menu.site.logoSourceFile: 'Logo'
+app.menu.site.logoSourceFile.help: 'Cette image apparaitra sur toutes les pages de votre site.'
+app.menu.site.group3: 'Contact'
+app.menu.site.group3.help: 'Renseigner vos informations de contact pour permettre à vos clients de vous joindre.'
+app.menu.site.address: 'Adresse'
+app.menu.site.address.help: 'Renseigner votre adresse (boutique, bureaux, etc...).'
+app.menu.site.phone: 'Téléphone'
+app.menu.site.phone.help: 'Renseigner votre numéro de téléphone (hotline, support, etc...).'
+app.menu.site.email: 'E-mail'
+app.menu.site.email.help: 'Renseigner votre adresse email (adresse @contact, ...).'
+app.menu.site.status: 'Actif'
 
 app.menu.category: 'Nouvelle rubrique'
 app.menu.category.group1: 'Associer des contenus à une page'
@@ -129,6 +160,8 @@ app.menu.product.group7: 'Apparence'
 app.menu.product.group7.help: 'Ajouter les images visuels de votre produit.'
 app.menu.product.images: 'Images'
 app.menu.product.images.help: "Les images seront utilisées sur la page produit (sous forme de diaporama) afin d'augmenter l'attrait de votre produit."
+app.menu.product.pickss: 'Séléctions'
+app.menu.product.pickss.help: "Le produit sera ajouté dans la séléction."
 app.menu.product.status: 'Actif'
 
 app.menu.picks: 'Nouvelle bloc de séléction'
@@ -149,6 +182,8 @@ app.menu.picks.images: 'Des images'
 app.menu.picks.images.help: "Vous pouvez associer plusieurs images au sein d'une même séléction."
 app.menu.picks.textes: 'Des textes'
 app.menu.picks.textes.help: "Vous pouvez associer plusieurs textes au sein d'une même séléction."
+app.menu.picks.products: 'Des produits'
+app.menu.picks.products.help: "Vous pouvez associer plusieurs produits au sein d'une même séléction."
 app.menu.picks.page: 'Positionné sur la page'
 app.menu.picks.page.help: 'Positionnez ce bloc de séléction sur une page.'
 app.menu.picks.group3: 'Paramètres avancés'
@@ -161,42 +196,42 @@ app.menu.text: 'Nouveau bloc de texte'
 app.menu.text.group1: 'Textes'
 app.menu.text.group1.help: "Saisir l'identifiant, le texte et la page de ce bloc."
 app.menu.text.name: 'Identifiant'
-app.menu.text.name.help: ''
+app.menu.text.name.help: "Cette chaîne de caractères n'apparait nulle part sur le site, mais vous aide à organiser vos multiples blocs de textes."
 app.menu.text.content: 'Contenu'
-app.menu.text.content.help: ''
+app.menu.text.content.help: 'Le contenu texte et/ou HTML de ce bloc.'
 app.menu.text.group2: "Paramètres d'affichage"
 app.menu.text.group2.help: 'Apparition du bloc sur la page'
 app.menu.text.format: 'Format'
-app.menu.text.format.help: ''
+app.menu.text.format.help: "Apparition du texte classique ou flash (en fonction du template de votre site)."
 app.menu.text.format.standard: 'Standard'
 app.menu.text.format.flash: 'Affichage flash'
 app.menu.text.group3: "Paramètres d'affichage"
-app.menu.text.group3.help: "Positionner ce bloc de texte sur une page et/ou l'associer à une séléction de plusieurs textes"
+app.menu.text.group3.help: "Positionner ce bloc de texte sur une page et/ou l'associer à une séléction de plusieurs textes."
 app.menu.text.page: 'Positionner ce bloc sur la page'
-app.menu.text.page.help: ''
+app.menu.text.page.help: 'Positionnez ce bloc de texte sur une page.'
 app.menu.text.pickss: 'Associer ce texte à la séléction de textes'
-app.menu.text.pickss.help: ''
+app.menu.text.pickss.help: 'AJouter ce texte à une séléction de textes.'
 app.menu.text.status: 'Actif'
 
 app.menu.slider: 'Nouveau diaporama'
 app.menu.slider.group1: 'Créer un diaporama'
 app.menu.slider.group1.help: "Séléctionner l'identifiant de votre diaporama."
 app.menu.slider.name: 'Identifiant'
-app.menu.slider.name.help: ''
+app.menu.slider.name.help: "Cette chaîne de caractères n'apparait nulle part sur le site, mais vous aide à organiser vos multiples blocs de textes."
 app.menu.slider.group2: 'Associer'
 app.menu.slider.group2.help: 'Positionner votre diaporama sur une page.'
 app.menu.slider.page: 'Positionné sur la page'
-app.menu.slider.page.help: ''
+app.menu.slider.page.help: "Positionner ce bloc de diaporama sur une page."
 app.menu.slider.images: 'Ajouter des images'
 app.menu.slider.images.help: "Vous pouvez associer plusieurs images au sein d'un même diaporama."
 app.menu.slider.group3: 'Paramètres avancés'
 app.menu.slider.group3.help: 'Définir le délai entre les slides, la couleur des textes, ...'
 app.menu.slider.delay: 'Delai entre slides'
-app.menu.slider.delay.help: ''
+app.menu.slider.delay.help: "Saisir le délai d'interval entre chaque slide (en milliseconds)."
 app.menu.slider.color: 'Couleur des textes'
-app.menu.slider.color.help: ''
+app.menu.slider.color.help: 'Saisir la couleur du texte (en fonction du template de votre site) apparaissant sur chaque slide.'
 app.menu.slider.size: 'Taille'
-app.menu.slider.size.help: ''
+app.menu.slider.size.help: 'Saisir la taille du diaporama.'
 app.menu.slider.status: 'Actif'
 
 app.menu.image: 'Nouvelle image'
@@ -210,23 +245,23 @@ app.menu.image.imagebig: 'Grande image'
 app.menu.image.group2: 'Décrivez cette image'
 app.menu.image.group2.help: "Saisir l'accroche qui apparaitra sur l'image et la légende de cette image."
 app.menu.image.legend: 'Légende'
-app.menu.image.legend.help: ''
+app.menu.image.legend.help: "Saisir la légende qui apparaîtra sous l'image (et dans la balise ALT)."
 app.menu.image.teasing: 'Accroche'
-app.menu.image.teasing.help: ''
+app.menu.image.teasing.help: "Saisir l'accroche qui apparaîtra par dessus l'image."
 app.menu.image.redirecturl: 'URL de redirection'
-app.menu.image.redirecturl.help: ''
+app.menu.image.redirecturl.help: "Saisir l'URL externe vers laquelle vous souhaitez rediriger vos client."
 app.menu.image.group3: 'Associer'
 app.menu.image.group3.help: 'Vous pouvez associer cette image à un produit, une page et/ou un diaporama.'
 app.menu.image.slider: 'Associé à un diaporama'
-app.menu.image.slider.help: ''
+app.menu.image.slider.help: 'Ajouter cette image à un diaporama existant.'
 app.menu.image.product: 'Associé à un produit'
-app.menu.image.product.help: ''
+app.menu.image.product.help: "Ajouter cette image aux images d'un produit existant."
 app.menu.image.page: 'Positionné sur la page'
-app.menu.image.page.help: ''
+app.menu.image.page.help: 'Positionnez cette image sur un page.'
 app.menu.image.pickss: "Séléctions d'images"
-app.menu.image.pickss.help: ''
+app.menu.image.pickss.help: 'Ajouter cette image à une séléction.'
 app.menu.image.sliders: "Diaporama d'images"
-app.menu.image.sliders.help: ''
+app.menu.image.sliders.help: 'Ajouter cette image à un diaporama existant.'
 app.menu.image.status: 'Actif'
 
 app.menu.transaction: 'Nouvelle transaction'

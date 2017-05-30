@@ -43,7 +43,7 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
                     'WHERE p.qName = :qName '
                 )
                 ->setParameter('qName', $pageQName);
-            $page = $query->getResult();
+            $page = $query->getOneOrNullResult();
 
             foreach($categories as $category) {
                 if($category->getId() === $page->getCategory->getId()) {

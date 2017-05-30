@@ -1,0 +1,46 @@
+easy_admin:
+    entities:
+        SiteConfig:
+            class: ShopBundle\Entity\SiteConfig
+            class: AdminBundle\Controller\AdminController
+            label: app.menu.sites
+            form:
+                title: app.menu.site
+                fields:
+                    - { type: 'group', label: app.menu.site.group1, help: app.menu.site.group1.help }
+                    - { property: 'name', label: app.menu.site.name, type: 'text', help: app.menu.site.name.help }
+                    - { property: 'url', label: app.menu.site.url, type: 'text', help: app.menu.site.url.help }
+                    - { property: 'description', label: app.menu.site.description, type: 'text', help: app.menu.site.description.help }
+                    - { type: 'group', label: app.menu.site.group2, help: app.menu.site.group2.help }
+                    - { property: 'faviconSourceFile', label: app.menu.site.faviconSourceFile, help: app.menu.site.faviconSourceFile.help, type: 'vich_image' }
+                    - { property: 'logoSourceFile', label: app.menu.site.logoSourceFile, help: app.menu.site.logoSourceFile.help, type: 'vich_image' }
+                    - { type: 'group', label: app.menu.site.group3, help: app.menu.site.group3.help }
+                    - { property: 'address', label: app.menu.site.address, type: 'text', help: app.menu.site.address.help }
+                    - { property: 'phone', label: app.menu.site.phone, type: 'text', help: app.menu.site.phone.help }
+                    - { property: 'email', label: app.menu.site.email, type: 'text', help: app.menu.site.email.help }
+                    - { property: 'status', label: app.menu.site.status, type: 'checkbox' }
+            show:
+                fields:
+                    - { property: 'name', label: app.menu.site.name }
+                    - { property: 'url', label: app.menu.site.url }
+                    - { property: 'description', label: app.menu.site.description }
+                    - { property: 'faviconSourceFile', label: app.menu.site.faviconSourceFile, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'logoSourceFile', label: app.menu.site.logoSourceFile, type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'address', label: app.menu.site.address }
+                    - { property: 'phone', label: app.menu.site.phone }
+                    - { property: 'email', label: app.menu.site.email }
+                    - { property: 'status', label: app.menu.site.status }
+            list:
+                title: app.menu.sites
+                sort: 'name'
+                actions:
+                    - { name: 'show', label: app.menu.actions.show, icon: 'search' }
+                    - { name: 'linked', label: app.menu.actions.linked, icon: 'cubes' }
+                    - { name: 'edit', label: app.menu.actions.edit, icon: 'edit' }
+                    - { name: 'delete', label: app.menu.actions.delete, icon: 'trash' }
+                fields:
+                    - id
+                    - { property: 'name', label: app.menu.site.name, type: 'text' }
+                    - { property: 'url', label: app.menu.site.url, type: 'text' }
+                    - { property: 'logo', label: app.menu.site.logo }
+                    - { property: 'status', label: app.menu.site.status, type: 'toggle' }
