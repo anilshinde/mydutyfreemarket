@@ -18,7 +18,7 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
      *
      * return array $categories $currentCategory
      */
-    public function findCategories($categoryQName = null, $pageQName = null)
+    public function findCategoriesWithPage($categoryQName = null, $pageQName = null)
     {
 
         // First query to get all categories
@@ -31,10 +31,20 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
             );
         $categories = $query->getResult();
 
+        // Get only first level categories, sub-ones can be get using subcategories property
+        $allParentCategories = array();
+        foreach($categories as $category)
+        {
+            if(empty($category->getParent()))
+            {
+                $allParentCategories[] = $category;
+            }
+        }
         $currentCategory = null;
 
         // Find current category using page qName parameter
-        if($pageQName !== null) {
+        if($pageQName !== null)
+        {
             // Query page to get its category
             $query = $this->getEntityManager()
                 ->createQuery(
@@ -45,8 +55,10 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('qName', $pageQName);
             $page = $query->getOneOrNullResult();
 
-            foreach($categories as $category) {
-                if($category->getId() === $page->getCategory->getId()) {
+            foreach($categories as $category)
+            {
+                if($category->getId() === $page->getCategory->getId())
+                {
                     $currentCategory = $category;
                     break;
                 }
@@ -54,9 +66,12 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
         }
 
         // Find current category using category qName parameter
-        if($categoryQName !== null) {
-            foreach($categories as $category) {
-                if($category->getQName() === $categoryQName) {
+        if($categoryQName !== null)
+        {
+            foreach($categories as $category)
+            {
+                if($category->getQName() === $categoryQName)
+                {
                     $currentCategory = $category;
                     break;
                 }
@@ -64,10 +79,11 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
         }
 
         // If no category or page specified in the route then we redirect to the first page (i.e: home)
-        if(empty($category) and count($categories) > 0) {
+        if(empty($category) and count($categories) > 0)
+        {
             $currentCategory = $categories[0];
         }
 
-        return array($categories, $currentCategory);
+        return array($allParentCategories, $currentCategory);
     }
 }

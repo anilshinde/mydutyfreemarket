@@ -10,4 +10,31 @@ namespace ShopBundle\Repository;
  */
 class SiteConfigRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Find site by its domain
+     *
+     * @param string $domain
+     *
+     * return Site
+     */
+    public function findSiteConfigByDomain($currentDomain = null)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT sc '.
+                'FROM ShopBundle:SiteConfig sc '
+            );
+        $sites = $query->getResult();
+
+        foreach($sites as $site) {
+            $urlParts = parse_url($site->getUrl());
+            $domain = $urlParts['host'];  
+            if($currentDomain === $domain) {
+                return $site;
+            }
+        }
+        return null;
+    }
+
 }

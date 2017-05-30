@@ -1,7 +1,6 @@
         <!-- Top menu -->
         <nav class="navbar" role="navigation">
             <div class="container">
-
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1" aria-expanded="false">
                         <span class="sr-only">Navigation</span>
@@ -9,71 +8,29 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ path('shop_site_index') }}">Shopname</a>
+                    <a class="navbar-brand" href="{{ site.url }}">{{ site.name }}</a>
                 </div>
+
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="top-navbar-1">
                     <ul class="nav navbar-nav navbar-right" itemscope itemtype="http://schema.org/BreadcrumbList">
-                        <li class="dropdown {% if tab1 == 'Accueil' %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
-                            <a {% if tab1 == 'Accueil' %} itemprop="item" {% endif %} href="{{ path('shop_site_index') }}">
-                                <span {% if tab1 == 'Accueil' %} itemprop="name" {% endif %}>Accueil</span>
+                        {% for category in categories %}
+                        <li class="dropdown {% if category.name == currentCategory.name %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
+                            <a {% if category.name == currentCategory.name %} itemprop="item" {% endif %} href="{{ category.url }}">
+                                <span {% if category.name == currentCategory.name %} itemprop="name" {% endif %}>{{ category.name }}</span>
                             </a>
-                            {% if tab1 == 'Accueil' %} <meta itemprop="position" content="1"> {% endif %}
                         </li>
-                        <li class="dropdown {% if tab1 == 'Boutique en ligne' %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
-                            <a {% if tab1 == 'Boutique en ligne' %} itemprop="item" {% endif %} href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
-                                <span {% if tab1 == 'Boutique en ligne' %} itemprop="name" {% endif %}>Boutique en ligne</span>
-                            </a>
-                            {% if tab1 == 'Boutique en ligne' %} <meta itemprop="position" content="1"> {% endif %}
+                            {% if category.subcategories is not empty %}
+                            <meta itemprop="position" content="1"> 
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <li><a href="{{ path('shop_site_gallery') }}">Tous nos produits</a></li>
-                                <li><a href="{{ path('shop_site_gallery', { 'category': 1 }) }}">Tous nos fers à lisser</a></li>
-                                <li><a href="{{ path('shop_site_gallery', { 'category': 2 }) }}">Tous nos fers à boucler</a></li> 
-                                <li><a href="{{ path('shop_site_gallery', { 'category': 3 }) }}">Tous nos sèches cheveux</a></li>
-                                <li><a href="{{ path('shop_site_gallery', { 'category': 4 }) }}">Tous nos packs</a></li>
-                                <li><a href="{{ path('shop_site_gallery', { 'category': 5 }) }}">Tous nos accessoires</a></li>
-                                <li><a href="{{ path('shop_site_index') }}">Toutes les promotions</a></li>
+                                {% for subcategory in category.subcategories %}
+                                <li><a href="{{ subcategory.page.url }}">{{ subcategory.name }}</a></li>
+                                {% endfor %}
                             </ul>
+                            {% endif %}
                         </li>
-                        <li class="dropdown" {% if tab1 == 'A propos' %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
-                            <a {% if tab1 == 'A propos' %} itemprop="item" {% endif %} href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
-                                <span {% if tab1 == 'A propos' %} itemprop="name" {% endif %}>A propos</span>
-                            </a>
-                            {% if tab1 == 'A propos' %} <meta itemprop="position" content="1"> {% endif %}
-                            <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <li><a href="{{ path('shop_site_about') }}">Qui sommes-nous ?</a></li>
-                                <li><a href="{{ path('shop_site_other4') }}">FAQ &amp; les avis des consommateurs</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown" {% if tab1 == 'Nos services' %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
-                            <a {% if tab1 == 'Nos services' %} itemprop="item" {% else %} " {% endif %} href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
-                                <span {% if tab1 == 'Nos services' %} itemprop="name" {% endif %}>Nos services</span>
-                            </a>
-                            {% if tab1 == 'Nos services' %} <meta itemprop="position" content="1"> {% endif %}
-                            <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <li><a href="{{ path('shop_site_warant') }}">Garantie à vie</a></li>
-                                <li><a href="{{ path('shop_site_shipping') }}">Livraison gratuite en France</a></li>
-                                <li><a href="{{ path('shop_site_sellers') }}">Les revendeurs agrées</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown" {% if tab1 == 'Conseils en coiffure' %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
-                            <a {% if tab1 == 'Conseils en coiffure' %} itemprop="item" {% endif %} href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
-                                <span {% if tab1 == 'Conseils en coiffure' %} itemprop="name" {% endif %}> Conseils en coiffure</span>
-                            </a>
-                            {% if tab1 == 'Conseils en coiffure' %} <meta itemprop="position" content="1"> {% endif %}
-                            <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <li><a href="{{ path('shop_site_other1') }}">Vidéos professionnelles de coiffures</a></li>
-                                <li><a href="{{ path('shop_site_other2') }}">Matériaux des fers à cheveux</a></li>
-                                <li><a href="{{ path('shop_site_other3') }}">Utilisation des fers à cheveux</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown" {% if tab1 == 'Contact' %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
-                            <a {% if tab1 == 'Contact' %} itemprop="item" {% endif %} href="{{ path('shop_site_contact') }}">
-                                <span {% if tab1 == 'Contact' %} itemprop="name" {% endif %}>Contact</span>
-                            </a>
-                            {% if tab1 == 'Contact' %} <meta itemprop="position" content="1">{% endif %}
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

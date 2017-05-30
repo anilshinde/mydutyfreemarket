@@ -17,14 +17,26 @@ class SiteController extends Controller
      * @Route("/{parentCategory}/{category}")
      * @Route("/{parentCategory}/{category}/{page}")
      */
-    public function indexAction($category = null, $parentCategory = null, $page = null)
+    public function indexAction(\Symfony\Component\HttpFoundation\Request $request, $category = null, $parentCategory = null, $page = null)
     {
+        // Get cache service
         if($this->cache === null) {
             $this->cache = $this->container->get('app.redis_connector');
         }
 
-        // Get the site categories tree and the current page category
+        // Get current URL to get page
+        $route = $request->get('_route');
+        $url = $request->getUri();
+        $urlParts = parse_url($url);
+        $domain = $urlParts['host'];
 
+        // Get site config using dns
+        $site = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('ShopBundle:SiteConfig')
+            ->findSiteConfigByDomain($domain);
+
+        // Get the site categories tree and the current page category
         // First, get the nav categories tree entirely from Redis cache using either its page and/or category identifier
         $categories = null;
         $currentCategory = null;
@@ -37,7 +49,7 @@ class SiteController extends Controller
             list($categories, $currentCategory) = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('ShopBundle:Category')
-                ->findCategories($category, $page);
+                ->findCategoriesWithPage($category, $page);
             $category = $currentCategory->getQName();
             $keyNav = 'frontpage-nav-'.$category;
             $this->cache->save($keyNav, array($categories, $currentCategory));
@@ -102,6 +114,7 @@ class SiteController extends Controller
             $this->cache->save($keyPage, $page);
         }
         return $this->render('ShopBundle:Default:index.html.twig', array(
+            'site' => $site,
             'categoriesTree' => $categories,
             'currentCategory' => $currentCategory,
             'pageContent' => $page

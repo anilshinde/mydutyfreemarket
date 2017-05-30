@@ -17,6 +17,7 @@ easy_admin:
                       label: app.menu.category.subcategories
                       type: 'entity'
                       type_options: { class: 'ShopBundle\Entity\Category', multiple: true }
+                    - { property: 'page', label: app.menu.page.parent, type: 'easyadmin_autocomplete', help: app.menu.category.page.help }
                     - { property: 'status', label: app.menu.category.status, type: 'checkbox' }
             show:
                 fields:
@@ -26,6 +27,7 @@ easy_admin:
                     - { property: 'subcategories', label: app.menu.category.subcategories }
                     - { property: 'rank', label: app.menu.category.rank }
                     - { property: 'shop', label: app.menu.category.shop }
+                    - { property: 'page', label: app.menu.category.page }
                     - { property: 'status', label: app.menu.category.status }
             list:
                 title: app.menu.categories
@@ -44,4 +46,5 @@ easy_admin:
                     - { property: 'parent', label: app.menu.category.parent }
                     - { property: 'subcategories', label: app.menu.category.subcategories }
                     - { property: 'rank', label: app.menu.category.rank }
+                    - { property: 'page', label: app.menu.category.page }
                     - { property: 'status', label: app.menu.category.status, type: 'toggle' }

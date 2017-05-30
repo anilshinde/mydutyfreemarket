@@ -64,6 +64,11 @@ class Category
      * @ORM\Column(name="rank", type="integer", nullable=true)
      */
     private $rank;
+    /**
+     * @var $page
+     * @ORM\OneToOne(targetEntity="ShopBundle\Entity\Page")
+     */
+    private $page;
 
     /**
      * @var boolean
@@ -249,6 +254,30 @@ class Category
     public function getRank()
     {
         return $this->rank;
+    }
+
+    /**
+     * Set page
+     *
+     * @param string $page
+     *
+     * @return Category
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Get page
+     *
+     * @return string
+     */
+    public function getPage()
+    {
+        return $this->page;
     }
 
     /**
