@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Slider
 {
-
     const FORMAT_YELLOW = 'yellow';
     const FORMAT_BLUE = 'blue';
 
@@ -26,7 +25,7 @@ class Slider
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id; 
+    private $id;
 
     /**
      * Many Slider have Many Images.
@@ -64,7 +63,7 @@ class Slider
      * @ORM\Column(name="color", type="string", length=6, nullable=true)
      *
      */
-    private $color; 
+    private $color;
 
     /**
      * @var string
@@ -275,6 +274,4 @@ class Slider
     {
         return $this->images;
     }
-
 }
-

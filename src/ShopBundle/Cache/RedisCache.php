@@ -32,7 +32,7 @@ class RedisCache
      */
     private $db;
 
-    /** 
+    /**
      * Redis connection
      */
     private $connection;
@@ -46,12 +46,13 @@ class RedisCache
         $this->timeout = $timeout;
         $this->db = $db;
 
-        if(!$this->connection instanceof Redis) {
+        if (!$this->connection instanceof Redis) {
             $this->connect();
         }
     }
 
-    private function connect() {
+    private function connect()
+    {
         $this->connection = new Redis();
         $this->connection->pconnect($this->host, $this->port, $this->timeout);
         $this->connection->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
@@ -71,7 +72,8 @@ class RedisCache
     /**
      * Members of list
      */
-    public function members($list) {
+    public function members($list)
+    {
         return $this->connection->sMembers($list);
     }
 
@@ -86,14 +88,16 @@ class RedisCache
     /**
      * Add member to list
      */
-    public function add($list, $member) {
+    public function add($list, $member)
+    {
         return $this->connection->sAdd($list, $member);
     }
 
     /**
      * Save key content
      */
-    public function save($key, $content, $expiration = 30) {
+    public function save($key, $content, $expiration = 30)
+    {
         if ($expiration > 0) {
             return $this->connection->setex($key, $expiration, serialize($content));
         } else {
@@ -106,14 +110,15 @@ class RedisCache
      */
     public function remove($list, $member)
     {
-       return $this->connection->sRem($list, $member);
+        return $this->connection->sRem($list, $member);
     }
 
     /**
      * Drop a key and its content
      */
-    public function drop($key) {
-       return $this->connection->delete($key) > 0;
+    public function drop($key)
+    {
+        return $this->connection->delete($key) > 0;
     }
 
     /**
@@ -123,5 +128,4 @@ class RedisCache
     {
         return $this->connection->flushDb();
     }
-
 }

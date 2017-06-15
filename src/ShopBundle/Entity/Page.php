@@ -65,6 +65,14 @@ class Page
     private $status;
 
     /**
+     * Define if the page is site's homepage
+     * @var boolean
+     *
+     * @ORM\Column(name="main", type="boolean")
+     */
+    private $main;
+
+    /**
      * Page have many PageElement.
      * @var integer
      *
@@ -139,6 +147,30 @@ class Page
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set as main
+     *
+     * @param boolean $main
+     *
+     * @return Page
+     */
+    public function setMain($main)
+    {
+        $this->main = $main;
+
+        return $this;
+    }
+
+    /**
+     * Check if main site page
+     *
+     * @return boolean
+     */
+    public function getMain()
+    {
+        return $this->main;
     }
 
     /**
@@ -272,6 +304,4 @@ class Page
     {
         return $this->pageElements;
     }
-
 }
-

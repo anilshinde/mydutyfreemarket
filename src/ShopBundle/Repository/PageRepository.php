@@ -10,7 +10,4 @@ namespace ShopBundle\Repository;
  */
 class PageRepository extends \Doctrine\ORM\EntityRepository
 {
-
-
-
 }

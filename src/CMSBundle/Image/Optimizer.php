@@ -9,7 +9,6 @@ namespace CMSBundle\Image;
  */
 class Optimizer
 {
-
     private $pathToLocalImage;
     private $smallSize;
     private $mediumSize;
@@ -30,29 +29,30 @@ class Optimizer
      * @sourcePath Image source local path
      * @sizes Array of sizes requested in result
      */
-    public function generateResizedImages($sourcePath, $sizes) {
+    public function generateResizedImages($sourcePath, $sizes)
+    {
         $pathinfo = pathinfo($sourcePath);
-        if(!in_array($pathinfo['extension'], array('jpg', 'png'))) {
-            return NULL;
+        if (!in_array($pathinfo['extension'], array('jpg', 'png'))) {
+            return null;
         }
 
         $allNewImageFiles = array();
-        foreach($sizes as $size) {
+        foreach ($sizes as $size) {
             list($width, $height) = $size;
             $imageSource = new \Imagick($this->pathToLocalImage.'/'.$pathinfo['basename']);
-            $isImageResized = FALSE;
+            $isImageResized = false;
             try {
                 $imageSource->cropThumbnailImage($width, $height);
                 $imageSource->stripImage();
                 $imageSource->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
                 $imageSource->setImageCompressionQuality(85);
 
-                $newImageFile = substr($sourcePath, 0 , strrpos($sourcePath, '.', -1)).'-'.($width).'x'.($height).'.'.$pathinfo['extension'];
+                $newImageFile = substr($sourcePath, 0, strrpos($sourcePath, '.', -1)).'-'.($width).'x'.($height).'.'.$pathinfo['extension'];
                 $allNewImageFiles[] = $newImageFile;
                 $imageSource->writeImage($this->pathToLocalImage.'/'.$newImageFile);
                 $imageSource->destroy();
-                $isImageResized = TRUE;
-            } catch(Exception $e) {
+                $isImageResized = true;
+            } catch (Exception $e) {
                 die('Unable to resize image "'.$entity->getImageSource().'" using sizes '.$width.'-'.$height.' : '.$e->getMessage());
             }
         }

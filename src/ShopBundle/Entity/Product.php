@@ -106,7 +106,7 @@ class Product
      *
      * @ORM\Column(name="formats", type="string", length=200)
      */
-    private $formats; 
+    private $formats;
 
     /**
      * @var int
@@ -136,7 +136,8 @@ class Product
      */
     private $pickss;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
         $this->pickss = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -562,4 +563,3 @@ class Product
         return $this;
     }
 }
-

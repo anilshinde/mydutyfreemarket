@@ -45,9 +45,11 @@ Shop pages contents:
 - :tractor: connexion to Analytics (Bing, Google, ...), Search console (Bing, Google, ...) 
 - :oncoming_automobile: 7 styles available
 - :oncoming_automobile: Newsletter subscription
-- :rocket: customization through GIT bundle
-- :rocket: connexion to Facebook, Amazon, GoogleShopping, ...
 - :oncoming_automobile: Live support
+- :plane: Internal tracking: view, page views, element views, ip, session_id, user_id, ...
+- :rocket: customization through GIT bundle
+- :rocket: connexion to shopping feeds (Facebook, Amazon, GoogleShopping, ...)
+
 
 Backoffice - CMS features:
 - :tractor: Multi-sites management
@@ -92,17 +94,18 @@ Backoffice - Shop features:
 - :oncoming_automobile: Manage taxes
 - :oncoming_automobile: Manage shipping taxes and products weights
 - :oncoming_automobile: Manage countries
-- :rocket: Manage languages
 - :oncoming_automobile: Mail transactions
+- :oncoming_automobile: IRL transactions
+- :plane: Manage languages
 - :rocket: Mail marketing
 
 Backoffice - Analytics features:
 - :tractor: Dashboard
 - :tractor: Reports on products: best sales, ...
 - :tractor: Reports on transactions: processed, abandoned, validated, refunded, ...
-- :oncoming_automobile: Internal tracking: view, page views, element views, ...
-- :rocket: Reports on views
-- :rocket: Reports on customers: new customers, geo, ...
+- :plane: Reports on views
+- :plane: Reports on customers: new customers, geo, ...
+- :rocket: Cross reports on physical visits in real store
 
 Backoffice - General features
 - :bike: Project configuration: url, email, multi-users, copyright, ...
@@ -129,8 +132,13 @@ SEO / Mobile first:
 - :bike: AMP slide
 - :bike: AMP menu side
 - :bike: AMP CMS and Shop bloc management
-- :rocket: PWA app
+- :rocket: Track AMP READER_ID
+
+Mobile App:
+- :rocket: PWA customer app
 - :rocket: Push notification
+- :rocket: PWA merchant app for IRL transactions
+- :rocket: Track localisation at physical store visit/purchase
 
 Performances:
 - :bike: :checkered_flag: Enable Redis cache of all frontend MySQL queries

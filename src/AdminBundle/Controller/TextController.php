@@ -11,7 +11,6 @@ use ShopBundle\Entity\PageElement;
 
 use AdminBundle\Controller\AdminController;
 
-
 class TextController extends AdminController
 {
 
@@ -43,15 +42,15 @@ class TextController extends AdminController
             )
             ->setParameter('text', $entity->getId());
         $pickss = $query->getResult();
-        foreach($pickss as $picks) {
+        foreach ($pickss as $picks) {
             $picks->removeText($entity);
             $this->em->persist($picks);
             $this->em->flush();
         }
 
         // Rebuild Picks and Textes associations
-        foreach($entity->getPickss() as $picks) {
-            if(!$picks->getTextes()->contains($entity)) {
+        foreach ($entity->getPickss() as $picks) {
+            if (!$picks->getTextes()->contains($entity)) {
                 $picks->addText($entity);
                 $this->em->persist($picks);
                 $this->em->flush();
@@ -70,7 +69,7 @@ class TextController extends AdminController
     {
         // Flush Pages and Elements associations, will rebuild it after update
         $page = $entity->getPage();
-        if(!empty($page)) {
+        if (!empty($page)) {
             $query = $this->em->createQuery(
                     'DELETE '.
                     'FROM ShopBundle:PageElement pe '.
@@ -84,5 +83,4 @@ class TextController extends AdminController
             $pageElements = $query->getResult();
         }
     }
-
 }

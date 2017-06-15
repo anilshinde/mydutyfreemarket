@@ -21,23 +21,20 @@ use CMSBundle\Image\Optimizer;
 
 class AdminListener implements EventSubscriberInterface
 {
-
     protected $entityManager;
     protected $imagesOptimizer;
 
     public static function getSubscribedEvents()
     {
-
         return array(
             EasyAdminEvents::POST_PERSIST => 'onPostPersist',
             EasyAdminEvents::POST_UPDATE => 'onPostEdit'
         );
     }
 
-    function __construct(
+    public function __construct(
         EntityManager $entityManager
-    )
-    {
+    ) {
         $this->entityManager = $entityManager;
     }
 
@@ -48,25 +45,23 @@ class AdminListener implements EventSubscriberInterface
 
     public function onPostPersist(GenericEvent $event)
     {
-
         $entity = $event['entity'];
 
-        if(empty($entity)) {
+        if (empty($entity)) {
             return;
         }
 
-        if(!(($entity instanceof Slider) or ($entity instanceof Text) or ($entity instanceof Image) or ($entity instanceof Picks)))
-        {
+        if (!(($entity instanceof Slider) or ($entity instanceof Text) or ($entity instanceof Image) or ($entity instanceof Picks))) {
             return;
         }
 
         $page = $entity->getPage();
 
-        if(empty($page) and (($entity instanceof Slider) or ($entity instanceof Text) or ($entity instanceof Picks))) {
+        if (empty($page) and (($entity instanceof Slider) or ($entity instanceof Text) or ($entity instanceof Picks))) {
             return;
         }
 
-        if(!empty($page)) {
+        if (!empty($page)) {
             $query = $this->entityManager->createQuery(
                     'SELECT pe '.
                     'FROM ShopBundle:PageElement pe '.
@@ -77,24 +72,20 @@ class AdminListener implements EventSubscriberInterface
             $pageElements = $query->getResult();
 
             $newPosition = 1;
-            foreach($pageElements as $pageElement) {
+            foreach ($pageElements as $pageElement) {
                 $newPosition++;
             }
 
             $pageElement = new PageElement();
             $pageElement->setPage($entity->getPage());
             $pageElement->setElement($entity->getId());
-            if ($entity instanceof Slider)
-            {
+            if ($entity instanceof Slider) {
                 $pageElement->setFormat(PageElement::FORMAT_SLIDER);
-            } else if ($entity instanceof Text)
-            {
+            } elseif ($entity instanceof Text) {
                 $pageElement->setFormat(PageElement::FORMAT_TEXT);
-            } else if ($entity instanceof Image)
-            {
+            } elseif ($entity instanceof Image) {
                 $pageElement->setFormat(PageElement::FORMAT_IMAGE);
-            } else if ($entity instanceof Picks)
-            {
+            } elseif ($entity instanceof Picks) {
                 $pageElement->setFormat(PageElement::FORMAT_PICKS);
             }
             $pageElement->setPosition($newPosition);
@@ -104,8 +95,7 @@ class AdminListener implements EventSubscriberInterface
             $this->entityManager->flush();
         }
 
-        if ($entity instanceof Image)
-        {
+        if ($entity instanceof Image) {
             $source = $entity->getImageSource();
             $sizes = array(
                 array(345, 250),
@@ -125,16 +115,13 @@ class AdminListener implements EventSubscriberInterface
     {
         $entity = $event['entity'];
 
-        if ($entity instanceof Slider or $entity instanceof Text or $entity instanceof Image or $entity instanceof Picks)
-        {
+        if ($entity instanceof Slider or $entity instanceof Text or $entity instanceof Image or $entity instanceof Picks) {
             $page = $entity->getPage();
-            if (empty($page) and ($entity instanceof Slider or $entity instanceOf Text or $entity instanceof Picks))
-            {
+            if (empty($page) and ($entity instanceof Slider or $entity instanceof Text or $entity instanceof Picks)) {
                 return;
             }
 
-            if (!empty($page))
-            {
+            if (!empty($page)) {
                 $query = $this->entityManager->createQuery(
                         'SELECT pe '.
                         'FROM ShopBundle:PageElement pe '.
@@ -144,21 +131,18 @@ class AdminListener implements EventSubscriberInterface
                     ->setParameter('id', $page->getId());
                 $pageElements = $query->getResult();
                 $newPosition = 1;
-                foreach($pageElements as $pageElement) {
+                foreach ($pageElements as $pageElement) {
                     $newPosition++;
                 }
 
                 $pageElement = new PageElement();
                 $pageElement->setPage($entity->getPage());
                 $pageElement->setElement($entity->getId());
-                if ($entity instanceof Slider)
-                {
+                if ($entity instanceof Slider) {
                     $pageElement->setFormat(PageElement::FORMAT_SLIDER);
-                } else if ($entity instanceof Text)
-                {
+                } elseif ($entity instanceof Text) {
                     $pageElement->setFormat(PageElement::FORMAT_TEXT);
-                } else if ($entity instanceof Picks)
-                {
+                } elseif ($entity instanceof Picks) {
                     $pageElement->setFormat(PageElement::FORMAT_PICKS);
                 }
                 $pageElement->setPosition($newPosition);
@@ -169,7 +153,7 @@ class AdminListener implements EventSubscriberInterface
             }
         }
 
-        if($entity instanceof Image) {
+        if ($entity instanceof Image) {
             $source = $entity->getImageSource();
 
             $sizes = array(
@@ -184,5 +168,4 @@ class AdminListener implements EventSubscriberInterface
             $this->entityManager->flush();
         }
     }
-
 }

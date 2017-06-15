@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Text
 {
-
     const FORMAT_STANDARD = 'standard';
     const FORMAT_FLASH = 'flash';
 
@@ -23,7 +22,7 @@ class Text
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id; 
+    private $id;
 
     /**
      * @var string
@@ -69,7 +68,8 @@ class Text
     private $pickss;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pickss = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -182,7 +182,7 @@ class Text
     public function getContent()
     {
         return $this->content;
-    } 
+    }
 
     /**
      * Get status
@@ -216,7 +216,7 @@ class Text
      * @return Image
      */
     public function addPicks(Picks $picks)
-    {   
+    {
         $this->pickss[] = $picks;
 
         return $this;
@@ -230,7 +230,7 @@ class Text
      * @return Image
      */
     public function removePicks(Picks $picks)
-    {   
+    {
         $this->pickss->removeElement($picks);
     }
 
@@ -243,6 +243,4 @@ class Text
     {
         return $this->pickss;
     }
-
 }
-

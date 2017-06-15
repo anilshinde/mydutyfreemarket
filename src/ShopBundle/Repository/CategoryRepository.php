@@ -13,14 +13,13 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Find categories and current page's one
-     * 
+     *
      * @param string $pageQName
      *
      * return array $categories $currentCategory
      */
     public function findCategoriesWithPage($categoryQName = null, $pageQName = null)
     {
-
         // First query to get all categories
         $query = $this->getEntityManager()
             ->createQuery(
@@ -33,18 +32,15 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
 
         // Get only first level categories, sub-ones can be get using subcategories property
         $allParentCategories = array();
-        foreach($categories as $category)
-        {
-            if(empty($category->getParent()))
-            {
+        foreach ($categories as $category) {
+            if (empty($category->getParent())) {
                 $allParentCategories[] = $category;
             }
         }
         $currentCategory = null;
 
         // Find current category using page qName parameter
-        if($pageQName !== null)
-        {
+        if ($pageQName !== null) {
             // Query page to get its category
             $query = $this->getEntityManager()
                 ->createQuery(
@@ -53,25 +49,30 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
                     'WHERE p.qName = :qName '
                 )
                 ->setParameter('qName', $pageQName);
-            $page = $query->getOneOrNullResult();
+            $currentPage = $query->getOneOrNullResult();
 
-            foreach($categories as $category)
-            {
-                if($category->getId() === $page->getCategory->getId())
-                {
+            foreach ($categories as $category) {
+                if ($category->getId() === $currentPage->getCategory->getId()) {
                     $currentCategory = $category;
                     break;
                 }
             }
+        } else {
+            // Query page to get the site homepage
+            $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT p '.
+                    'FROM ShopBundle:Page p '.
+                    'WHERE p.main = :main '
+                )
+                ->setParameter('main', true);
+            $currentPage = $query->getOneOrNullResult();
         }
 
         // Find current category using category qName parameter
-        if($categoryQName !== null)
-        {
-            foreach($categories as $category)
-            {
-                if($category->getQName() === $categoryQName)
-                {
+        if ($categoryQName !== null) {
+            foreach ($categories as $category) {
+                if ($category->getQName() === $categoryQName) {
                     $currentCategory = $category;
                     break;
                 }
@@ -79,11 +80,10 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
         }
 
         // If no category or page specified in the route then we redirect to the first page (i.e: home)
-        if(empty($category) and count($categories) > 0)
-        {
+        if (empty($currentCategory) and count($categories) > 0) {
             $currentCategory = $categories[0];
         }
 
-        return array($allParentCategories, $currentCategory);
+        return array($allParentCategories, $currentCategory, $currentPage);
     }
 }

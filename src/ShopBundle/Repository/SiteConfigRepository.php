@@ -27,14 +27,15 @@ class SiteConfigRepository extends \Doctrine\ORM\EntityRepository
             );
         $sites = $query->getResult();
 
-        foreach($sites as $site) {
+        foreach ($sites as $site) {
             $urlParts = parse_url($site->getUrl());
-            $domain = $urlParts['host'];  
-            if($currentDomain === $domain) {
-                return $site;
+            if(!empty($urlParts['host'])) {
+                $domain = $urlParts['host'];
+                if ($currentDomain === $domain) {
+                    return $site;
+                }
             }
         }
         return null;
     }
-
 }

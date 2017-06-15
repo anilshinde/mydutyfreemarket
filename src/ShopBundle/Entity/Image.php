@@ -141,7 +141,8 @@ class Image
     private $pickss;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pickss = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sliders = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -549,4 +550,3 @@ class Image
         $this->sliders->removeElement($slider);
     }
 }
-

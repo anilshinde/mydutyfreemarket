@@ -10,11 +10,9 @@ namespace ShopBundle\Repository;
  */
 class PicksRepository extends \Doctrine\ORM\EntityRepository
 {
-
     public function findPicksWithImagesAndTextesAndProducts($id = null)
     {
-
-        if($id === null) {
+        if ($id === null) {
             return null;
         }
         $query = $this->getEntityManager()
@@ -26,7 +24,7 @@ class PicksRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('id', $id);
         $picks = $query->getOneOrNullResult();
 
-        if(in_array(
+        if (in_array(
             $picks->getType(),
             array(
                 \ShopBundle\Entity\Picks::PRODUCTS_MANUAL,
@@ -34,31 +32,31 @@ class PicksRepository extends \Doctrine\ORM\EntityRepository
                 \ShopBundle\Entity\Picks::PRODUCTS_LAST_SALES
             )
         )) {
-           // Get products
+            // Get products
            // TODO apply requested rule to select products (last sales, best sales, manual, ...)
            $query = $this->getEntityManager()
                ->createQuery(
                    'SELECT p '.
                    'FROM ShopBundle:Product p '
                );
-           $products = $query->getResult();
-           foreach($products as $product) {
-               $picks->addProduct($product);
-           }
-        } else if(in_array(
+            $products = $query->getResult();
+            foreach ($products as $product) {
+                $picks->addProduct($product);
+            }
+        } elseif (in_array(
             $picks->getType(),
             array(
                  \ShopBundle\Entity\Picks::PAGES_MANUAL
             )
         )) {
             // Get textes
-        } else if(in_array(
+        } elseif (in_array(
             $picks->getType(),
             array(
                  \ShopBundle\Entity\Picks::IMAGES_MANUAL
             )
         )) {
-           // Get images
+            // Get images
         }
 
         return $picks;

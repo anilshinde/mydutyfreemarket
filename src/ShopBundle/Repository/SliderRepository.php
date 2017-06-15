@@ -23,7 +23,7 @@ class SliderRepository extends \Doctrine\ORM\EntityRepository
      */
     public function findSliderWithImages($id = null)
     {
-        if($id === null) {
+        if ($id === null) {
             return null;
         }
 
@@ -37,7 +37,7 @@ class SliderRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('id', $id);
         $slider = $query->getOneOrNullResult();
 
-        if(!empty($slider)) {
+        if (!empty($slider)) {
             // Get images associated to this slider
             $query = $this->getEntityManager()
                 ->createQuery(
@@ -47,7 +47,7 @@ class SliderRepository extends \Doctrine\ORM\EntityRepository
                 )
                 ->setParameter('slider', $slider->getId());
             $images = $query->getResult();
-            foreach($images as $image) {
+            foreach ($images as $image) {
                 $slider->addImage($image);
             }
         }

@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 
-
 class AdminController extends BaseAdminController
 {
 
@@ -20,11 +19,11 @@ class AdminController extends BaseAdminController
      *
      * @return Route
      */
-    protected function linkedAction() {
+    protected function linkedAction()
+    {
         // Fast custom action for looking at entity's images
         // TODO: finalize
-        switch($this->request->query->get('entity'))
-        {
+        switch ($this->request->query->get('entity')) {
             case 'Slider':
                 $entity = 'Image';
                 $linked = 'slider';
@@ -73,5 +72,4 @@ class AdminController extends BaseAdminController
 //        }
         return $newForm;
     }
-
 }

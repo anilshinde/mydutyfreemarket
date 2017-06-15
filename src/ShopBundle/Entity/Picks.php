@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Picks
 {
-
     const PRODUCTS_MANUAL = 'products_manual';
     const PRODUCTS_BEST_SALES = 'products_best_sales';
     const PRODUCTS_LAST_SALES = 'products_last_sales';
@@ -46,7 +45,7 @@ class Picks
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="text", length=50) 
+     * @ORM\Column(name="type", type="text", length=50)
      */
     private $type;
 
@@ -235,7 +234,7 @@ class Picks
      * @return Picks
      */
     public function addImage(Image $image)
-    {   
+    {
         $this->images[] = $image;
 
         return $this;
@@ -249,7 +248,7 @@ class Picks
      * @return Picks
      */
     public function removeImage(Image $image)
-    {   
+    {
         $this->images->removeElement($image);
     }
 
@@ -333,6 +332,4 @@ class Picks
     {
         return $this->products;
     }
-
 }
-

@@ -10,7 +10,6 @@ use ShopBundle\Entity\PageElement;
 
 use AdminBundle\Controller\AdminController;
 
-
 class ImageController extends AdminController
 {
 
@@ -42,15 +41,15 @@ class ImageController extends AdminController
             )
             ->setParameter('image', $entity->getId());
         $sliders = $query->getResult();
-        foreach($sliders as $slider) {
+        foreach ($sliders as $slider) {
             $slider->removeImage($entity);
             $this->em->persist($slider);
             $this->em->flush();
         }
 
         // Rebuild Slider and Image associations
-        foreach($entity->getSliders() as $slider) {
-            if(!$slider->getImages()->contains($entity)) {
+        foreach ($entity->getSliders() as $slider) {
+            if (!$slider->getImages()->contains($entity)) {
                 $slider->addImage($entity);
                 $this->em->persist($slider);
                 $this->em->flush();
@@ -65,15 +64,15 @@ class ImageController extends AdminController
             )
             ->setParameter('image', $entity->getId());
         $pickss = $query->getResult();
-        foreach($pickss as $picks) {
+        foreach ($pickss as $picks) {
             $picks->removeImage($entity);
             $this->em->persist($picks);
             $this->em->flush();
         }
 
         // Rebuild Pickss and Image associations
-        foreach($entity->getPickss() as $picks) {
-            if(!$picks->getImages()->contains($entity)) {
+        foreach ($entity->getPickss() as $picks) {
+            if (!$picks->getImages()->contains($entity)) {
                 $picks->addImage($entity);
                 $this->em->persist($picks);
                 $this->em->flush();
@@ -92,7 +91,7 @@ class ImageController extends AdminController
     {
         // Flush Pages and Elements associations, will rebuild it after update
         $page = $entity->getPage();
-        if(!empty($page)) {
+        if (!empty($page)) {
             $query = $this->em->createQuery(
                     'DELETE '.
                     'FROM ShopBundle:PageElement pe '.

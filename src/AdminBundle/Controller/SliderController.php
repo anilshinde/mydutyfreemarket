@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 use AdminBundle\Controller\AdminController;
 
-
 class SliderController extends AdminController
 {
 
@@ -41,15 +40,15 @@ class SliderController extends AdminController
             )
             ->setParameter('slider', $entity->getId());
         $images = $query->getResult();
-        foreach($images as $image) {
+        foreach ($images as $image) {
             $image->removeSlider($entity);
             $this->em->persist($image);
             $this->em->flush();
         }
 
         // Rebuild Slider and Images associations
-        foreach($entity->getImages() as $image) {
-            if(!$image->getSliders()->contains($entity)) {
+        foreach ($entity->getImages() as $image) {
+            if (!$image->getSliders()->contains($entity)) {
                 $image->addSlider($entity);
                 $this->em->persist($image);
                 $this->em->flush();
@@ -68,7 +67,7 @@ class SliderController extends AdminController
     {
         // Flush Pages and Elements associations, will rebuild it after update
         $page = $entity->getPage();
-        if(!empty($page)) {
+        if (!empty($page)) {
             $query = $this->em->createQuery(
                     'DELETE '.
                     'FROM ShopBundle:PageElement pe '.
@@ -82,5 +81,4 @@ class SliderController extends AdminController
             $pageElements = $query->getResult();
         }
     }
-
 }

@@ -66,7 +66,7 @@
                 },
                 {
                     "@type":"ListItem",
-                    "position":2,"name":"{{ tab1 }}",
+                    "position":2,"name":"{{ currentCategory.name }}",
                     "item":{"@id":"{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"}
                 }]
             },
@@ -90,7 +90,7 @@
                     "@type":"WebPage",
                     "@id":"{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"
                 },
-                "keywords":"{{ tab1 }}, fer en céramique, fer à boucler, fer à lisser, coiffeur professionnel, fer à cheveux professionnel, promotion fers à cheveux, fer à lisser rose, solde fer à lisser, cône à boucler, lisseur de cheveux, fer en céramique, appareil de coiffure, conseils professionnel, plaques à cheveux, sèche-cheveux"
+                "keywords":"{{ currentCategory.name }}, fer en céramique, fer à boucler, fer à lisser, coiffeur professionnel, fer à cheveux professionnel, promotion fers à cheveux, fer à lisser rose, solde fer à lisser, cône à boucler, lisseur de cheveux, fer en céramique, appareil de coiffure, conseils professionnel, plaques à cheveux, sèche-cheveux"
             }
             {% if app.request.attributes.get('_route') == 'shop_site_product' %}
             ,{

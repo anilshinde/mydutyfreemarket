@@ -42,7 +42,7 @@ class PicksController extends AdminController
             ->setParameter('picks', $entity->getId());
 
         $textes = $query->getResult();
-        foreach($textes as $text) {
+        foreach ($textes as $text) {
             $text->removePicks($entity);
             $this->em->persist($text);
             $this->em->flush();
@@ -50,7 +50,7 @@ class PicksController extends AdminController
 
         // Rebuild Pickss and Textes associations
         $textes = $entity->getTextes();
-        foreach($textes as $text) {
+        foreach ($textes as $text) {
             $text->addPicks($entity);
             $this->em->persist($text);
             $this->em->flush();
@@ -65,7 +65,7 @@ class PicksController extends AdminController
             ->setParameter('picks', $entity->getId());
 
         $images = $query->getResult();
-        foreach($images as $image) {
+        foreach ($images as $image) {
             $image->removePicks($entity);
             $this->em->persist($image);
             $this->em->flush();
@@ -73,7 +73,7 @@ class PicksController extends AdminController
 
         // Rebuild Pickss and Images associations
         $images = $entity->getImages();
-        foreach($images as $image) {
+        foreach ($images as $image) {
             $image->addPicks($entity);
             $this->em->persist($image);
             $this->em->flush();
@@ -88,7 +88,7 @@ class PicksController extends AdminController
             ->setParameter('picks', $entity->getId());
 
         $products = $query->getResult();
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $product->removePicks($entity);
             $this->em->persist($product);
             $this->em->flush();
@@ -96,12 +96,11 @@ class PicksController extends AdminController
 
         // Rebuild Pickss and Products associations
         $products = $entity->getProducts();
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $product->addPicks($entity);
             $this->em->persist($product);
             $this->em->flush();
         }
-
     }
 
    /**
@@ -115,7 +114,7 @@ class PicksController extends AdminController
     {
         // Flush Pages and Elements associations, will rebuild it after update
         $page = $entity->getPage();
-        if(!empty($page)) {
+        if (!empty($page)) {
             $query = $this->em->createQuery(
                     'DELETE '.
                     'FROM ShopBundle:PageElement pe '.
@@ -129,5 +128,4 @@ class PicksController extends AdminController
             $pageElements = $query->getResult();
         }
     }
-
 }

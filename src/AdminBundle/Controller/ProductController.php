@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 use AdminBundle\Controller\AdminController;
 
-
 class ProductController extends AdminController
 {
 
@@ -31,7 +30,7 @@ class ProductController extends AdminController
             ->setParameter('product', $entity->getId());
         $images = $query->getResult();
 
-        foreach($images as $image) {
+        foreach ($images as $image) {
             $image->setProduct(null);
             $this->em->persist($image);
             $this->em->flush();
@@ -39,8 +38,8 @@ class ProductController extends AdminController
 
         // Rebuild Product and its images associations
         $images = $entity->getImages();
-        if(count($images) > 0) {
-            foreach($images as $image) {
+        if (count($images) > 0) {
+            foreach ($images as $image) {
                 $image->setProduct($entity);
                 $this->em->persist($image);
                 $this->em->flush();
@@ -56,7 +55,7 @@ class ProductController extends AdminController
             ->setParameter('product', $entity->getId());
 
         $pickss = $query->getResult();
-        foreach($pickss as $picks) {
+        foreach ($pickss as $picks) {
             $picks->removeProduct($entity);
             $this->em->persist($picks);
             $this->em->flush();
@@ -64,11 +63,10 @@ class ProductController extends AdminController
 
         // Rebuild Product and Pickss associations
         $pickss = $entity->getPickss();
-        foreach($pickss as $picks) {
+        foreach ($pickss as $picks) {
             $picks->addProduct($entity);
             $this->em->persist($picks);
             $this->em->flush();
         }
     }
-
 }

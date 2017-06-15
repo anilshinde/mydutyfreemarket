@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PageElement
 {
-
     const FORMAT_TEXT = 'text';
     const FORMAT_SLIDER = 'slider';
     const FORMAT_FORM = 'form';
@@ -67,7 +66,7 @@ class PageElement
 
 
     public function __toString()
-    { 
+    {
         return (string) ($this->getFormat() . ' - ' . $this->getId());
     }
 
@@ -202,4 +201,3 @@ class PageElement
         return $this->status;
     }
 }
-

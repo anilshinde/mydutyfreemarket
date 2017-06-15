@@ -20,7 +20,7 @@ class TextRepository extends \Doctrine\ORM\EntityRepository
      */
     public function findText($id = null)
     {
-        if($id === null) {
+        if ($id === null) {
             return null;
         }
         $query = $this->getEntityManager()
@@ -33,5 +33,4 @@ class TextRepository extends \Doctrine\ORM\EntityRepository
         $text = $query->getOneOrNullResult();
         return $text;
     }
-
 }

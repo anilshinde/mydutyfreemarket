@@ -528,4 +528,3 @@ class Transaction
         return $this->customerState;
     }
 }
-

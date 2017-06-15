@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 use AdminBundle\Controller\AdminController;
 
-
 class CategoryController extends AdminController
 {
 
@@ -17,22 +16,23 @@ class CategoryController extends AdminController
      * Move category up in the nav tree
      *
      */
-    protected function moveUpCategoryAction() {
-        if(!empty($this->request->query->get('id'))) {
+    protected function moveUpCategoryAction()
+    {
+        if (!empty($this->request->query->get('id'))) {
             // Get all categories, to have the max rank range and the current one
             $query = $this->em->createQuery('SELECT c FROM ShopBundle:Category c');
             $categories = $query->getResult();
 
-            $categoryCurrent = NULL;
-            foreach($categories as $category) {
-                if((string) $category->getId() === (string) $this->request->query->get('id')) {
+            $categoryCurrent = null;
+            foreach ($categories as $category) {
+                if ((string) $category->getId() === (string) $this->request->query->get('id')) {
                     $categoryCurrent = $category;
                 }
             }
 
-            if(!empty($categoryCurrent)) {
+            if (!empty($categoryCurrent)) {
                 // Increase rank of the current category
-                if($categoryCurrent->getRank() > 1) {
+                if ($categoryCurrent->getRank() > 1) {
                     $query = $this->em->createQuery(
                             'UPDATE ShopBundle:Category c '.
                             'SET c.rank = c.rank - 1 '.
@@ -44,7 +44,7 @@ class CategoryController extends AdminController
                     $updated = 0;
                 }
 
-                if($updated > 0) {
+                if ($updated > 0) {
                     // Decrease rank of the category which was at that position
                     $query = $this->em->createQuery(
                             'UPDATE ShopBundle:Category c '.
@@ -70,24 +70,25 @@ class CategoryController extends AdminController
      * Move category down in the nav tree
      *
      */
-    protected function moveDownCategoryAction() {
-        if(!empty($this->request->query->get('id'))) {
+    protected function moveDownCategoryAction()
+    {
+        if (!empty($this->request->query->get('id'))) {
             // Get all categories, to have the max rank range and the current one
             $query = $this->em->createQuery(
                     'SELECT c FROM ShopBundle:Category c'
-                ); 
+                );
             $categories = $query->getResult();
 
-            $categoryCurrent = NULL;
-            foreach($categories as $category) {
-                if((string) $category->getId() === (string) $this->request->query->get('id')) {
+            $categoryCurrent = null;
+            foreach ($categories as $category) {
+                if ((string) $category->getId() === (string) $this->request->query->get('id')) {
                     $categoryCurrent = $category;
                 }
             }
 
-            if(!empty($categoryCurrent)) {
+            if (!empty($categoryCurrent)) {
                 // Increase rank of the current category
-                if($categoryCurrent->getRank() < count($categories)) {
+                if ($categoryCurrent->getRank() < count($categories)) {
                     $query = $this->em->createQuery(
                             'UPDATE ShopBundle:Category c '.
                             'SET c.rank =  c.rank + 1'.
@@ -99,7 +100,7 @@ class CategoryController extends AdminController
                     $updated = 0;
                 }
 
-                if($updated > 0) {
+                if ($updated > 0) {
                     // Decrease rank of the category which was at that position
                     $query = $this->em->createQuery(
                             'UPDATE ShopBundle:Category c '.
@@ -138,7 +139,7 @@ class CategoryController extends AdminController
             )
             ->setParameter('parent', $entity->getId());
         $subcategories = $query->getResult();
-        foreach($subcategories as $subcategory) {
+        foreach ($subcategories as $subcategory) {
             $subcategory->setParent(null);
             $this->em->persist($subcategory);
             $this->em->flush();
@@ -146,13 +147,12 @@ class CategoryController extends AdminController
 
         // Rebuild Category and its subcategories associations
         $subcategories = $entity->getSubcategories();
-        if(count($subcategories) > 0) {
-            foreach($subcategories as $subcategory) {
+        if (count($subcategories) > 0) {
+            foreach ($subcategories as $subcategory) {
                 $subcategory->setParent($entity);
                 $this->em->persist($subcategory);
                 $this->em->flush();
             }
         }
     }
-
 }

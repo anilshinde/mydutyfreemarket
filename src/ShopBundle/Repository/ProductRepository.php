@@ -34,12 +34,10 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
                 $queryQName.' '.
                 'ORDER BY p.name ASC'
             );
-        if ($category !== null)
-        {
+        if ($category !== null) {
             $query->setParameter('category', $category);
         }
-        if ($productQName !== null)
-        {
+        if ($productQName !== null) {
             $query->setParameter('qName', $productQName);
         }
         $products = $query->getResult();
@@ -47,11 +45,11 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         // Second query to get all images of previously filtered products
         $productsWithImages = array();
         $ids = array();
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $productsWithImages[$product->getId()] = $product;
             $ids[] = $product->getId();
         }
-        if(!empty($ids)) {
+        if (!empty($ids)) {
             $query = $this->getEntityManager()
                 ->createQuery(
                     'SELECT i '.
@@ -62,7 +60,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             $images = $query->getResult();
 
             // Arrange products result
-            foreach($images as $image) {
+            foreach ($images as $image) {
                 $productsWithImages[$image->getProduct()->getId()]->addImage($image);
             }
         }

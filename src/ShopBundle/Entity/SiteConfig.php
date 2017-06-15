@@ -64,7 +64,7 @@ class SiteConfig
      * @var File
      *
      */
-    private $logoSourceFile; 
+    private $logoSourceFile;
 
     /**
      * @var string
@@ -357,4 +357,3 @@ class SiteConfig
         return $this;
     }
 }
-

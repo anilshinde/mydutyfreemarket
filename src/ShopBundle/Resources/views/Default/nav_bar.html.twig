@@ -11,11 +11,10 @@
                     <a class="navbar-brand" href="{{ site.url }}">{{ site.name }}</a>
                 </div>
 
-
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="top-navbar-1">
                     <ul class="nav navbar-nav navbar-right" itemscope itemtype="http://schema.org/BreadcrumbList">
-                        {% for category in categories %}
+                        {% for category in categoriesTree %}
                         <li class="dropdown {% if category.name == currentCategory.name %} active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% else %} " {% endif %}>
                             <a {% if category.name == currentCategory.name %} itemprop="item" {% endif %} href="{{ category.url }}">
                                 <span {% if category.name == currentCategory.name %} itemprop="name" {% endif %}>{{ category.name }}</span>

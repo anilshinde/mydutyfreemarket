@@ -100,6 +100,8 @@ app.menu.page.externalurl: 'URL externe'
 app.menu.page.externalurl.help: "Si cette page sort à l'exterieur du présent site."
 app.menu.page.pageelements: 'Blocs de contenus'
 app.menu.page.pageelements.help: 'Ajouter des blocs de contenus dans cette page.'
+app.menu.page.main: 'Principale'
+app.menu.page.main.help: 'Définir cette page comme homepage du site.'
 app.menu.page.status: 'Actif'
 
 app.menu.pageelement: 'Nouveau bloc de page'
