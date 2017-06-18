@@ -37,22 +37,22 @@ class SiteController extends Controller
 
         // Get the site categories tree and the current page category
         // First, get the nav categories tree entirely from Redis cache using either its page and/or category identifier
-        $categories = null;
+        $allTreeCategories = null;
         $currentCategory = null;
         $currentPage = null;
 
         if (!empty($category)) {
             $keyNav = 'frontpage-nav-'.$category;
-            list($categories, $currentCategory) = $this->cache->fetch($keyNav);
+            list($allTreeCategories, $currentCategory, $currentPage) = $this->cache->fetch($keyNav);
         }
-        if (empty($category) or empty($categories)) {
-            list($categories, $currentCategory, $currentPage) = $this->getDoctrine()
+        if (empty($category) or empty($alLTreeCategories)) {
+            list($allTreeCategories, $currentCategory, $currentPage) = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('ShopBundle:Category')
                 ->findCategoriesWithPage($category, $page);
             $category = $currentCategory->getQName();
             $keyNav = 'frontpage-nav-'.$category;
-            $this->cache->save($keyNav, array($categories, $currentCategory));
+            $this->cache->save($keyNav, array($allTreeCategories, $currentCategory, $currentPage));
         }
 
         // Then, try to get all the page content entirely from Redis cache using its category identifier
@@ -74,15 +74,17 @@ class SiteController extends Controller
             }
 
             // Get each page element content to rebuild the page content entirely
-            $page = array();
+            $currentPageElements = array();
             foreach ($pageElements as $pageElement) {
                 // First, try to get element content from Redis cache using its page identifier
                 $keyPageElement = 'frontpage-element-'.$pageElement->getId();
-                $pageElementFromCache = $this->cache->fetch($keyPageElement);
-                if (empty($pageElementFromCache)) {
+                $element = $this->cache->fetch($keyPageElement);
+                if (empty($element)) {
                     $element = $this->getElementByFormatFromPageElement($pageElement);
-                    $page[] = $element;
+                    $currentPageElements[] = array('element' => $element, 'pageElement' => $pageElement);
                     $this->cache->save($keyPageElement, $element);
+                } else {
+                    $currentPageElements[] = array('element' => $element, 'pageElement' => $pageElement);
                 }
             }
             // Save the entire content of the page in Redis cache
@@ -90,39 +92,37 @@ class SiteController extends Controller
         }
         return $this->render('ShopBundle:Default:index.html.twig', array(
             'site' => $site,
-            'categoriesTree' => $categories,
+            'allTreeCategories' => $allTreeCategories,
             'currentCategory' => $currentCategory,
             'currentPage' => $currentPage,
-            'currentPageContent' => $page
+            'currentPageElements' => $currentPageElements
         ));
     }
 
     private function getElementByFormatFromPageElement($pageElement)
     {
         $element = array();
-        $element['format'] = $pageElement->getFormat();
-
         switch ($pageElement->getFormat()) {
             case \ShopBundle\Entity\PageElement::FORMAT_TEXT:
-                $element['element'] = $this->getTextFromPageElement($pageElement);
+                $element = $this->getTextFromPageElement($pageElement);
                 break;
             case \ShopBundle\Entity\PageElement::FORMAT_SLIDER:
-                $element['element'] = $this->getSliderFromPageElement($pageElement);
+                $element = $this->getSliderFromPageElement($pageElement);
                 break;
             case \ShopBundle\Entity\PageElement::FORMAT_FORM:
-                $element['element'] = $this->getFormFromPageElement($pageElement);
+                $element = $this->getFormFromPageElement($pageElement);
                 break;
             case \ShopBundle\Entity\PageElement::FORMAT_IMAGE:
-                $element['element'] = $this->getImageFromPageElement($pageElement);
+                $element = $this->getImageFromPageElement($pageElement);
                 break;
             case \ShopBundle\Entity\PageElement::FORMAT_MAP:
-                $element['element'] = $this->getMapFromPageElement($pageElement);
+                $element = $this->getMapFromPageElement($pageElement);
                 break;
             case \ShopBundle\Entity\PageElement::FORMAT_VIDEO:
-                $element['element'] = $this->getVideoFromPageElement($pageElement);
+                $element = $this->getVideoFromPageElement($pageElement);
                 break;
             case \ShopBundle\Entity\PageElement::FORMAT_PICKS:
-                $element['element'] = $this->getPicksFromPageElement($pageElement);
+                $element = $this->getPicksFromPageElement($pageElement);
                 break;
             default:
         }
@@ -142,6 +142,7 @@ class SiteController extends Controller
                 ->findText($pageElement->getElement());
             $this->cache->save($keyText, $text);
         }
+        return $text;
     }
 
     private function getSliderFromPageElement($pageElement)

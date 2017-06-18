@@ -30,15 +30,37 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
             );
         $categories = $query->getResult();
 
-        // Get only first level categories, sub-ones can be get using subcategories property
-        $allParentCategories = array();
+        $ids = array();
         foreach ($categories as $category) {
+            $ids[] = $category->getId();
+        }
+
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT p '.
+                'FROM ShopBundle:Page p '.
+                'WHERE p.category IN ('.implode(',', $ids).') '
+            );
+        $pages = $query->getResult();
+
+        // Get only first level categories, sub-ones can be get using subcategories property
+        $allTreeCategories = array();
+        foreach ($categories as $category) {
+            foreach ($pages as $page) {
+                if($page->getCategory()->getId() === $category->getId()) {
+                    $category->setPage($page);
+                }
+            }
             if (empty($category->getParent())) {
-                $allParentCategories[] = $category;
+                $allTreeCategories[$category->getId()] = $category;
+            } else {
+                $parentCategory = $allTreeCategories[$category->getParent()->getId()];
+                $parentCategory->addSubcategory($category);
+                $allTreeCategories[$category->getParent()->getId()] = $parentCategory;
             }
         }
-        $currentCategory = null;
 
+        $currentCategory = null;
         // Find current category using page qName parameter
         if ($pageQName !== null) {
             // Query page to get its category
@@ -84,6 +106,6 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
             $currentCategory = $categories[0];
         }
 
-        return array($allParentCategories, $currentCategory, $currentPage);
+        return array($allTreeCategories, $currentCategory, $currentPage);
     }
 }

@@ -16,16 +16,42 @@
 
     {{ parent() }}
 
-    {{ include("@Shop/Default/slider.html.twig") }}
-    {{ include("@Shop/Default/text.html.twig") }}
-    {{ include("@Shop/Default/best_services.html.twig") }}
-    {{ include("@Shop/Default/best_sales.html.twig") }}
-    {{ include("@Shop/Default/commentaries.html.twig") }}
+    {% if currentPageElements is not empty %}
+
+        {% for content in currentPageElements %}
+
+            {% if content.pageElement.format == 'slider' %}
+
+                {{ include("@Shop/Default/slider.html.twig", { 'slider': content.element }) }}
+
+            {% elseif content.pageElement.format == 'text' %}
+
+                {{ include("@Shop/Default/text.html.twig", { 'text': content.element }) }}
+
+            {% elseif content.pageElement.format == 'picks' %}
+
+                {% if content.element.type == 'pages_manual' %}
+
+                    {# include("@Shop/Default/best_services.html.twig", { 'picks': content.element }) #}
+
+                {% elseif content.element.type == 'products_best_sales' %}
+
+                    {# include("@Shop/Default/best_sales.html.twig", { 'picks': content.element }) #}
+
+                {% endif %}
+
+            {% endif %}
+
+            {# include("@Shop/Default/commentaries.html.twig") #}
+
+        {% endfor %}
+
+    {% endif %}
 
 {% endblock %}
 
 {% block footer %}
-    {{ parent() }}
+    {# parent() #}
 {% endblock %}
 
 {% block enddoc %}
